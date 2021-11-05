@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{d34990f4-0442-47c9-9891-e3460d960b9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dataIO">
+      <UniqueIdentifier>{84c374cb-2221-4a22-a0ef-82403ed20ce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithm">
+      <UniqueIdentifier>{c1e47347-5165-4b91-a60f-3869bfb42037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="myview">
+      <UniqueIdentifier>{f077be02-9b03-46aa-b400-9e199cd79c0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8736ea21-77dc-42db-8733-4e880b87f044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{590eeafb-91e2-45fd-b762-a83bc267acc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{4f2c8e46-8ef8-4215-91b4-ba9c9ff2d1ba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\datio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mainwindow.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\manual peakfind.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tools.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vnpio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\createvnpdialog.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\configui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="include\qtdataview.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\vnptreewidget.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\manual.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\createvnp.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\vnpmainwindow.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\configdialog.h">
+      <Filter>include</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dataIO\datio.cpp">
+      <Filter>dataIO</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\qtdataview.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\vnptreewidget.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\qrc_resources.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="dataIO\vnpio.cpp">
+      <Filter>dataIO</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\vnpmainwindow.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\createvnp.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\manual.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\configdialog.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\tools.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="mainUI\manual peakfind.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\mainwindow.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\createvnpdialog.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\configui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="resources\resources.qrc">
+      <Filter>resources</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>

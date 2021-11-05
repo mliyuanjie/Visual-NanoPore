@@ -1,0 +1,16 @@
+<RCC>
+  <qresource>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/add_database.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/back.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cancel.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/delete_database.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/front.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/home.png</file>
+    <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/ok.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-left-square.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-right-square.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</file>
+  </qresource>
+</RCC>

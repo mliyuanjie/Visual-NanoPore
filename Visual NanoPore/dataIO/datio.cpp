@@ -10,23 +10,16 @@ void DATIO::open(std::string fn) {
 		return;
 	n = length / sizeof(float);
 	pos = (float*)file.data();
-	interv = pos[0];
-	if (interv >= 0 && interv <= 100) {
-		interv *= 1000;
-		n--;
-		pos++;
-	}
-	else
-		interv = 2;
 	return;
 }
 
 void DATIO::close() {
 	if (file.is_open())
 		file.close();
-	pos = NULL;
+	pos = nullptr;
 	return;
 }
+
 
 std::vector<float> DATIO::data(size_t start, size_t end, size_t skip) {
 	if (!file.is_open())

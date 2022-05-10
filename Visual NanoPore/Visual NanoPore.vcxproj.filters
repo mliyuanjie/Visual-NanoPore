@@ -30,9 +30,6 @@
     <ClInclude Include="include\mainwindow.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\manual peakfind.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\tools.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -43,6 +40,15 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\configui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\manualui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\loginui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vnpnetio.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,6 +69,15 @@
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\configdialog.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\scaleframe.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\login.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nlineseries.h">
       <Filter>include</Filter>
     </QtMoc>
   </ItemGroup>
@@ -100,11 +115,17 @@
     <ClCompile Include="algorithm\tools.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="myview\scaleframe.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\login.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\nlineseries.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="mainUI\manual peakfind.ui">
-      <Filter>UI</Filter>
-    </QtUic>
     <QtUic Include="mainUI\mainwindow.ui">
       <Filter>UI</Filter>
     </QtUic>
@@ -112,6 +133,12 @@
       <Filter>UI</Filter>
     </QtUic>
     <QtUic Include="mainUI\configui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\manualui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\loginui.ui">
       <Filter>UI</Filter>
     </QtUic>
   </ItemGroup>

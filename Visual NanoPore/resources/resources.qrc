@@ -6,11 +6,17 @@
     <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/delete_database.png</file>
     <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/front.png</file>
     <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/home.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/edit.png</file>
     <file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/ok.png</file>
 	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-left-square.png</file>
 	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-right-square.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-down-square.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cc-arrow-up-square.png</file>
 	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</file>
 	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</file>
 	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</file>
+	<file>C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/Zoom-In.png</file>
   </qresource>
 </RCC>

@@ -18,6 +18,7 @@
 #include <unordered_map>
 #include <fstream>
 
+
 struct Peak {
 	double start;
 	double end;
@@ -25,9 +26,20 @@ struct Peak {
 	double baseline;
 };
 
-std::unordered_map<std::string, double> readconfig(std::string);
-std::list<Peak> findPeak(std::vector<float>&, std::unordered_map<std::string, double>&);
-float getbaseline(std::vector<float>&, int, int);
-//float getbaseline_auto(double*, int , double);
+class Baseline {
+public:
+	Baseline(std::vector<float>& data, bool autob, int order, int resolution, int start, int end);
+	float at(int);
+	void clear();
+	std::vector<double> coeff;
+	float* b = NULL;
 
+private:
+	int s;
+	int e;
+};
+
+std::unordered_map<std::string, double> readconfig(std::string);
+std::list<Peak> findPeak(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
+std::list<Peak> findPeak_manual(std::vector<float>&, std::unordered_map<std::string, double>&, double, double, float);
 #endif // !TOOLS_H

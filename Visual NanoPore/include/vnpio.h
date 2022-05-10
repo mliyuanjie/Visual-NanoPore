@@ -7,7 +7,7 @@
 #include <list>
 #include <fstream>
 #include "tools.h"
-#include "createvnp.h"
+
 
 class VNPIO {
 public:
@@ -15,6 +15,7 @@ public:
 	void create(std::string);
 	void close();
 	void creategroup(std::string);
+	std::string getdatapath(std::string);
 	void createattri(std::string fn, std::unordered_map<std::string, double> map);
 	void removegroup(std::string);
 	std::vector<std::string> getfilelist();

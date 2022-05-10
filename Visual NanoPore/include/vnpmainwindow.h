@@ -20,8 +20,11 @@ public slots:
     void openfile();
     void createfile();
     void createconfig();
+    void filter(bool);
+    void findpeak();
+    void tocsv();
 
-
+ 
 private:
     Ui::MainWindow ui;
     

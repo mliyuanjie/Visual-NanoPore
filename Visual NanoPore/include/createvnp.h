@@ -17,6 +17,7 @@ public:
     createvnp(QWidget* parent = nullptr);
     void setconfig(std::unordered_map<std::string, double>);
     std::string filepath;
+    void savefile();
 public slots:
     void selectdata();
 

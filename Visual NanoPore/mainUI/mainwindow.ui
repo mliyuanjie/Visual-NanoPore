@@ -25,7 +25,7 @@
      <rect>
       <x>-20</x>
       <y>0</y>
-      <width>1861</width>
+      <width>1881</width>
       <height>1000</height>
      </rect>
     </property>
@@ -43,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>2216</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -52,16 +52,15 @@
     </property>
     <addaction name="actionnew"/>
     <addaction name="actionopen"/>
+    <addaction name="actionexport_csv"/>
+    <addaction name="actionmergedata"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionadd_signal"/>
-    <addaction name="actionremove_signal"/>
     <addaction name="actionfilter"/>
-    <addaction name="actionedit"/>
-    <addaction name="separator"/>
+    <addaction name="actionfindpeak"/>
    </widget>
    <widget class="QMenu" name="menuPython">
     <property name="title">
@@ -72,6 +71,7 @@
     <property name="title">
      <string>Extensions</string>
     </property>
+    <addaction name="actionstart_python"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -87,7 +87,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="actionautopeakfind"/>
+    <addaction name="actionparameter"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
@@ -111,13 +111,6 @@
    <addaction name="actionnew"/>
    <addaction name="actionfilter"/>
    <addaction name="actionfindpeak"/>
-   <addaction name="separator"/>
-   <addaction name="actionedit"/>
-   <addaction name="actionadd_signal"/>
-   <addaction name="actionremove_signal"/>
-   <addaction name="actionopen"/>
-   <addaction name="separator"/>
-   <addaction name="actionsaveas"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
@@ -151,44 +144,20 @@
   </widget>
   <action name="actionnew">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/new.png</normaloff>../resources/new.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</iconset>
    </property>
    <property name="text">
     <string>new</string>
    </property>
   </action>
-  <action name="actionremove_signal">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/delete_database.png</normaloff>../resources/delete_database.png</iconset>
-   </property>
-   <property name="text">
-    <string>remove signal</string>
-   </property>
-  </action>
-  <action name="actionadd_signal">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/add_database.png</normaloff>../resources/add_database.png</iconset>
-   </property>
-   <property name="text">
-    <string>add signal</string>
-   </property>
-  </action>
-  <action name="actionedit">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/edit.png</normaloff>../resources/edit.png</iconset>
-   </property>
-   <property name="text">
-    <string>edit</string>
-   </property>
-  </action>
   <action name="actionfilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/waveform.png</normaloff>../resources/waveform.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</iconset>
    </property>
    <property name="text">
     <string>filter</string>
@@ -196,8 +165,8 @@
   </action>
   <action name="actionfindpeak">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/findpeak.png</normaloff>../resources/findpeak.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</iconset>
    </property>
    <property name="text">
     <string>findpeak</string>
@@ -206,24 +175,30 @@
   <action name="actionopen">
    <property name="icon">
     <iconset>
-     <normaloff>../resources/save.png</normaloff>../resources/save.png</iconset>
+     <normaloff>../../../../../.designer/resources/save.png</normaloff>../../../../../.designer/resources/save.png</iconset>
    </property>
    <property name="text">
     <string>open</string>
    </property>
   </action>
-  <action name="actionsaveas">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/save as.png</normaloff>../resources/save as.png</iconset>
-   </property>
+  <action name="actionparameter">
    <property name="text">
-    <string>saveas</string>
+    <string>parameter</string>
    </property>
   </action>
-  <action name="actionautopeakfind">
+  <action name="actionstart_python">
    <property name="text">
-    <string>autopeakfind</string>
+    <string>start python</string>
+   </property>
+  </action>
+  <action name="actionexport_csv">
+   <property name="text">
+    <string>export(csv)</string>
+   </property>
+  </action>
+  <action name="actionmergedata">
+   <property name="text">
+    <string>mergedata</string>
    </property>
   </action>
  </widget>

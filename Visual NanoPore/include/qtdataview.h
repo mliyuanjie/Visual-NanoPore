@@ -10,82 +10,47 @@
 #include <QtCharts/qvalueaxis.h>
 */
 #include <QtCharts>
+#include "nlineseries.h"
 
 QT_CHARTS_USE_NAMESPACE
 
-class FirstDataView : public QChartView
+class DataView : public QChartView
 {
     Q_OBJECT;
 public:
-    FirstDataView(QWidget* parent);
+    DataView(QWidget* parent);
 
 
     QLineSeries* series;
-    QList<QAreaSeries*> series_mask;
+    QLineSeries* series_event;
+    QLineSeries* line_1;
+    QLineSeries* line_2;
+    QLineSeries* line_3;
+    QLineSeries* line_4;
     QChart* charts;
     QValueAxis* axisx;
     QValueAxis* axisy;
-    QAreaSeries* series_select = NULL;
     QRubberBand* rubberBand = NULL;
-    bool isclick;
-    int zoomtype = 0;
+    QVector<NLineSeries*> linestack;
 
 public slots:
     //void setFilename(QString s);
     void setxscale(double, double);
     void setyscale(double, double);
     void update_data(QVector<QPointF>);
-    void update_mask(QVector<QPointF>);
-    void setselectarea(qreal, qreal);
-    void changezoomtype(int);
-
-
-signals:
-    void request_data(double s, double e, bool mainview);
-
-protected:
-    void mousePressEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-
-    
-};
-class SecondDataView : public QChartView
-{
-    Q_OBJECT;
-public:
-    SecondDataView(QWidget* parent);
-
-
-    QLineSeries* series;
-    QLineSeries* series_event;
-    QLineSeries* series_upper;
-    QLineSeries* series_down;
-    QLineSeries* series_left;
-    QLineSeries* series_right;
-    QChart* charts;
-    QValueAxis* axisx;
-    QValueAxis* axisy;
-    int mousestate = -2;
-    int whichline = 0;
-
-public slots:
-    //void setFilename(QString s);
-    void setxscale(double, double);
-    void setMin(qreal);
-    void setMax(qreal);
-    void update_data(QVector<QPointF>);
+    void update_done(QVector<QPointF>);
     void update_event(QVector<QPointF>);
-    void eventbaseline();
-    void eventcurrent();
-    void eventstart();
-    void eventend();
-
+    void zoomdata(double, double);
+    void centerline();
 signals:
-    void send_eventstart(double);
-    void send_eventend(double);
-    void send_eventbaseline(double);
-    void send_eventcurrent(double);
+    void request_data(double, double, double, double);
+    void send_eventstart(QString);
+    void send_eventend(QString);
+    void send_eventbaseline(QString);
+    void send_eventcurrent(QString);
+    void mousepress(QPointF);
+    void mousemove(QPointF);
+    void mouserelease(QPointF);
 
 protected:
     void mousePressEvent(QMouseEvent* event);
@@ -93,6 +58,9 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event);
 
 
+private:
+    int color = 0;
+    bool isclick = false;
     
 };
 

@@ -1,6 +1,8 @@
+#include "manual.h"
 #include "vnpmainwindow.h" 
 #include "createvnp.h"
 #include "vnptreewidget.h"
+#include "tools.h"
 #include "configdialog.h"
 
 
@@ -10,14 +12,24 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	QToolBar* toolbar = this->findChild<QToolBar*>("toolBar");
 	QAction* actionopen = this->findChild<QAction*>("actionopen");
 	QAction* actionnew = this->findChild<QAction*>("actionnew");
-	QAction* actionautopeakfind = this->findChild<QAction*>("actionautopeakfind");
+	QAction* actionparameter = this->findChild<QAction*>("actionparameter");
+	QAction* actionfilter = this->findChild<QAction*>("actionfilter");
+	QAction* actionfindpeak = this->findChild<QAction*>("actionfindpeak");
+	QAction* actionexport_csv = this->findChild<QAction*>("actionexport_csv");
+	QAction* actionmergedata = this->findChild<QAction*>("actionmergedata");
 	connect(actionopen, SIGNAL(triggered()), this, SLOT(openfile()));
 	connect(actionnew, SIGNAL(triggered()), this, SLOT(createfile()));
-	connect(actionautopeakfind, SIGNAL(triggered()), this, SLOT(createconfig()));
+	connect(actionparameter, SIGNAL(triggered()), this, SLOT(createconfig()));
+	connect(actionfilter, SIGNAL(toggled(bool)), this, SLOT(filter(bool)));
+	connect(actionfindpeak, SIGNAL(triggered()), this, SLOT(findpeak()));
+	connect(actionexport_csv, SIGNAL(triggered()), this, SLOT(tocsv()));
+	connect(actionmergedata, SIGNAL(triggered()), this, SLOT(mergedata()));
+	mymap = readconfig("config.txt");
 }
 
 void VNPMainWindow::openfile() {
 	VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
+	treewidget->clear();
 	treewidget->open1();
 }
 
@@ -25,8 +37,13 @@ void VNPMainWindow::createfile() {
 	createvnp* newvnp = new createvnp();
 	newvnp->setconfig(mymap);
 	newvnp->show();
+	newvnp->deleteLater();
 	if (newvnp->exec() == QDialog::Accepted) {
+		newvnp->savefile();
 		VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
+		treewidget->clear();
+		if (newvnp->filepath.empty())
+			return;
 		treewidget->open2(newvnp->filepath);
 	}
 }
@@ -45,7 +62,7 @@ void VNPMainWindow::createconfig() {
 		tablewidget->setItem(i, 1, itemvalue);
 		i++;
 	}
-
+	configdialog->deleteLater();
 	if (configdialog->exec() == QDialog::Accepted) {
 		
 		int row = tablewidget->rowCount();
@@ -53,6 +70,39 @@ void VNPMainWindow::createconfig() {
 			mymap[tablewidget->item(i, 0)->text().toStdString()] = tablewidget->item(i, 1)->text().toDouble();
 		}
 		VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
-		configdialog->deleteLater();
+		
 	}
+}
+
+void VNPMainWindow::findpeak() {
+	QMessageBox msgBox;
+	msgBox.setText("auto find peak will change the event list,\n please use it before manual checking.\n Do you want to stop auto find peak?\n");
+	msgBox.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+	if (msgBox.exec() == QMessageBox::Yes)
+		return;
+	if (mymap.empty()) {
+		QMessageBox msgBox;
+		msgBox.setText("Please set config file");
+		msgBox.exec();
+		return;
+	}
+	ManualPeakFind* subwindow = qobject_cast<ManualPeakFind*>(findChild<QMdiArea*>("mdiArea")->activeSubWindow());
+	subwindow->findpeak(mymap);
+	return;
+}
+
+void VNPMainWindow::filter(bool isfilter) {
+	if (mymap.empty()) {
+		QMessageBox msgBox;
+		msgBox.setText("Please set config file");
+		msgBox.exec();
+		return;
+	}
+	ManualPeakFind* subwindow = qobject_cast<ManualPeakFind*>(findChild<QMdiArea*>("mdiArea")->activeSubWindow());
+	subwindow->filter(mymap, isfilter);
+}
+
+void VNPMainWindow::tocsv() {
+	VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
+	treewidget->tocsv();
 }

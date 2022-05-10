@@ -18,11 +18,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
@@ -58,7 +58,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\vcpkg\packages\hdf5_x64-windows\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\vcpkg\packages\hdf5_x64-windows\include;C:\Users\LiYu\source\eigen-3.4.0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>H5_BUILT_AS_DYNAMIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <QtUic>
@@ -69,11 +69,21 @@
     </QtUic>
     <Link>
       <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_D.lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_hl_D.lib;$(ProjectDir)/lib/iir_static.lib;$(ProjectDir)/lib/gsl.lib;$(ProjectDir)/lib/gslcblas.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_D.lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_hl_D.lib;$(ProjectDir)/lib/iir_static.lib;$(ProjectDir)/lib/gsl.lib;$(ProjectDir)/lib/gslcblas.lib;C:\Users\LiYu\source\repos\vnpnetio\x64\Debug\vnpnetio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtRcc>
       <QtRccDir>$(ProjectDir)/resources</QtRccDir>
     </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\vcpkg\packages\hdf5_x64-windows\include;C:\Users\LiYu\source\eigen-3.4.0</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);H5_BUILT_AS_DYNAMIC_LIB;</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib/Release;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib;C:\vcpkg\packages\hdf5_x64-windows\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(Qt_LIBS_);%(AdditionalDependencies);C:\vcpkg\packages\hdf5_x64-windows\lib\hdf5_hl.lib;$(ProjectDir)/lib/Release/iir_static.lib;$(ProjectDir)/lib/gsl.lib;$(ProjectDir)/lib/gslcblas.lib;C:\vcpkg\packages\hdf5_x64-windows\lib\hdf5.lib;C:\Users\LiYu\source\repos\vnpnetio\x64\Release\vnpnetio.lib</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -102,13 +112,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\vnpnetio.h" />
     <QtMoc Include="include\vnpmainwindow.h" />
     <QtMoc Include="include\createvnp.h" />
     <QtMoc Include="include\configdialog.h" />
     <ClInclude Include="include\configui.h" />
     <ClInclude Include="include\createvnpdialog.h" />
     <ClInclude Include="include\datio.h" />
-    <ClInclude Include="include\manual peakfind.h" />
+    <QtMoc Include="include\login.h" />
+    <ClInclude Include="include\loginui.h" />
+    <ClInclude Include="include\manualui.h" />
+    <QtMoc Include="include\scaleframe.h" />
     <ClInclude Include="include\tools.h" />
     <ClInclude Include="include\vnpio.h" />
     <QtMoc Include="include\manual.h" />
@@ -120,10 +134,14 @@
     <ClCompile Include="algorithm\tools.cpp" />
     <ClCompile Include="dataIO\datio.cpp" />
     <ClCompile Include="dataIO\vnpio.cpp" />
+    <QtMoc Include="include\nlineseries.h" />
     <ClCompile Include="myview\configdialog.cpp" />
     <ClCompile Include="myview\createvnp.cpp" />
+    <ClCompile Include="myview\login.cpp" />
     <ClCompile Include="myview\manual.cpp" />
+    <ClCompile Include="myview\nlineseries.cpp" />
     <ClCompile Include="myview\qtdataview.cpp" />
+    <ClCompile Include="myview\scaleframe.cpp" />
     <ClCompile Include="myview\vnpmainwindow.cpp" />
     <ClCompile Include="myview\vnptreewidget.cpp" />
     <ClCompile Include="resources\qrc_resources.cpp">
@@ -137,8 +155,9 @@
   <ItemGroup>
     <QtUic Include="mainUI\configui.ui" />
     <QtUic Include="mainUI\createvnpdialog.ui" />
+    <QtUic Include="mainUI\loginui.ui" />
     <QtUic Include="mainUI\mainwindow.ui" />
-    <QtUic Include="mainUI\manual peakfind.ui" />
+    <QtUic Include="mainUI\manualui.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\resources.qrc" />

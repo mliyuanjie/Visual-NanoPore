@@ -32,10 +32,10 @@ public:
     {
         if (configDialog->objectName().isEmpty())
             configDialog->setObjectName(QStringLiteral("configDialog"));
-        configDialog->resize(264, 300);
+        configDialog->resize(339, 300);
         buttonBox = new QDialogButtonBox(configDialog);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(50, 260, 161, 32));
+        buttonBox->setGeometry(QRect(90, 260, 161, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         tableWidget = new QTableWidget(configDialog);
@@ -46,10 +46,10 @@ public:
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(20, 40, 221, 211));
+        tableWidget->setGeometry(QRect(20, 40, 311, 211));
         pushButton = new QPushButton(configDialog);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(90, 10, 75, 24));
+        pushButton->setGeometry(QRect(130, 10, 75, 24));
 
         retranslateUi(configDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), configDialog, SLOT(accept()));

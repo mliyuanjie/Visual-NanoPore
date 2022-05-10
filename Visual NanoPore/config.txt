@@ -1,0 +1,21 @@
+#run all
+
+interval 2
+direction -1
+
+***Filter Parameter*** cutoff: cutoff frequence kHz; fs: sampling rate kHz; butter fileter
+cutoff 15
+fs 500
+order 5
+
+***Baseline*** 
+auto 1
+degree 5
+resolution 100
+
+
+***Peakfind*** threshold: n times stddev
+threshold 5
+window 5
+
+

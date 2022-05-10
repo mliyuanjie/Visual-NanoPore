@@ -6,10 +6,17 @@
 #include <list>
 #include <utility>
 #include <vector>
-#include "manual peakfind.h"
+#include "manualui.h"
 #include "tools.h"
 #include "datio.h"
+#include "vnpio.h"
 
+struct axisrange {
+	double xmin;
+	double xmax;
+	double ymin;
+	double ymax;
+};
 
 class ManualPeakFind :public QMdiSubWindow {
 	Q_OBJECT
@@ -19,10 +26,8 @@ public:
 
 
 public slots:
-	void opendat(QString fn, double fs);
-	void getdata(double xmin, double xmax, bool mainview);
-	void getdatadone();
-	void meansd(double xmin, double xmax);
+	void opendat(QString, VNPIO&);
+	void senddata(double xmin, double xmax, double ymin, double ymax);
 	void home();
 	void backward();
 	void forward();
@@ -30,38 +35,37 @@ public slots:
 	void removeregion();
 	void insertevent();
 	void removeevent();
-	void geteventlist();
+	void sendeventlist();
+	void senddatadone();
 	void saveeventlist();
+	void savedatadone();
 	void backwardwindow();
 	void forwardwindow();
-	void seteventlist(std::list<Peak>);
-	void setdatadone(std::list<std::pair<double, double>>);
-	void filter(bool);
+	void filter(std::unordered_map<std::string, double>&, bool);
+	void findpeak(std::unordered_map<std::string, double>&);
 
 signals:
-	void senddata1(QVector<QPointF>);
-	void senddata2(QVector<QPointF>);
+	void senddata(QVector<QPointF>);
 	void senddatadone(QVector<QPointF>);
-	void sendxscale1(double, double);
+	void sendxscale(double, double);
 	void sendyscale(double, double);
-	void sendxscale2(double, double);
 	void sendeventlist(QVector<QPointF>);
-	void sendsaveeventlist(QVector<QPointF>);
-	void sendmean(double);
-	void sendsd(double);
+	void offline(QString);
 
 private:
 	Ui::Form ui;
 	QWidget* widget;
 	std::string filename;
-	std::list<std::pair<double, double>> history;
+	std::list<Peak> history;
 	std::list<std::pair<double, double>> datadone;
 	int windowsize = 500000;
 	double interval = 2;
 	std::list<Peak> eventlist;
 	DATIO dat;
+	VNPIO* vnpfile = nullptr;
+	std::string currentgroup;
 	int n;
-	std::list<std::pair<double, double>>::iterator pos;
+	std::list<Peak>::iterator pos;
 	std::list<Peak>::iterator findposs(double);
 	std::list<Peak>::iterator findpose(double);
 };

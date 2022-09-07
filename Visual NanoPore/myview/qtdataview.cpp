@@ -24,6 +24,8 @@ DataView::DataView(QWidget* parent) :
     series->setPen(QPen(Qt::black, 1)); 
     series_event = new QLineSeries();
     series_event->setPen(QPen(Qt::green, 2));
+    series_event_temp = new QLineSeries();
+    series_event_temp->setPen(QPen(Qt::red, 2));
 
     line_1 = new QLineSeries();
     line_1->setPen(QPen(QColor(0, 255, 255), 2, Qt::DotLine));
@@ -43,6 +45,7 @@ DataView::DataView(QWidget* parent) :
     charts->addAxis(axisy, Qt::AlignLeft);
     charts->addSeries(series);
     charts->addSeries(series_event);
+    charts->addSeries(series_event_temp);
     charts->addSeries(line_1);
     charts->addSeries(line_2);
     charts->addSeries(line_3);
@@ -51,6 +54,8 @@ DataView::DataView(QWidget* parent) :
     series->attachAxis(axisy);
     series_event->attachAxis(axisx);
     series_event->attachAxis(axisy);
+    series_event_temp->attachAxis(axisx);
+    series_event_temp->attachAxis(axisy);
     line_1->attachAxis(axisx);
     line_1->attachAxis(axisy);
     line_2->attachAxis(axisx);
@@ -82,28 +87,53 @@ void DataView::mousePressEvent(QMouseEvent* event) {
     isclick = true;
 }
 
-void DataView::centerline() {
-    QVector<QPointF> line;
-    line.push_back(QPointF(axisx->min(), axisy->min()+0.6*(axisy->max()-axisy->min())));
-    line.push_back(QPointF(axisx->max(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
-    line_3->replace(line);
-    line.clear();
-    line.push_back(QPointF(axisx->min(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
-    line.push_back(QPointF(axisx->max(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
-    line_4->replace(line);
-    line.clear();
-    line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->min()));
-    line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->max()));
-    line_2->replace(line);
-    line.clear();
-    line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->min()));
-    line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->max()));
-    line_1->replace(line);
+void DataView::centerline(bool stats) {
+    if (stats) {
+        QVector<QPointF> line;
+        line.push_back(QPointF(axisx->min(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
+        line.push_back(QPointF(axisx->max(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
+        line_3->replace(line);
+        line.clear();
+        line.push_back(QPointF(axisx->min(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
+        line.push_back(QPointF(axisx->max(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
+        line_4->replace(line);
+        line.clear();
+        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->max()));
+        line_2->replace(line);
+        line.clear();
+        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->max()));
+        line_1->replace(line);
 
-    emit send_eventbaseline(QString::number(line_4->at(0).y(), 'g', 12));
-    emit send_eventcurrent(QString::number(line_3->at(0).y(), 'g', 12));
-    emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
-    emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
+        emit send_eventbaseline(QString::number(line_4->at(0).y(), 'g', 12));
+        emit send_eventcurrent(QString::number(line_3->at(0).y(), 'g', 12));
+        emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
+        emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
+    }
+    else {
+        QVector<QPointF> line;
+        line.push_back(QPointF(axisx->min(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
+        line.push_back(QPointF(axisx->max(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
+        line_3->replace(line);
+        line.clear();
+        line.push_back(QPointF(axisx->min(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
+        line.push_back(QPointF(axisx->max(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
+        line_4->replace(line);
+        line.clear();
+        line.push_back(QPointF(0, axisy->min()));
+        line.push_back(QPointF(0, axisy->max()));
+        line_2->replace(line);
+        line.clear();
+        line.push_back(QPointF(0, axisy->min()));
+        line.push_back(QPointF(0, axisy->max()));
+        line_1->replace(line);
+
+        emit send_eventbaseline(QString::number(line_4->at(0).y(), 'g', 12));
+        emit send_eventcurrent(QString::number(line_3->at(0).y(), 'g', 12));
+        emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
+        emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
+    }
 }
 
 void DataView::mouseMoveEvent(QMouseEvent* event) {
@@ -242,6 +272,11 @@ void DataView::update_event(QVector<QPointF> data) {
     return;
 }
 
+void DataView::update_event_temp(QVector<QPointF> data) {
+    series_event_temp->replace(data);
+    return;
+}
+
 /**
 void DataView::update_done(QVector<QPointF> data) {
     for (auto i : series_done) {
@@ -263,23 +298,3 @@ void DataView::update_done(QVector<QPointF> data) {
     return;
 }
 **/
-
-void DataView::update_done(QVector<QPointF> data) {
-    for (auto i : linestack) {
-        charts->removeSeries(i);
-    }
-    linestack.clear();
-    for (int i = 0; i < data.size(); i++) {
-        NLineSeries* line = new NLineSeries();
-        *line << QPointF(data[i].x(), 0.5 * (axisy->max() + axisy->min()));
-        *line << QPointF(data[i].y(), 0.5 * (axisy->max() + axisy->min()));
-        charts->addSeries(line);
-        linestack.push_back(line);
-        charts->setAxisX(axisx, line);
-        charts->setAxisY(axisy, line);
-        connect(this, SIGNAL(mousepress(QPointF)), line, SLOT(mousepress(QPointF)));
-        connect(this, SIGNAL(mousemove(QPointF)), line, SLOT(mousemove(QPointF)));
-        connect(this, SIGNAL(mouserelease(QPointF)), line, SLOT(mouserelease(QPointF)));
-    }
-    return;
-}

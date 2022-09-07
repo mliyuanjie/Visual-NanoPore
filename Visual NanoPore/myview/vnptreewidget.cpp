@@ -7,7 +7,6 @@
 #include <QtWidgets/QDockWidget>
 #include <fstream>
 #include <vnptreewidget.h>
-#include "manual.h"
 #include "tools.h"
 
 VNPTreeWidget::VNPTreeWidget(QWidget* parent) :
@@ -61,7 +60,8 @@ void VNPTreeWidget::open2(std::string fn) {
 void VNPTreeWidget::doubleclick(QTreeWidgetItem* item, int column) {
 	item->setTextColor(0, Qt::red);
 	QMdiArea* mdiarea = this->parent()->parent()->parent()->findChild<QMdiArea*>("mdiArea");
-	ManualPeakFind* manualtask = new ManualPeakFind();
+	if (manualtask != NULL) manualtask->close();
+	manualtask = new ManualPeakFind();
 	manualtask->opendat(item->text(0), vnpfile);
 	mdiarea->addSubWindow(manualtask);
 	manualtask->show();
@@ -71,6 +71,7 @@ void VNPTreeWidget::doubleclick(QTreeWidgetItem* item, int column) {
 
 
 void VNPTreeWidget::closedata(QString currentgroup) {
+	manualtask = NULL;
 	std::vector<std::string> filelist = vnpfile.getfilelist();
 	for (int i = 1; i < filelist.size(); i++) {
 		if (currentgroup.toStdString() == filelist[i]) {

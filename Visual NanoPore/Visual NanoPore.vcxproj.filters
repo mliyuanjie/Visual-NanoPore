@@ -94,9 +94,6 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="resources\qrc_resources.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
     <ClCompile Include="dataIO\vnpio.cpp">
       <Filter>dataIO</Filter>
     </ClCompile>

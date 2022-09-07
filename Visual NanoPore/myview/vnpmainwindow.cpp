@@ -69,7 +69,6 @@ void VNPMainWindow::createconfig() {
 		for (int i = 0; i < row; i++) {
 			mymap[tablewidget->item(i, 0)->text().toStdString()] = tablewidget->item(i, 1)->text().toDouble();
 		}
-		VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
 		
 	}
 }

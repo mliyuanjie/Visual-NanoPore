@@ -23,6 +23,7 @@ public:
 
     QLineSeries* series;
     QLineSeries* series_event;
+    QLineSeries* series_event_temp;
     QLineSeries* line_1;
     QLineSeries* line_2;
     QLineSeries* line_3;
@@ -38,10 +39,10 @@ public slots:
     void setxscale(double, double);
     void setyscale(double, double);
     void update_data(QVector<QPointF>);
-    void update_done(QVector<QPointF>);
     void update_event(QVector<QPointF>);
+    void update_event_temp(QVector<QPointF>);
     void zoomdata(double, double);
-    void centerline();
+    void centerline(bool);
 signals:
     void request_data(double, double, double, double);
     void send_eventstart(QString);

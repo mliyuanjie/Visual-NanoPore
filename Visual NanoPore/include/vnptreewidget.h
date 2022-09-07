@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QTreeWidget>
 #include "vnpio.h"
+#include "manual.h"
 
 class VNPTreeWidget : public QTreeWidget {
 	Q_OBJECT;
@@ -22,5 +23,6 @@ signals:
 private:
 	QString filename;
 	QString currentgroup;
+	ManualPeakFind* manualtask = NULL;
 };
 #endif // !VNPTREEWIDGET_H

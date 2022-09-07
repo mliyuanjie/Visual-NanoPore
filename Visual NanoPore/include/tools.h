@@ -41,5 +41,5 @@ private:
 
 std::unordered_map<std::string, double> readconfig(std::string);
 std::list<Peak> findPeak(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
-std::list<Peak> findPeak_manual(std::vector<float>&, std::unordered_map<std::string, double>&, double, double, float);
+std::list<Peak> findPeak_manual(std::vector<float>&, std::unordered_map<std::string, double>&, double, double, float, float);
 #endif // !TOOLS_H

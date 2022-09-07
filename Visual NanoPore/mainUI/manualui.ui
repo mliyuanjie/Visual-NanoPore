@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1462</width>
+    <width>1501</width>
     <height>834</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
   <widget class="QLineEdit" name="lineEdit_2">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>210</x>
      <y>20</y>
      <width>71</width>
      <height>31</height>
@@ -123,7 +123,7 @@
     <rect>
      <x>0</x>
      <y>60</y>
-     <width>1441</width>
+     <width>1471</width>
      <height>751</height>
     </rect>
    </property>
@@ -131,7 +131,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>290</x>
      <y>20</y>
      <width>31</width>
      <height>31</height>
@@ -149,7 +149,7 @@
   <widget class="QPushButton" name="pushButton_10">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>370</x>
      <y>20</y>
      <width>30</width>
      <height>30</height>
@@ -181,7 +181,7 @@
   <widget class="QPushButton" name="pushButton_13">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>330</x>
      <y>20</y>
      <width>30</width>
      <height>30</height>
@@ -210,10 +210,293 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_22">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>10</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</normaloff>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/Zoom-In.png</normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
+   </property>
+   <property name="autoExclusive">
+    <bool>false</bool>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="ScaleyFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>1470</x>
+     <y>0</y>
+     <width>31</width>
+     <height>831</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>OpenHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(17, 230, 184)</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="ScalexFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>800</y>
+     <width>1471</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>OpenHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(17, 230, 184)</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>1180</x>
+     <y>10</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 170, 255)</string>
+   </property>
+   <property name="text">
+    <string>mean(pA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>1320</x>
+     <y>10</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 0)</string>
+   </property>
+   <property name="text">
+    <string>Baseline(pA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>1320</x>
+     <y>30</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 0)</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>1030</x>
+     <y>10</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(170, 170, 255)</string>
+   </property>
+   <property name="text">
+    <string>end(ms)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>10</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 255, 255)</string>
+   </property>
+   <property name="text">
+    <string>start(ms)</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::PlainText</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>30</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 255, 255)</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>1030</x>
+     <y>30</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(170, 170, 255)</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>1180</x>
+     <y>30</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(255, 170, 255)</string>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_17">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>10</y>
+     <width>40</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QPushButton" name="pushButton_19">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>750</x>
      <y>10</y>
      <width>40</width>
      <height>40</height>
@@ -239,7 +522,7 @@
   <widget class="QPushButton" name="pushButton_8">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>680</x>
      <y>10</y>
      <width>40</width>
      <height>40</height>
@@ -262,36 +545,46 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_22">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>10</y>
-     <width>40</width>
-     <height>40</height>
+     <x>570</x>
+     <y>20</y>
+     <width>31</width>
+     <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string/>
+    <string>pA</string>
    </property>
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</iconset>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>20</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
    </property>
-   <property name="iconSize">
-    <size>
-     <width>40</width>
-     <height>40</height>
-    </size>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
-   <property name="flat">
-    <bool>true</bool>
+   <property name="text">
+    <string>300</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_23">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>620</x>
      <y>10</y>
      <width>40</width>
      <height>40</height>
@@ -302,233 +595,7 @@
    </property>
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cancel.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cancel.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>40</width>
-     <height>40</height>
-    </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_14">
-   <property name="geometry">
-    <rect>
-     <x>1270</x>
-     <y>10</y>
-     <width>131</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 0)</string>
-   </property>
-   <property name="text">
-    <string>Baseline(pA)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_15">
-   <property name="geometry">
-    <rect>
-     <x>1130</x>
-     <y>30</y>
-     <width>131</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:rgb(255, 170, 255)</string>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_16">
-   <property name="geometry">
-    <rect>
-     <x>1270</x>
-     <y>30</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 0)</string>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_17">
-   <property name="geometry">
-    <rect>
-     <x>1000</x>
-     <y>10</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:rgb(170, 170, 255)</string>
-   </property>
-   <property name="text">
-    <string>end(ms)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_18">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>30</y>
-     <width>131</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(0, 255, 255)</string>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-   <property name="scaledContents">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_19">
-   <property name="geometry">
-    <rect>
-     <x>1000</x>
-     <y>30</y>
-     <width>121</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:rgb(170, 170, 255)</string>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_20">
-   <property name="geometry">
-    <rect>
-     <x>1130</x>
-     <y>10</y>
-     <width>121</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:rgb(255, 170, 255)</string>
-   </property>
-   <property name="text">
-    <string>mean(pA)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>860</x>
-     <y>10</y>
-     <width>111</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(0, 255, 255)</string>
-   </property>
-   <property name="text">
-    <string>start(ms)</string>
-   </property>
-   <property name="textFormat">
-    <enum>Qt::PlainText</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_17">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>10</y>
-     <width>40</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>40</width>
-     <height>40</height>
-    </size>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_18">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>10</y>
-     <width>40</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/Zoom-In.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/Zoom-In.png</iconset>
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/ok.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/ok.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -537,54 +604,19 @@
     </size>
    </property>
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
+   </property>
+   <property name="autoExclusive">
     <bool>false</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="ScaleyFrame" name="frame">
-   <property name="geometry">
-    <rect>
-     <x>1430</x>
-     <y>0</y>
-     <width>31</width>
-     <height>831</height>
-    </rect>
-   </property>
-   <property name="cursor">
-    <cursorShape>OpenHandCursor</cursorShape>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(17, 230, 184)</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-  </widget>
-  <widget class="ScalexFrame" name="frame_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>800</y>
-     <width>1431</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="cursor">
-    <cursorShape>OpenHandCursor</cursorShape>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(17, 230, 184)</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
    </property>
   </widget>
   <zorder>graphicsView</zorder>
@@ -595,22 +627,23 @@
   <zorder>label</zorder>
   <zorder>pushButton_10</zorder>
   <zorder>pushButton_13</zorder>
-  <zorder>pushButton_19</zorder>
-  <zorder>pushButton_8</zorder>
   <zorder>pushButton_22</zorder>
-  <zorder>pushButton_23</zorder>
-  <zorder>label_14</zorder>
-  <zorder>label_15</zorder>
-  <zorder>label_16</zorder>
-  <zorder>label_17</zorder>
-  <zorder>label_18</zorder>
-  <zorder>label_19</zorder>
-  <zorder>label_20</zorder>
-  <zorder>label_4</zorder>
-  <zorder>pushButton_17</zorder>
-  <zorder>pushButton_18</zorder>
   <zorder>frame</zorder>
   <zorder>frame_2</zorder>
+  <zorder>label_20</zorder>
+  <zorder>label_14</zorder>
+  <zorder>label_16</zorder>
+  <zorder>label_17</zorder>
+  <zorder>label_4</zorder>
+  <zorder>label_18</zorder>
+  <zorder>label_19</zorder>
+  <zorder>label_15</zorder>
+  <zorder>pushButton_17</zorder>
+  <zorder>pushButton_19</zorder>
+  <zorder>pushButton_8</zorder>
+  <zorder>label_2</zorder>
+  <zorder>lineEdit_3</zorder>
+  <zorder>pushButton_23</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -625,7 +658,7 @@
     <signal>send_eventend(QString)</signal>
     <signal>send_eventbaseline(QString)</signal>
     <signal>send_eventcurrent(QString)</signal>
-    <slot>centerline()</slot>
+    <slot>centerline(bool)</slot>
     <slot>setyscale(double,double)</slot>
     <slot>peakfind()</slot>
     <slot>zoomdata(double,double)</slot>
@@ -656,86 +689,6 @@
  </resources>
  <connections>
   <connection>
-   <sender>pushButton_18</sender>
-   <signal>clicked()</signal>
-   <receiver>graphicsView</receiver>
-   <slot>centerline()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>269</x>
-     <y>39</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>268</x>
-     <y>163</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>graphicsView</sender>
-   <signal>send_eventstart(QString)</signal>
-   <receiver>label_18</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>945</x>
-     <y>143</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>941</x>
-     <y>43</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>graphicsView</sender>
-   <signal>send_eventend(QString)</signal>
-   <receiver>label_19</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1088</x>
-     <y>157</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1081</x>
-     <y>41</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>graphicsView</sender>
-   <signal>send_eventcurrent(QString)</signal>
-   <receiver>label_15</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1203</x>
-     <y>177</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1208</x>
-     <y>45</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>graphicsView</sender>
-   <signal>send_eventbaseline(QString)</signal>
-   <receiver>label_16</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1337</x>
-     <y>162</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1340</x>
-     <y>39</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>frame</sender>
    <signal>sendscale(double,double)</signal>
    <receiver>graphicsView</receiver>
@@ -764,6 +717,86 @@
     <hint type="destinationlabel">
      <x>1003</x>
      <y>712</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>graphicsView</sender>
+   <signal>send_eventstart(QString)</signal>
+   <receiver>label_18</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>118</x>
+     <y>715</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>897</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>graphicsView</sender>
+   <signal>send_eventend(QString)</signal>
+   <receiver>label_19</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>662</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>208</x>
+     <y>898</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>graphicsView</sender>
+   <signal>send_eventcurrent(QString)</signal>
+   <receiver>label_15</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>734</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>899</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>graphicsView</sender>
+   <signal>send_eventbaseline(QString)</signal>
+   <receiver>label_16</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>518</x>
+     <y>707</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>499</x>
+     <y>887</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_22</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>graphicsView</receiver>
+   <slot>centerline(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>443</x>
+     <y>31</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>79</y>
     </hint>
    </hints>
   </connection>

@@ -1,5 +1,6 @@
 #include<fstream>
 #include <QtWidgets/QFileDialog>
+
 #include "vnpmainwindow.h"
 #include "vnptreewidget.h"
 #include "qtdataview.h"
@@ -16,9 +17,10 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QMdiSubWindow(p) {
 	connect(this, SIGNAL(sendxscale(double, double)), firstview, SLOT(setxscale(double, double)));
 	connect(this, SIGNAL(sendyscale(double, double)), firstview, SLOT(setyscale(double, double)));
 	connect(this, SIGNAL(senddata(QVector<QPointF>)), firstview, SLOT(update_data(QVector<QPointF>)));
-	connect(this, SIGNAL(senddatadone(QVector<QPointF>)), firstview, SLOT(update_done(QVector<QPointF>)));
+	connect(this, SIGNAL(senddatadone(QVector<double>)), firstview, SLOT(update_done(QVector<double>)));
 	connect(firstview, SIGNAL(request_data(double, double, double, double)), this, SLOT(senddata(double, double, double, double)));
 	connect(this, SIGNAL(sendeventlist(QVector<QPointF>)), firstview, SLOT(update_event(QVector<QPointF>)));
+	connect(this, SIGNAL(sendeventlist_temp(QVector<QPointF>)), firstview, SLOT(update_event_temp(QVector<QPointF>)));
 
 	QPushButton* button_8 = this->findChild<QPushButton*>("pushButton_8");
 	connect(button_8, SIGNAL(clicked()), this, SLOT(insertevent()));
@@ -29,11 +31,8 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QMdiSubWindow(p) {
 	QPushButton* button_17 = this->findChild<QPushButton*>("pushButton_17");
 	connect(button_17, SIGNAL(clicked()), this, SLOT(saveeventlist()));
 
-	QPushButton* button_22 = this->findChild<QPushButton*>("pushButton_22");
-	connect(button_22, SIGNAL(clicked()), this, SLOT(insertregion()));
-
 	QPushButton* button_23 = this->findChild<QPushButton*>("pushButton_23");
-	connect(button_23, SIGNAL(clicked()), this, SLOT(removeregion()));
+	connect(button_23, SIGNAL(clicked(bool)), this, SLOT(addeventlist_temp(bool)));
 
 	QPushButton* button_12 = this->findChild<QPushButton*>("pushButton_12");
 	connect(button_12, SIGNAL(clicked()), this, SLOT(backward()));
@@ -100,18 +99,18 @@ void ManualPeakFind::findpeak(std::unordered_map<std::string, double>& mymap) {
 		timex.push_back(it.second * 1000 / mymap["interval"]);
 	}
 	std::vector<float> dats = dat.data(0, n, 1);
-	if(datadone.empty())
+	//if(datadone.empty())
 		eventlist = findPeak(dats, mymap, 0, n);
-	else {
-		eventlist.clear();
-		DataView* firstview = this->findChild<DataView*>("graphicsView");
-		std::list<std::pair<double, double>>::iterator it=datadone.begin();
-		int i = 0;
-		while (it != datadone.end()) {
-			eventlist.splice(eventlist.end(), findPeak_manual(dats, mymap, it->first, it->second, firstview->linestack[i]->at(0).y()));
-			++it;
-		}
-	}
+	//else {
+		//eventlist.clear();
+		//DataView* firstview = this->findChild<DataView*>("graphicsView");
+		//std::list<std::pair<double, double>>::iterator it=datadone.begin();
+		//int i = 0;
+		//while (it != datadone.end()) {
+		//	eventlist.splice(eventlist.end(), findPeak_manual(dats, mymap, it->first, it->second, firstview->linestack[i]->at(0).y()));
+		//	++it;
+		//}
+	//}
 	sendeventlist();
 }
 
@@ -121,6 +120,7 @@ void ManualPeakFind::senddata(double xmin, double xmax, double ymin, double ymax
 	int skip = (e - s) / 1500;
 	int j;
 	QVector<QPointF> point;
+	clock_t t1 = clock();
 	if (skip <= 1) {
 		for (int i = s; i < e; i += 1) {
 			point.append(QPointF((double)i * interval / 1000, dat.at(i)));
@@ -134,21 +134,13 @@ void ManualPeakFind::senddata(double xmin, double xmax, double ymin, double ymax
 			point.append(QPointF(i * interval / 1000, x.second));
 		}
 	}
+	clock_t t2 = clock();
 	emit senddata(point);
 	emit sendxscale(xmin, xmax);
 	emit sendyscale(ymin, ymax);
 	history.push_back({ xmin, xmax, ymin, ymax });
 	pos = std::next(history.end(), -1);
 	return;
-}
-
-void ManualPeakFind::senddatadone() {
-	std::list<std::pair<double, double>>::iterator it;
-	QVector<QPointF> point;
-	for (it = datadone.begin(); it != datadone.end(); ++it) {
-		point.push_back(QPointF(it->first, it->second));
-	}
-	emit senddatadone(point);
 }
 
 
@@ -166,111 +158,21 @@ void ManualPeakFind::home() {
 	return;
 }
 
-void ManualPeakFind::insertregion() {
-	double s = parent()->findChild<DataView*>("graphicsView")->axisx->min();
-	double e = parent()->findChild<DataView*>("graphicsView")->axisx->max();
-	if (s < 0 || e >= n * interval / 1000)
-		return;
-	std::list<std::pair<double, double>>::iterator it;
-	std::list<std::pair<double, double>>::iterator poss;
-	std::list<std::pair<double, double>>::iterator pose;
-	it = datadone.begin();
-	poss = datadone.end();
-	pose = datadone.end();
-	while (it != datadone.end()) {
-		if (s <= it->second && s >= it->first) {
-			s = it->first;
-			poss = it;
-			break;
-		}
-		else if (s > it->second)
-			++it;
-		else {
-			poss = it;
-			break;
-		}	
-	}
-	while (it != datadone.end()) {
-		if (e <= it->second && e >= it->first) {
-			e = it->second;
-			pose = std::next(it, 1);
-			break;
-		}
-		else if (e > it->second)
-			++it;
-		else {
-			pose = it;
-			break;
-		}
-	}
-	if (poss != pose)
-		datadone.erase(poss, pose);
-	datadone.insert(pose, std::pair<double, double>(s, e));
-	senddatadone();
-	savedatadone();
-}
-
-void ManualPeakFind::removeregion() {
-	double s = parent()->findChild<DataView*>("graphicsView")->axisx->min();
-	double e = parent()->findChild<DataView*>("graphicsView")->axisx->max();
-	double s0 = -1;
-	double e0 = -1;
-	std::list<std::pair<double, double>>::iterator it;
-	std::list<std::pair<double, double>>::iterator poss;
-	std::list<std::pair<double, double>>::iterator pose;
-	it = datadone.begin();
-	poss = datadone.end();
-	pose = datadone.end();
-	while (it != datadone.end()) {
-		if (s < it->second && s > it->first) {
-			poss = it;
-			s0 = it->first;
-			break;
-		}
-		else if (s > it->second)
-			++it;
-		else {
-			poss = it;
-			break;
-		}
-	}
-	while (it != datadone.end()) {
-		if (e < it->second && e > it->first) {
-			e0 = it->second;
-			pose = std::next(it, 1);
-			break;
-		}
-		else if (e > it->second)
-			++it;
-		else {
-			pose = it;
-			break;
-		}
-	}
-
-	datadone.erase(poss, pose);
-	if (s0 >= 0)
-		datadone.insert(pose, std::pair<double, double>(s0, s));
-	if (e0 >= 0) 
-		datadone.insert(pose, std::pair<double, double>(e, e0));
-	
-	senddatadone();
-	savedatadone();
-	return;
-}
 
 void ManualPeakFind::insertevent() {
-	std::list<Peak>::iterator poss;
-	std::list<Peak>::iterator pose;
-	double xmin = parent()->findChild<QLabel*>("label_18")->text().toDouble();
-	double xmax = parent()->findChild<QLabel*>("label_19")->text().toDouble();
-	double eventcurrent = parent()->findChild<QLabel*>("label_15")->text().toDouble();
-	double baseline = parent()->findChild<QLabel*>("label_16")->text().toDouble();
-	Peak point = { xmin, xmax, eventcurrent, baseline };
-	poss = findposs(point.start);
-	pose = findpose(point.end);
-	eventlist.erase(poss, pose);
-	eventlist.insert(pose, point);
+	for (auto i : eventlist_temp) {
+		std::list<Peak>::iterator poss;
+		std::list<Peak>::iterator pose;
+		double xmin = i.start;
+		double xmax = i.end;
+		double eventcurrent = i.currentpeak;
+		double baseline = i.baseline;
+		Peak point = { xmin, xmax, eventcurrent, baseline };
+		poss = findposs(point.start);
+		pose = findpose(point.end);
+		eventlist.erase(poss, pose);
+		eventlist.insert(pose, point);
+	}
 	sendeventlist();
 	return;
 }
@@ -416,4 +318,48 @@ void ManualPeakFind::forward() {
 		emit sendxscale(xmin, xmax);
 		emit sendyscale(ymin, ymax);
 	}
+}
+
+void ManualPeakFind::addeventlist_temp(bool draw) {
+	if (draw) {
+		QPushButton* stats = this->findChild<QPushButton*>("pushButton_22");
+		if (stats->isChecked()) {
+			double xmin = parent()->findChild<QLabel*>("label_18")->text().toDouble();
+			double xmax = parent()->findChild<QLabel*>("label_19")->text().toDouble();
+			double eventcurrent = parent()->findChild<QLabel*>("label_15")->text().toDouble();
+			double baseline = parent()->findChild<QLabel*>("label_16")->text().toDouble();
+			Peak point = { xmin, xmax, eventcurrent, baseline };
+			eventlist_temp.clear();
+			eventlist_temp.push_back(point);
+
+		}
+		else {
+			VNPMainWindow* mainwindow = NULL;
+			QObject* wid = NULL;
+			wid = this->parent();
+			while (qobject_cast<VNPMainWindow*>(wid) == NULL)
+				wid = wid->parent();
+			mainwindow = qobject_cast<VNPMainWindow*>(wid);
+			std::unordered_map<std::string, double> mymap = mainwindow->mymap;
+			double interval = mymap["interval"];
+			double s = parent()->findChild<DataView*>("graphicsView")->axisx->min();
+			double e = parent()->findChild<DataView*>("graphicsView")->axisx->max();
+			std::vector<float> dats = dat.data(0, n, 1);
+			//if(datadone.empty())
+			double eventcurrent = parent()->findChild<QLabel*>("label_15")->text().toDouble();
+			double baseline = parent()->findChild<QLabel*>("label_16")->text().toDouble();
+			eventlist_temp = findPeak_manual(dats, mymap, s, e, baseline, abs(eventcurrent - baseline));
+		}
+	}
+	else {
+		eventlist_temp.clear();
+	}
+	QVector<QPointF> p;
+	for (auto it : eventlist_temp) {
+		p.append(QPointF(it.start, it.baseline));
+		p.append(QPointF(it.start, it.currentpeak));
+		p.append(QPointF(it.end, it.currentpeak));
+		p.append(QPointF(it.end, it.baseline));
+	}
+	emit sendeventlist_temp(p);
 }

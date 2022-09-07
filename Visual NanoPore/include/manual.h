@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MANUAL_H
 #define MAUNAL_H
 
@@ -31,12 +32,10 @@ public slots:
 	void home();
 	void backward();
 	void forward();
-	void insertregion();
-	void removeregion();
 	void insertevent();
 	void removeevent();
 	void sendeventlist();
-	void senddatadone();
+	void addeventlist_temp(bool);
 	void saveeventlist();
 	void savedatadone();
 	void backwardwindow();
@@ -46,10 +45,11 @@ public slots:
 
 signals:
 	void senddata(QVector<QPointF>);
-	void senddatadone(QVector<QPointF>);
+	void senddatadone(QVector<double>);
 	void sendxscale(double, double);
 	void sendyscale(double, double);
 	void sendeventlist(QVector<QPointF>);
+	void sendeventlist_temp(QVector<QPointF>);
 	void offline(QString);
 
 private:
@@ -61,6 +61,7 @@ private:
 	int windowsize = 500000;
 	double interval = 2;
 	std::list<Peak> eventlist;
+	std::list<Peak> eventlist_temp;
 	DATIO dat;
 	VNPIO* vnpfile = nullptr;
 	std::string currentgroup;
@@ -68,6 +69,7 @@ private:
 	std::list<Peak>::iterator pos;
 	std::list<Peak>::iterator findposs(double);
 	std::list<Peak>::iterator findpose(double);
+	int state = 0;
 };
 
 #endif //MAUNAL_H

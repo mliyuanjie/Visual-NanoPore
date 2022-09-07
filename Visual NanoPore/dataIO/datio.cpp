@@ -1,4 +1,7 @@
+#include <algorithm>
 #include "datio.h" 
+
+
 
 void DATIO::open(std::string fn) {
 	close();
@@ -69,7 +72,7 @@ std::pair<float, float> DATIO::valminmax(size_t start, size_t end) {
 	float xmax = xmin;
 	float tmp;
 	bool direction = false;
-	for (size_t i = start + 1; i < end; i++) {
+	for (int i = start + 1; i < end; i++) {
 		tmp = pos[i];
 		if (tmp < xmin) {
 			xmin = tmp;

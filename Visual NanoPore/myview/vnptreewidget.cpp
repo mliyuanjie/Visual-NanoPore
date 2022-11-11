@@ -12,19 +12,41 @@
 VNPTreeWidget::VNPTreeWidget(QWidget* parent) :
 	QTreeWidget(parent) {
 	connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(doubleclick(QTreeWidgetItem*, int)));
+	
 } 
 
 void VNPTreeWidget::open1() {
-	filename = QFileDialog::getOpenFileName(
+	filenames = QFileDialog::getOpenFileNames(
 		this,
 		"Select one to open",
 		"/home",
-		"project file (*.h5 *.vnp)");
-	open2(filename.toStdString());
+		"project file (*.dat)");
 
+	for (int i = 0; i < filenames.size(); i++) {
+		QTreeWidgetItem* items = new QTreeWidgetItem(this);
+		info = QFileInfo(filenames[i]);
+		items->setText(0, info.completeBaseName());
+		QString csvname = info.path() + "/" + info.completeBaseName() + ".csv";
+		if (QFileInfo::exists(csvname))
+			items->setTextColor(0, Qt::green);
+		this->insertTopLevelItem(i, items);
+	}
 }
 
+void VNPTreeWidget::checkcsv() {
+	QTreeWidgetItem* items = NULL;
+	for (int i = 0; i < this->topLevelItemCount(); i++) {
+		items = this->topLevelItem(i);
+		QString csvfn = info.path() + "/" + items->text(0) + ".csv";
+		info = QFileInfo(csvfn);
+		if (QFileInfo::exists(csvfn))
+			items->setTextColor(0, Qt::green);
+	}
+}
+
+/*
 void VNPTreeWidget::tocsv() {
+	
 	std::vector<std::string> filelist = vnpfile.getfilelist();
 	std::list<Peak>::iterator it;
 	for (int i = 1; i < filelist.size(); i++) {
@@ -39,6 +61,7 @@ void VNPTreeWidget::tocsv() {
 		}
 		file.close();
 	}
+	
 	QMessageBox msgBox;
 	msgBox.setText("Done!");
 	msgBox.exec();
@@ -56,34 +79,40 @@ void VNPTreeWidget::open2(std::string fn) {
 		this->insertTopLevelItem(i - 1, items);
 	}
 }
-
+*/
 void VNPTreeWidget::doubleclick(QTreeWidgetItem* item, int column) {
-	item->setTextColor(0, Qt::red);
-	QMdiArea* mdiarea = this->parent()->parent()->parent()->findChild<QMdiArea*>("mdiArea");
-	if (manualtask != NULL) manualtask->close();
-	manualtask = new ManualPeakFind();
-	manualtask->opendat(item->text(0), vnpfile);
-	mdiarea->addSubWindow(manualtask);
-	manualtask->show();
-	connect(manualtask, SIGNAL(offline(QString)), this, SLOT(closedata(QString)));
+	ManualPeakFind* manualtask = this->parent()->parent()->parent()->findChild<ManualPeakFind*>("manualtask");
+	manualtask->setVisible(true);
+	QString datfn = info.path() + "/" + item->text(0) + ".dat";
+	manualtask->opendat(datfn);
+	
 	return;
 }
 
-
-void VNPTreeWidget::closedata(QString currentgroup) {
-	manualtask = NULL;
-	std::vector<std::string> filelist = vnpfile.getfilelist();
-	for (int i = 1; i < filelist.size(); i++) {
-		if (currentgroup.toStdString() == filelist[i]) {
-			QTreeWidgetItem* items = topLevelItem(i - 1);
-			if (!vnpfile.geteventlist(filelist[i]).empty())
-				items->setTextColor(0, Qt::green);
-			else
-				items->setTextColor(0, Qt::black);
-			return;
-		}
+void VNPTreeWidget::autorun() {
+	ManualPeakFind* manualtask = this->parent()->parent()->parent()->findChild<ManualPeakFind*>("manualtask");
+	QMessageBox msgBox;
+	msgBox.setText("Auto find peak will overwrite the csv file,\nDo you want to stop auto find peak?\n");
+	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	if (msgBox.exec() == QMessageBox::Yes)
+		return;
+	QMdiArea* mdiarea = this->parent()->parent()->parent()->findChild<QMdiArea*>("mdiArea");
+	if (manualtask == NULL) {
+		manualtask = new ManualPeakFind();
+		connect(manualtask, SIGNAL(offline()), this, SLOT(closedata()));
+		connect(this, SIGNAL(configchange()), manualtask, SLOT(readparams()));
+		connect(manualtask, SIGNAL(csvchange()), this, SLOT(checkcsv()));
+		connect(this, SIGNAL(stoprun()), manualtask, SLOT(stoprun()));
+		mdiarea->addSubWindow(manualtask);
+		manualtask->show();
 	}
+	QProgressBar* bar = this->parent()->findChild<QProgressBar*>("progressBar");
+	connect(manualtask, SIGNAL(setprogress(int)), bar, SLOT(setValue(int)));
+	connect(manualtask, SIGNAL(csvchange()), bar, SLOT(readcsv()));
+	manualtask->autorun(filenames);
 }
+
+
 /*
 void VNPTreeWidget::contextMenuEvent(QContextMenuEvent* event)
 {

@@ -87,8 +87,35 @@ void DataView::mousePressEvent(QMouseEvent* event) {
     isclick = true;
 }
 
-void DataView::centerline(bool stats) {
-    if (stats) {
+void DataView::changestats(QString str) {
+    if (str == "Auto")
+        stats = 0;
+    else
+        stats = 1;
+}
+
+void DataView::centerline() {
+    if (stats == 0) {
+        QVector<QPointF> line;
+        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->max()));
+        line_2->replace(line);
+        line.clear();
+        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->max()));
+        line_1->replace(line);
+        line.clear();
+        line.push_back(QPointF(0, 0));
+        line.push_back(QPointF(0, 0));
+        line_3->replace(line);
+        line_4->replace(line);
+        line.clear();
+
+
+        emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
+        emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
+    }
+    else {
         QVector<QPointF> line;
         line.push_back(QPointF(axisx->min(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
         line.push_back(QPointF(axisx->max(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
@@ -105,34 +132,12 @@ void DataView::centerline(bool stats) {
         line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->min()));
         line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->max()));
         line_1->replace(line);
+        line.clear();
 
-        emit send_eventbaseline(QString::number(line_4->at(0).y(), 'g', 12));
-        emit send_eventcurrent(QString::number(line_3->at(0).y(), 'g', 12));
         emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
         emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
-    }
-    else {
-        QVector<QPointF> line;
-        line.push_back(QPointF(axisx->min(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
-        line.push_back(QPointF(axisx->max(), axisy->min() + 0.6 * (axisy->max() - axisy->min())));
-        line_3->replace(line);
-        line.clear();
-        line.push_back(QPointF(axisx->min(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
-        line.push_back(QPointF(axisx->max(), axisy->min() + 0.3 * (axisy->max() - axisy->min())));
-        line_4->replace(line);
-        line.clear();
-        line.push_back(QPointF(0, axisy->min()));
-        line.push_back(QPointF(0, axisy->max()));
-        line_2->replace(line);
-        line.clear();
-        line.push_back(QPointF(0, axisy->min()));
-        line.push_back(QPointF(0, axisy->max()));
-        line_1->replace(line);
-
         emit send_eventbaseline(QString::number(line_4->at(0).y(), 'g', 12));
         emit send_eventcurrent(QString::number(line_3->at(0).y(), 'g', 12));
-        emit send_eventstart(QString::number(line_1->at(0).x(), 'g', 12));
-        emit send_eventend(QString::number(line_2->at(0).x(), 'g', 12));
     }
 }
 

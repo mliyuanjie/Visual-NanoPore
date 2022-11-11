@@ -16,10 +16,12 @@ void DATIO::open(std::string fn) {
 	return;
 }
 
+
 void DATIO::close() {
 	if (file.is_open())
 		file.close();
 	pos = nullptr;
+	n = 0;
 	return;
 }
 

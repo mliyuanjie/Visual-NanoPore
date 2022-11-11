@@ -6,7 +6,9 @@
 #include <string>
 #include <QtWidgets/QMainWindow>
 #include <unordered_map>
+#include "configdialog.h"
 #include "mainwindow.h"
+#include "manual.h"
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -18,15 +20,20 @@ public:
     std::unordered_map<std::string, double> mymap;
 public slots:
     void openfile();
-    void createfile();
+    //void createfile();
     void createconfig();
-    void filter(bool);
-    void findpeak();
-    void tocsv();
+    //void filter(bool);
+    //void tocsv();
+ 
+signals:
+    void configchange();
+    void autorun();
 
  
 private:
     Ui::MainWindow ui;
+    ConfigDialog* configdialog;
+    ManualPeakFind* manualtask;
     
     
 };

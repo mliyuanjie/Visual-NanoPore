@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -37,7 +38,6 @@ public:
     QPushButton *pushButton_22;
     ScaleyFrame *frame;
     ScalexFrame *frame_2;
-    QLabel *label_20;
     QLabel *label_14;
     QLabel *label_16;
     QLabel *label_17;
@@ -48,21 +48,24 @@ public:
     QPushButton *pushButton_17;
     QPushButton *pushButton_19;
     QPushButton *pushButton_8;
-    QLabel *label_2;
-    QLineEdit *lineEdit_3;
     QPushButton *pushButton_23;
+    QPushButton *pushButton_24;
+    QComboBox *comboBox;
+    QLabel *label_20;
 
     void setupUi(QWidget *Form)
     {
         if (Form->objectName().isEmpty())
             Form->setObjectName(QStringLiteral("Form"));
-        Form->resize(1501, 834);
-        Form->setMinimumSize(QSize(1462, 834));
+        Form->resize(991, 601);
+        Form->setMinimumSize(QSize(991, 601));
         lineEdit_2 = new QLineEdit(Form);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
         lineEdit_2->setGeometry(QRect(210, 20, 71, 31));
         QFont font;
+        font.setFamily(QStringLiteral("Arial"));
         font.setPointSize(12);
+        font.setItalic(true);
         lineEdit_2->setFont(font);
         pushButton = new QPushButton(Form);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -91,7 +94,7 @@ public:
         pushButton_12->setFlat(true);
         graphicsView = new DataView(Form);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(0, 60, 1471, 751));
+        graphicsView->setGeometry(QRect(0, 60, 991, 541));
         label = new QLabel(Form);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(290, 20, 31, 31));
@@ -121,76 +124,77 @@ public:
         pushButton_13->setFlat(true);
         pushButton_22 = new QPushButton(Form);
         pushButton_22->setObjectName(QStringLiteral("pushButton_22"));
-        pushButton_22->setGeometry(QRect(430, 10, 40, 40));
+        pushButton_22->setGeometry(QRect(580, 10, 40, 40));
         QIcon icon5;
-        icon5.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon5.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/Zoom-In.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon5.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/aim.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_22->setIcon(icon5);
         pushButton_22->setIconSize(QSize(40, 40));
-        pushButton_22->setCheckable(true);
+        pushButton_22->setCheckable(false);
         pushButton_22->setChecked(false);
         pushButton_22->setAutoRepeat(false);
         pushButton_22->setAutoExclusive(false);
         pushButton_22->setFlat(true);
         frame = new ScaleyFrame(Form);
         frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(1470, 0, 31, 831));
+        frame->setGeometry(QRect(940, 60, 51, 541));
         frame->setCursor(QCursor(Qt::OpenHandCursor));
-        frame->setStyleSheet(QStringLiteral("background-color:rgb(17, 230, 184)"));
+        frame->setStyleSheet(QStringLiteral("background-color:rgb(191, 191, 191,0)"));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         frame_2 = new ScalexFrame(Form);
         frame_2->setObjectName(QStringLiteral("frame_2"));
-        frame_2->setGeometry(QRect(0, 800, 1471, 31));
+        frame_2->setGeometry(QRect(0, 550, 941, 51));
         frame_2->setCursor(QCursor(Qt::OpenHandCursor));
-        frame_2->setStyleSheet(QStringLiteral("background-color:rgb(17, 230, 184)"));
+        frame_2->setStyleSheet(QStringLiteral("background-color:rgb(191, 191, 191,0)"));
         frame_2->setFrameShape(QFrame::StyledPanel);
         frame_2->setFrameShadow(QFrame::Raised);
-        label_20 = new QLabel(Form);
-        label_20->setObjectName(QStringLiteral("label_20"));
-        label_20->setGeometry(QRect(1180, 10, 121, 21));
-        label_20->setFont(font);
-        label_20->setStyleSheet(QStringLiteral("color:rgb(255, 170, 255)"));
         label_14 = new QLabel(Form);
         label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(1320, 10, 131, 21));
-        label_14->setFont(font);
-        label_14->setStyleSheet(QStringLiteral("color: rgb(255, 255, 0)"));
+        label_14->setGeometry(QRect(590, 570, 61, 21));
+        QFont font1;
+        font1.setPointSize(10);
+        font1.setItalic(true);
+        label_14->setFont(font1);
+        label_14->setStyleSheet(QStringLiteral("color: rgb(255, 170, 0)"));
         label_16 = new QLabel(Form);
         label_16->setObjectName(QStringLiteral("label_16"));
-        label_16->setGeometry(QRect(1320, 30, 141, 20));
-        label_16->setFont(font);
-        label_16->setStyleSheet(QStringLiteral("color: rgb(255, 255, 0)"));
+        label_16->setGeometry(QRect(660, 570, 101, 20));
+        label_16->setFont(font1);
+        label_16->setStyleSheet(QStringLiteral("color: rgb(255, 170, 0)"));
         label_17 = new QLabel(Form);
         label_17->setObjectName(QStringLiteral("label_17"));
-        label_17->setGeometry(QRect(1030, 10, 101, 21));
-        label_17->setFont(font);
-        label_17->setStyleSheet(QStringLiteral("color:rgb(170, 170, 255)"));
+        label_17->setGeometry(QRect(180, 570, 81, 21));
+        label_17->setFont(font1);
+        label_17->setStyleSheet(QStringLiteral("color:rgb(170, 85, 255)"));
         label_4 = new QLabel(Form);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(890, 10, 111, 21));
-        label_4->setFont(font);
-        label_4->setStyleSheet(QStringLiteral("color: rgb(0, 255, 255)"));
+        label_4->setGeometry(QRect(10, 570, 81, 21));
+        QFont font2;
+        font2.setFamily(QStringLiteral("Arial"));
+        font2.setPointSize(10);
+        font2.setItalic(true);
+        label_4->setFont(font2);
+        label_4->setStyleSheet(QStringLiteral("color: rgb(21, 80, 168)"));
         label_4->setTextFormat(Qt::PlainText);
         label_18 = new QLabel(Form);
         label_18->setObjectName(QStringLiteral("label_18"));
-        label_18->setGeometry(QRect(890, 30, 131, 20));
-        label_18->setFont(font);
-        label_18->setStyleSheet(QStringLiteral("color: rgb(0, 255, 255)"));
+        label_18->setGeometry(QRect(90, 570, 81, 20));
+        label_18->setFont(font1);
+        label_18->setStyleSheet(QStringLiteral("color: rgb(21, 80, 168)"));
         label_18->setScaledContents(false);
         label_19 = new QLabel(Form);
         label_19->setObjectName(QStringLiteral("label_19"));
-        label_19->setGeometry(QRect(1030, 30, 121, 20));
-        label_19->setFont(font);
-        label_19->setStyleSheet(QStringLiteral("color:rgb(170, 170, 255)"));
+        label_19->setGeometry(QRect(260, 570, 81, 20));
+        label_19->setFont(font1);
+        label_19->setStyleSheet(QStringLiteral("color:rgb(170, 85, 255)"));
         label_15 = new QLabel(Form);
         label_15->setObjectName(QStringLiteral("label_15"));
-        label_15->setGeometry(QRect(1180, 30, 131, 20));
-        label_15->setFont(font);
-        label_15->setStyleSheet(QStringLiteral("color:rgb(255, 170, 255)"));
+        label_15->setGeometry(QRect(850, 570, 91, 20));
+        label_15->setFont(font1);
+        label_15->setStyleSheet(QStringLiteral("color:rgb(231, 31, 5)"));
         pushButton_17 = new QPushButton(Form);
         pushButton_17->setObjectName(QStringLiteral("pushButton_17"));
-        pushButton_17->setGeometry(QRect(820, 10, 40, 51));
+        pushButton_17->setGeometry(QRect(860, 10, 40, 51));
         QIcon icon6;
         icon6.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save as.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_17->setIcon(icon6);
@@ -198,7 +202,7 @@ public:
         pushButton_17->setFlat(true);
         pushButton_19 = new QPushButton(Form);
         pushButton_19->setObjectName(QStringLiteral("pushButton_19"));
-        pushButton_19->setGeometry(QRect(750, 10, 40, 40));
+        pushButton_19->setGeometry(QRect(800, 10, 40, 40));
         QIcon icon7;
         icon7.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/delete_database.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_19->setIcon(icon7);
@@ -206,25 +210,18 @@ public:
         pushButton_19->setFlat(true);
         pushButton_8 = new QPushButton(Form);
         pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
-        pushButton_8->setGeometry(QRect(680, 10, 40, 40));
+        pushButton_8->setGeometry(QRect(740, 10, 40, 40));
         QIcon icon8;
         icon8.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/add_database.png"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_8->setIcon(icon8);
         pushButton_8->setIconSize(QSize(40, 40));
         pushButton_8->setFlat(true);
-        label_2 = new QLabel(Form);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(570, 20, 31, 31));
-        label_2->setFont(font);
-        lineEdit_3 = new QLineEdit(Form);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-        lineEdit_3->setGeometry(QRect(490, 20, 71, 31));
-        lineEdit_3->setFont(font);
         pushButton_23 = new QPushButton(Form);
         pushButton_23->setObjectName(QStringLiteral("pushButton_23"));
-        pushButton_23->setGeometry(QRect(620, 10, 40, 40));
+        pushButton_23->setGeometry(QRect(680, 10, 40, 40));
         QIcon icon9;
-        icon9.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/ok.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon9.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon9.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/cancel.png"), QSize(), QIcon::Normal, QIcon::On);
         pushButton_23->setIcon(icon9);
         pushButton_23->setIconSize(QSize(40, 40));
         pushButton_23->setCheckable(true);
@@ -232,6 +229,27 @@ public:
         pushButton_23->setAutoRepeat(false);
         pushButton_23->setAutoExclusive(false);
         pushButton_23->setFlat(true);
+        pushButton_24 = new QPushButton(Form);
+        pushButton_24->setObjectName(QStringLiteral("pushButton_24"));
+        pushButton_24->setGeometry(QRect(630, 10, 40, 40));
+        QIcon icon10;
+        icon10.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_24->setIcon(icon10);
+        pushButton_24->setIconSize(QSize(40, 40));
+        pushButton_24->setCheckable(true);
+        pushButton_24->setChecked(false);
+        pushButton_24->setAutoRepeat(false);
+        pushButton_24->setAutoExclusive(false);
+        pushButton_24->setFlat(true);
+        comboBox = new QComboBox(Form);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setGeometry(QRect(450, 20, 101, 31));
+        comboBox->setFont(font2);
+        label_20 = new QLabel(Form);
+        label_20->setObjectName(QStringLiteral("label_20"));
+        label_20->setGeometry(QRect(780, 570, 61, 21));
+        label_20->setFont(font1);
+        label_20->setStyleSheet(QStringLiteral("color:rgb(231, 31, 5)"));
         graphicsView->raise();
         lineEdit_2->raise();
         pushButton->raise();
@@ -243,7 +261,6 @@ public:
         pushButton_22->raise();
         frame->raise();
         frame_2->raise();
-        label_20->raise();
         label_14->raise();
         label_16->raise();
         label_17->raise();
@@ -254,9 +271,10 @@ public:
         pushButton_17->raise();
         pushButton_19->raise();
         pushButton_8->raise();
-        label_2->raise();
-        lineEdit_3->raise();
         pushButton_23->raise();
+        pushButton_24->raise();
+        comboBox->raise();
+        label_20->raise();
 
         retranslateUi(Form);
         QObject::connect(frame, SIGNAL(sendscale(double,double)), graphicsView, SLOT(setyscale(double,double)));
@@ -265,7 +283,8 @@ public:
         QObject::connect(graphicsView, SIGNAL(send_eventend(QString)), label_19, SLOT(setText(QString)));
         QObject::connect(graphicsView, SIGNAL(send_eventcurrent(QString)), label_15, SLOT(setText(QString)));
         QObject::connect(graphicsView, SIGNAL(send_eventbaseline(QString)), label_16, SLOT(setText(QString)));
-        QObject::connect(pushButton_22, SIGNAL(clicked(bool)), graphicsView, SLOT(centerline(bool)));
+        QObject::connect(comboBox, SIGNAL(currentIndexChanged(QString)), graphicsView, SLOT(changestats(QString)));
+        QObject::connect(pushButton_22, SIGNAL(clicked()), graphicsView, SLOT(centerline()));
 
         QMetaObject::connectSlotsByName(Form);
     } // setupUi
@@ -281,20 +300,25 @@ public:
         pushButton_10->setText(QString());
         pushButton_13->setText(QString());
         pushButton_22->setText(QString());
-        label_20->setText(QApplication::translate("Form", "mean(pA)", Q_NULLPTR));
-        label_14->setText(QApplication::translate("Form", "Baseline(pA)", Q_NULLPTR));
+        label_14->setText(QApplication::translate("Form", "I0(pA):", Q_NULLPTR));
         label_16->setText(QApplication::translate("Form", "0", Q_NULLPTR));
-        label_17->setText(QApplication::translate("Form", "end(ms)", Q_NULLPTR));
-        label_4->setText(QApplication::translate("Form", "start(ms)", Q_NULLPTR));
+        label_17->setText(QApplication::translate("Form", "end(ms):", Q_NULLPTR));
+        label_4->setText(QApplication::translate("Form", "start(ms):", Q_NULLPTR));
         label_18->setText(QApplication::translate("Form", "0", Q_NULLPTR));
         label_19->setText(QApplication::translate("Form", "0", Q_NULLPTR));
         label_15->setText(QApplication::translate("Form", "0", Q_NULLPTR));
         pushButton_17->setText(QString());
         pushButton_19->setText(QString());
         pushButton_8->setText(QString());
-        label_2->setText(QApplication::translate("Form", "pA", Q_NULLPTR));
-        lineEdit_3->setText(QApplication::translate("Form", "300", Q_NULLPTR));
         pushButton_23->setText(QString());
+        pushButton_24->setText(QString());
+        comboBox->clear();
+        comboBox->insertItems(0, QStringList()
+         << QApplication::translate("Form", "Auto", Q_NULLPTR)
+         << QApplication::translate("Form", "Half-Manual", Q_NULLPTR)
+         << QApplication::translate("Form", "Manual", Q_NULLPTR)
+        );
+        label_20->setText(QApplication::translate("Form", "I1(pA):", Q_NULLPTR));
     } // retranslateUi
 
 };

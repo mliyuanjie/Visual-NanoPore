@@ -1,23 +1,32 @@
 #include<fstream>
 #include <QtWidgets/QFileDialog>
+#include <QtCore/qfileinfo.h>
 
 #include "vnpmainwindow.h"
 #include "vnptreewidget.h"
 #include "qtdataview.h"
 #include "Iir.h"
 #include "manual.h" 
+#include "calworker.h"
+
+bool cover(double x, double x1, double x2) {
+	if (x1 > x2 && x <= x1 && x >= x2)
+		return true;
+	if (x1 <= x2 && x <= x2 && x >= x1)
+		return true;
+	return false;
+}
 
 ManualPeakFind::ManualPeakFind(QWidget* p):QMdiSubWindow(p) {
 	widget = new QWidget();
 	ui.setupUi(widget);
 	this->setWidget(widget);
-	this->setAttribute(Qt::WA_DeleteOnClose);
 
 	DataView* firstview = this->findChild<DataView*>("graphicsView");
 	connect(this, SIGNAL(sendxscale(double, double)), firstview, SLOT(setxscale(double, double)));
 	connect(this, SIGNAL(sendyscale(double, double)), firstview, SLOT(setyscale(double, double)));
 	connect(this, SIGNAL(senddata(QVector<QPointF>)), firstview, SLOT(update_data(QVector<QPointF>)));
-	connect(this, SIGNAL(senddatadone(QVector<double>)), firstview, SLOT(update_done(QVector<double>)));
+	//connect(this, SIGNAL(senddatadone(QVector<double>)), firstview, SLOT(update_done(QVector<double>)));
 	connect(firstview, SIGNAL(request_data(double, double, double, double)), this, SLOT(senddata(double, double, double, double)));
 	connect(this, SIGNAL(sendeventlist(QVector<QPointF>)), firstview, SLOT(update_event(QVector<QPointF>)));
 	connect(this, SIGNAL(sendeventlist_temp(QVector<QPointF>)), firstview, SLOT(update_event_temp(QVector<QPointF>)));
@@ -33,6 +42,9 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QMdiSubWindow(p) {
 
 	QPushButton* button_23 = this->findChild<QPushButton*>("pushButton_23");
 	connect(button_23, SIGNAL(clicked(bool)), this, SLOT(addeventlist_temp(bool)));
+
+	QPushButton* button_24 = this->findChild<QPushButton*>("pushButton_24");
+	connect(button_24, SIGNAL(clicked(bool)), this, SLOT(filter(bool)));
 
 	QPushButton* button_12 = this->findChild<QPushButton*>("pushButton_12");
 	connect(button_12, SIGNAL(clicked()), this, SLOT(backward()));
@@ -52,22 +64,37 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QMdiSubWindow(p) {
 
 ManualPeakFind::~ManualPeakFind() {
 	dat.close();
-	emit offline(QString::fromStdString(currentgroup));
+	calthread.quit();
 }
 
-void ManualPeakFind::opendat(QString fn, VNPIO& vf) {
-	vnpfile = &vf;
-	currentgroup = fn.toStdString();
-	filename = vnpfile->getdatapath(fn.toStdString());
-	datadone = vnpfile->getdatadone(fn.toStdString());
-	eventlist = vnpfile->geteventlist(fn.toStdString());
+void ManualPeakFind::closeEvent(QCloseEvent* event) {
+	event->ignore();
+	this->setVisible(false);
+}
+
+void ManualPeakFind::stoprun() {
+	calthread.quit();
+}
+
+void ManualPeakFind::opendat(QString& fn) {
+	std::string csvfn = fn.toStdString().substr(0, fn.size()-3) + "csv";
+	eventlist.clear();
+	if (QFileInfo::exists(QString::fromStdString(csvfn)))
+		eventlist = readcsv(csvfn);
+	filename = fn.toStdString();
 	dat.open(filename);
 	n = dat.size();
 	home();
+	setWindowTitle(fn);
+	sendeventlist();
+	readparams();
 	return;
 }
 
-void ManualPeakFind::filter(std::unordered_map<std::string, double>& mymap, bool check) {
+void ManualPeakFind::filter(bool check) {
+	if (dat.size() == 0) {
+		return;
+	}
 	if (!check) {
 		dat.open(filename);
 		home();
@@ -81,7 +108,7 @@ void ManualPeakFind::filter(std::unordered_map<std::string, double>& mymap, bool
 		for (int i = 0; i < n; i++) {
 			data[i] = f.filter(dat.at(i));
 		}
-		f.setup(samplingrate, cutoff);
+		
 		std::ofstream wf;
 		wf.open("temporary.dat", std::ios::out | std::ios::binary);
 		wf.write(reinterpret_cast<const char*>(data), n * sizeof(float));
@@ -92,15 +119,37 @@ void ManualPeakFind::filter(std::unordered_map<std::string, double>& mymap, bool
 	}
 }
 
-void ManualPeakFind::findpeak(std::unordered_map<std::string, double>& mymap) {
-	std::vector<double> timex;
-	for (auto it : datadone) {
-		timex.push_back(it.first * 1000 / mymap["interval"]);
-		timex.push_back(it.second * 1000 / mymap["interval"]);
+void ManualPeakFind::helperfn(bool check) {
+	if (!check) {
+		dat2.close();
+		datastate = 0;
+		home();
 	}
+	else {
+		datastate = 2;
+		float samplingrate = mymap["fs"];
+		float cutoff = mymap["cutoff"];
+		Iir::Butterworth::LowPass<5> f;
+		f.setup(samplingrate, cutoff);
+		float* data = new float[n];
+		for (int i = 0; i < n; i++) {
+			data[i] = f.filter(dat.at(i));
+		}
+
+		std::ofstream wf;
+		wf.open("temporary2.dat", std::ios::out | std::ios::binary);
+		wf.write(reinterpret_cast<const char*>(data), n * sizeof(float));
+		wf.close();
+		delete[] data;
+		dat.open("temporary2.dat");
+		home();
+	}
+}
+
+void ManualPeakFind::findpeak() {
 	std::vector<float> dats = dat.data(0, n, 1);
 	//if(datadone.empty())
-		eventlist = findPeak(dats, mymap, 0, n);
+	eventlist = findPeak(dats, mymap, 0, n * mymap["interval"] / 1000);
 	//else {
 		//eventlist.clear();
 		//DataView* firstview = this->findChild<DataView*>("graphicsView");
@@ -120,7 +169,7 @@ void ManualPeakFind::senddata(double xmin, double xmax, double ymin, double ymax
 	int skip = (e - s) / 1500;
 	int j;
 	QVector<QPointF> point;
-	clock_t t1 = clock();
+	//clock_t t1 = clock();
 	if (skip <= 1) {
 		for (int i = s; i < e; i += 1) {
 			point.append(QPointF((double)i * interval / 1000, dat.at(i)));
@@ -134,12 +183,30 @@ void ManualPeakFind::senddata(double xmin, double xmax, double ymin, double ymax
 			point.append(QPointF(i * interval / 1000, x.second));
 		}
 	}
-	clock_t t2 = clock();
+	if (datastate == 2) {
+		QVector<QPointF> point2;
+		if (skip <= 1) {
+			for (int i = s; i < e; i += 1) {
+				point2.append(QPointF((double)i * interval / 1000, dat2.at(i)));
+			}
+		}
+		else {
+			for (int i = s; i < e; i += skip) {
+				j = (i + skip <= e) ? i + skip : e;
+				std::pair<float, float> x = dat2.valminmax(i, j);
+				point2.append(QPointF(i * interval / 1000, x.first));
+				point2.append(QPointF(i * interval / 1000, x.second));
+			}
+		}
+		emit sendeventlist_temp(point2);
+	}
+	//clock_t t2 = clock();
 	emit senddata(point);
 	emit sendxscale(xmin, xmax);
 	emit sendyscale(ymin, ymax);
 	history.push_back({ xmin, xmax, ymin, ymax });
-	pos = std::next(history.end(), -1);
+	pos = history.end();
+	pos = std::next(pos, -1);
 	return;
 }
 
@@ -150,24 +217,21 @@ void ManualPeakFind::home() {
 	std::pair<double, double> y = dat.valminmax();
 	double ymax = std::max(y.first, y.second);
 	double ymin = std::min(y.first, y.second);
-	emit sendxscale(xmin, xmax);
-	emit sendyscale(ymin - 0.1 * (ymax - ymin), ymax + 0.1 * (ymax - ymin));
+	//emit sendxscale(xmin, xmax);
+	//emit sendyscale(ymin - 3 * (ymax - ymin), ymax + 3 * (ymax - ymin));
 	history.clear();
-	senddata(xmin, xmax, ymin, ymax);
+	senddata(xmin, xmax, ymin - 3 * (ymax - ymin), ymax + 3 * (ymax - ymin));
 	sendeventlist();
 	return;
 }
 
 
 void ManualPeakFind::insertevent() {
-	for (auto i : eventlist_temp) {
+	for (auto& i : eventlist_temp) {
 		std::list<Peak>::iterator poss;
 		std::list<Peak>::iterator pose;
-		double xmin = i.start;
-		double xmax = i.end;
-		double eventcurrent = i.currentpeak;
-		double baseline = i.baseline;
-		Peak point = { xmin, xmax, eventcurrent, baseline };
+		
+		Peak point = i;
 		poss = findposs(point.start);
 		pose = findpose(point.end);
 		eventlist.erase(poss, pose);
@@ -251,11 +315,37 @@ void ManualPeakFind::backwardwindow() {
 }
 
 void ManualPeakFind::saveeventlist() {
-	vnpfile->seteventlist(currentgroup.c_str(), eventlist);
+	if (filename.empty())
+		return;
+	std::string csvname = filename.substr(0, filename.size() - 3) + "csv";
+	std::ofstream file(csvname, std::ofstream::out | std::ofstream::trunc);
+	file << "start,end,start(ms),end(ms),I0(pA),I1(pA)\n";
+	for (auto it : eventlist) {
+		file << std::to_string(it.s) << ","
+			<< std::to_string(it.e) << ","
+			<< std::to_string(it.start) << ","
+			<< std::to_string(it.end) << ","
+			<< std::to_string(it.baseline) << ","
+			<< std::to_string(it.currentpeak) << "\n";
+	}
+	file.close();
+	emit csvchange();
+	//vnpfile->seteventlist(currentgroup.c_str(), eventlist);
 }
 
-void ManualPeakFind::savedatadone() {
-	vnpfile->setdatadone(currentgroup.c_str(), datadone);
+void ManualPeakFind::autorun(QStringList& filenames) {
+	readparams();
+	CalWorker* worker = new CalWorker;
+	worker->mymap = mymap;
+	worker->filenames = filenames;
+	worker->moveToThread(&calthread);
+	
+	connect(&calthread, &QThread::finished, worker, &QObject::deleteLater);
+	connect(worker, &CalWorker::setprogress, this, &ManualPeakFind::setprogress);
+	connect(worker, &CalWorker::finish, this, &ManualPeakFind::csvchange);
+	connect(this, &ManualPeakFind::startauto, worker, &CalWorker::run);
+	calthread.start();
+	emit startauto();
 }
 
 void ManualPeakFind::backward() {
@@ -321,34 +411,49 @@ void ManualPeakFind::forward() {
 }
 
 void ManualPeakFind::addeventlist_temp(bool draw) {
+	if (dat.size() == 0)
+		return;
 	if (draw) {
-		QPushButton* stats = this->findChild<QPushButton*>("pushButton_22");
-		if (stats->isChecked()) {
+		double interval = mymap["interval"];
+		QComboBox* stats = this->findChild<QComboBox*>("comboBox");
+		if (stats->currentText() == "Manual") {
 			double xmin = parent()->findChild<QLabel*>("label_18")->text().toDouble();
 			double xmax = parent()->findChild<QLabel*>("label_19")->text().toDouble();
 			double eventcurrent = parent()->findChild<QLabel*>("label_15")->text().toDouble();
 			double baseline = parent()->findChild<QLabel*>("label_16")->text().toDouble();
-			Peak point = { xmin, xmax, eventcurrent, baseline };
+			if (!(cover(xmin, pos->start, pos->end) && cover(xmax, pos->start, pos->end)
+				&& cover(eventcurrent, pos->baseline, pos->currentpeak)
+				&& cover(baseline, pos->baseline, pos->currentpeak)))
+				return;
+			int s = xmin * 1000 / 2;
+			int e = xmax * 1000 / 2;
+			Peak point = { xmin, xmax, eventcurrent, baseline, s, e };
 			eventlist_temp.clear();
 			eventlist_temp.push_back(point);
 
 		}
-		else {
-			VNPMainWindow* mainwindow = NULL;
-			QObject* wid = NULL;
-			wid = this->parent();
-			while (qobject_cast<VNPMainWindow*>(wid) == NULL)
-				wid = wid->parent();
-			mainwindow = qobject_cast<VNPMainWindow*>(wid);
-			std::unordered_map<std::string, double> mymap = mainwindow->mymap;
-			double interval = mymap["interval"];
-			double s = parent()->findChild<DataView*>("graphicsView")->axisx->min();
-			double e = parent()->findChild<DataView*>("graphicsView")->axisx->max();
-			std::vector<float> dats = dat.data(0, n, 1);
-			//if(datadone.empty())
+		else if (stats->currentText() == "Half-Manual") {
+			double s = parent()->findChild<QLabel*>("label_18")->text().toDouble();
+			double e = parent()->findChild<QLabel*>("label_19")->text().toDouble();
 			double eventcurrent = parent()->findChild<QLabel*>("label_15")->text().toDouble();
 			double baseline = parent()->findChild<QLabel*>("label_16")->text().toDouble();
+			if (!(cover(s, pos->start, pos->end) && cover(e, pos->start, pos->end)
+				&& cover(eventcurrent, pos->baseline, pos->currentpeak)
+				&& cover(baseline, pos->baseline, pos->currentpeak)))
+				return;
+			std::vector<float> dats = dat.data(0, n, 1);
 			eventlist_temp = findPeak_manual(dats, mymap, s, e, baseline, abs(eventcurrent - baseline));
+		}
+		else {
+			double s = parent()->findChild<QLabel*>("label_18")->text().toDouble();
+			double e = parent()->findChild<QLabel*>("label_19")->text().toDouble();
+			if (!(cover(s, pos->start, pos->end) && cover(e, pos->start, pos->end)))
+				return;
+			std::vector<float> dats = dat.data(0, n, 1);
+			if (int(mymap["auto"]) == 2)
+				eventlist_temp = findPeak_longevent(dats, mymap, s, e);
+			else
+				eventlist_temp = findPeak(dats, mymap, s, e);
 		}
 	}
 	else {
@@ -362,4 +467,14 @@ void ManualPeakFind::addeventlist_temp(bool draw) {
 		p.append(QPointF(it.end, it.baseline));
 	}
 	emit sendeventlist_temp(p);
+}
+
+void ManualPeakFind::readparams() {
+	VNPMainWindow* mainwindow = NULL;
+	QObject* wid = NULL;
+	wid = this->parent();
+	while (qobject_cast<VNPMainWindow*>(wid) == NULL)
+		wid = wid->parent();
+	mainwindow = qobject_cast<VNPMainWindow*>(wid);
+	mymap = mainwindow->mymap;
 }

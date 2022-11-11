@@ -3,7 +3,7 @@
 #include "createvnp.h"
 #include "vnptreewidget.h"
 #include "tools.h"
-#include "configdialog.h"
+
 
 
 
@@ -11,20 +11,46 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	ui.setupUi(this);
 	QToolBar* toolbar = this->findChild<QToolBar*>("toolBar");
 	QAction* actionopen = this->findChild<QAction*>("actionopen");
-	QAction* actionnew = this->findChild<QAction*>("actionnew");
 	QAction* actionparameter = this->findChild<QAction*>("actionparameter");
+	QAction* actionauto_run = this->findChild<QAction*>("actionauto_run");
+	QAction* actionstop_auto = this->findChild<QAction*>("actionstop_auto");
 	QAction* actionfilter = this->findChild<QAction*>("actionfilter");
-	QAction* actionfindpeak = this->findChild<QAction*>("actionfindpeak");
-	QAction* actionexport_csv = this->findChild<QAction*>("actionexport_csv");
-	QAction* actionmergedata = this->findChild<QAction*>("actionmergedata");
+	QAction* actionbaseline = this->findChild<QAction*>("actionbaseline");
+	QAction* actionfind_peak = this->findChild<QAction*>("actionfind_peak");
+	VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
 	connect(actionopen, SIGNAL(triggered()), this, SLOT(openfile()));
-	connect(actionnew, SIGNAL(triggered()), this, SLOT(createfile()));
-	connect(actionparameter, SIGNAL(triggered()), this, SLOT(createconfig()));
-	connect(actionfilter, SIGNAL(toggled(bool)), this, SLOT(filter(bool)));
-	connect(actionfindpeak, SIGNAL(triggered()), this, SLOT(findpeak()));
-	connect(actionexport_csv, SIGNAL(triggered()), this, SLOT(tocsv()));
-	connect(actionmergedata, SIGNAL(triggered()), this, SLOT(mergedata()));
-	mymap = readconfig("config.txt");
+	connect(actionauto_run, SIGNAL(triggered()), treewidget, SLOT(autorun()));
+	connect(actionstop_auto, SIGNAL(triggered()), treewidget, SIGNAL(stopauto()));
+	connect(this, SIGNAL(configchange()), treewidget, SIGNAL(configchange()));
+
+	configdialog = new ConfigDialog();
+	connect(actionparameter, SIGNAL(triggered()), configdialog, SLOT(show()));
+	connect(configdialog, SIGNAL(accepted()), this, SLOT(createconfig()));
+
+	manualtask = new ManualPeakFind();
+	manualtask->setObjectName(QStringLiteral("manualtask"));
+
+	QMdiArea* mdiarea = this->findChild<QMdiArea*>("mdiArea");
+	connect(treewidget, SIGNAL(configchange()), manualtask, SLOT(readparams()));
+	connect(manualtask, SIGNAL(csvchange()), treewidget, SLOT(checkcsv()));
+	connect(treewidget, SIGNAL(stoprun()), manualtask, SLOT(stoprun()));
+	mdiarea->addSubWindow(manualtask);
+	manualtask->setVisible(false);
+	mymap["direction"] = -1;
+	mymap["interval"] = 2;
+	mymap["cutoff"] = 50;
+	mymap["fs"] = 500;
+	mymap["order"] = 5;
+	mymap["resolution"] = 5000;
+	mymap["auto"] = -1;
+	mymap["threshold"] = 5;
+	mymap["window"] = 5;
+	mymap["startpoint"] = 0;
+	mymap["endpoint"] = 20000;
+	connect(actionfilter, SIGNAL(triggered(bool)), manualtask, SLOT(filter(bool)));
+	connect(actionbaseline, SIGNAL(triggered()), manualtask, SLOT(helpfn(bool)));
+	connect(actionfind_peak, SIGNAL(triggered(bool)), manualtask, SLOT(addeventlist_temp(bool)));
+
 }
 
 void VNPMainWindow::openfile() {
@@ -33,6 +59,7 @@ void VNPMainWindow::openfile() {
 	treewidget->open1();
 }
 
+/*
 void VNPMainWindow::createfile() {
 	createvnp* newvnp = new createvnp();
 	newvnp->setconfig(mymap);
@@ -44,35 +71,50 @@ void VNPMainWindow::createfile() {
 		treewidget->clear();
 		if (newvnp->filepath.empty())
 			return;
-		treewidget->open2(newvnp->filepath);
+//		treewidget->open2(newvnp->filepath);
 	}
 }
-
+*/
 void VNPMainWindow::createconfig() {
-	ConfigDialog* configdialog = new ConfigDialog();
-	configdialog->show();
-	QTableWidget* tablewidget = configdialog->findChild<QTableWidget*>("tableWidget");
-	tablewidget->setRowCount(mymap.size());
-	int i = 0;
-	for (std::pair<std::string, double> element : mymap)
-	{
-		QTableWidgetItem* itemkey = new QTableWidgetItem(QString::fromStdString(element.first));
-		QTableWidgetItem* itemvalue = new QTableWidgetItem(QString::number(element.second));
-		tablewidget->setItem(i, 0, itemkey);
-		tablewidget->setItem(i, 1, itemvalue);
-		i++;
+	QSpinBox* spinBox = configdialog->findChild<QSpinBox*>("spinBox");
+	QSpinBox* spinBox_2 = configdialog->findChild<QSpinBox*>("spinBox_2");
+	QComboBox* baselineMethodComboBox = configdialog->findChild<QComboBox*>("baselineMethodComboBox");
+	QSpinBox* moveWindowSpinBox = configdialog->findChild<QSpinBox*>("moveWindowSpinBox");
+	QSpinBox* orderSpinBox = configdialog->findChild<QSpinBox*>("orderSpinBox");
+	QSpinBox* resolutionSpinBox = configdialog->findChild<QSpinBox*>("resolutionSpinBox");
+	QSpinBox* stepSizeSpinBox = configdialog->findChild<QSpinBox*>("stepSizeSpinBox");
+	QSpinBox* hSpinBox = configdialog->findChild<QSpinBox*>("hSpinBox");
+	QSpinBox* thresholdSpinBox = configdialog->findChild<QSpinBox*>("thresholdSpinBox");
+	QSpinBox* startPointSpinBox = configdialog->findChild<QSpinBox*>("startPointSpinBox");
+	QSpinBox* endPointSpinBox = configdialog->findChild<QSpinBox*>("endPointSpinBox");
+	QSpinBox* minWindowSpinBox = configdialog->findChild<QSpinBox*>("minWindowSpinBox");
+	QComboBox* directionComboBox = configdialog->findChild<QComboBox*>("directionComboBox");
+	mymap["direction"] = (directionComboBox->currentText() == "Negative") ? -1 : 1;
+	mymap["interval"] = 1.0 / double(spinBox->value()) * 1000;
+	mymap["cutoff"] = spinBox_2->value();
+	mymap["fs"] = spinBox->value();
+	mymap["order"] = orderSpinBox->value();
+	if (baselineMethodComboBox->currentText() == "Polynomial fit") {
+		mymap["auto"] = 1;
+		mymap["resolution"] = resolutionSpinBox->value();
+		mymap["order"] = orderSpinBox->value();
 	}
-	configdialog->deleteLater();
-	if (configdialog->exec() == QDialog::Accepted) {
-		
-		int row = tablewidget->rowCount();
-		for (int i = 0; i < row; i++) {
-			mymap[tablewidget->item(i, 0)->text().toStdString()] = tablewidget->item(i, 1)->text().toDouble();
-		}
+	else if (baselineMethodComboBox->currentText() == "Moving average") {
+		mymap["auto"] = 0;
+		mymap["resolution"] = moveWindowSpinBox->value();
+	}
+	else if (baselineMethodComboBox->currentText() == "Self Adapt") {
+		mymap["auto"] = 2;
+		mymap["resolution"] = moveWindowSpinBox->value();
 		
 	}
+	mymap["threshold"] = thresholdSpinBox->value();
+	mymap["window"] = minWindowSpinBox->value();
+	mymap["startpoint"] = startPointSpinBox->value();
+	mymap["endpoint"] = endPointSpinBox->value();
+	emit configchange();
 }
-
+/*
 void VNPMainWindow::findpeak() {
 	QMessageBox msgBox;
 	msgBox.setText("auto find peak will change the event list,\n please use it before manual checking.\n Do you want to stop auto find peak?\n");
@@ -86,10 +128,11 @@ void VNPMainWindow::findpeak() {
 		return;
 	}
 	ManualPeakFind* subwindow = qobject_cast<ManualPeakFind*>(findChild<QMdiArea*>("mdiArea")->activeSubWindow());
-	subwindow->findpeak(mymap);
+	subwindow->findpeak();
 	return;
 }
-
+*/
+/*
 void VNPMainWindow::filter(bool isfilter) {
 	if (mymap.empty()) {
 		QMessageBox msgBox;
@@ -105,3 +148,4 @@ void VNPMainWindow::tocsv() {
 	VNPTreeWidget* treewidget = this->findChild<VNPTreeWidget*>("treeWidget");
 	treewidget->tocsv();
 }
+*/

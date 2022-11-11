@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2216</width>
-    <height>962</height>
+    <width>1800</width>
+    <height>944</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1000</width>
-    <height>700</height>
+    <width>1500</width>
+    <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <widget class="QMdiArea" name="mdiArea">
     <property name="geometry">
      <rect>
-      <x>-20</x>
+      <x>0</x>
       <y>0</y>
       <width>1881</width>
       <height>1000</height>
@@ -42,7 +42,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2216</width>
+     <width>1800</width>
      <height>26</height>
     </rect>
    </property>
@@ -50,17 +50,17 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionnew"/>
     <addaction name="actionopen"/>
-    <addaction name="actionexport_csv"/>
-    <addaction name="actionmergedata"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Edit</string>
+     <string>Tools</string>
     </property>
+    <addaction name="actionauto_run"/>
+    <addaction name="actionstop_auto"/>
     <addaction name="actionfilter"/>
-    <addaction name="actionfindpeak"/>
+    <addaction name="actionbaseline"/>
+    <addaction name="actionfind_peak"/>
    </widget>
    <widget class="QMenu" name="menuPython">
     <property name="title">
@@ -108,9 +108,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionnew"/>
+   <addaction name="actionopen"/>
+   <addaction name="actionparameter"/>
+   <addaction name="actionstop_auto"/>
+   <addaction name="separator"/>
    <addaction name="actionfilter"/>
-   <addaction name="actionfindpeak"/>
+   <addaction name="actionbaseline"/>
+   <addaction name="actionfind_peak"/>
+   <addaction name="actionauto_run"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
@@ -131,6 +136,13 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="VNPTreeWidget" name="treeWidget">
        <column>
         <property name="text">
@@ -142,46 +154,23 @@
     </layout>
    </widget>
   </widget>
-  <action name="actionnew">
+  <action name="actionopen">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
      <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</iconset>
    </property>
    <property name="text">
-    <string>new</string>
-   </property>
-  </action>
-  <action name="actionfilter">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</iconset>
-   </property>
-   <property name="text">
-    <string>filter</string>
-   </property>
-  </action>
-  <action name="actionfindpeak">
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png</iconset>
-   </property>
-   <property name="text">
-    <string>findpeak</string>
-   </property>
-  </action>
-  <action name="actionopen">
-   <property name="icon">
-    <iconset>
-     <normaloff>../../../../../.designer/resources/save.png</normaloff>../../../../../.designer/resources/save.png</iconset>
-   </property>
-   <property name="text">
-    <string>open</string>
+    <string>open folder</string>
    </property>
   </action>
   <action name="actionparameter">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/gear.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/gear.png</iconset>
+   </property>
    <property name="text">
     <string>parameter</string>
    </property>
@@ -191,14 +180,58 @@
     <string>start python</string>
    </property>
   </action>
-  <action name="actionexport_csv">
+  <action name="actionauto_run">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/autorun.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/autorun.png</iconset>
+   </property>
    <property name="text">
-    <string>export(csv)</string>
+    <string>auto run</string>
    </property>
   </action>
-  <action name="actionmergedata">
+  <action name="actionstop_auto">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/stop.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/stop.png</iconset>
+   </property>
    <property name="text">
-    <string>mergedata</string>
+    <string>stop auto</string>
+   </property>
+  </action>
+  <action name="actionfilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</normaloff>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform-off.png</normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</iconset>
+   </property>
+   <property name="text">
+    <string>filter</string>
+   </property>
+  </action>
+  <action name="actionbaseline">
+   <property name="icon">
+    <iconset>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/align.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>baseline</string>
+   </property>
+  </action>
+  <action name="actionfind_peak">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</normaloff>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve-off.png</normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</iconset>
+   </property>
+   <property name="text">
+    <string>find peak</string>
    </property>
   </action>
  </widget>
@@ -207,10 +240,30 @@
    <class>VNPTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>vnptreewidget.h</header>
+   <slots>
+    <signal>progress(int)</signal>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>treeWidget</sender>
+   <signal>progress(int)</signal>
+   <receiver>progressBar</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

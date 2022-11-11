@@ -113,11 +113,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <QtMoc Include="include\calworker.h" />
+    <ClInclude Include="include\paramsgui.h" />
     <ClInclude Include="include\vnpnetio.h" />
     <QtMoc Include="include\vnpmainwindow.h" />
     <QtMoc Include="include\createvnp.h" />
     <QtMoc Include="include\configdialog.h" />
-    <ClInclude Include="include\configui.h" />
     <ClInclude Include="include\createvnpdialog.h" />
     <ClInclude Include="include\datio.h" />
     <QtMoc Include="include\login.h" />
@@ -132,6 +133,7 @@
     <QtMoc Include="include\qtdataview.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="algorithm\calworker.cpp" />
     <ClCompile Include="algorithm\tools.cpp" />
     <ClCompile Include="dataIO\datio.cpp" />
     <ClCompile Include="dataIO\vnpio.cpp" />
@@ -149,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainUI\configui.ui" />
+    <QtUic Include="mainUI\paramsgui.ui" />
     <QtUic Include="mainUI\createvnpdialog.ui" />
     <QtUic Include="mainUI\loginui.ui" />
     <QtUic Include="mainUI\mainwindow.ui" />

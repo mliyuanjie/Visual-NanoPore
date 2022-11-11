@@ -19,6 +19,7 @@
 #include <QtWidgets/QMdiArea>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -30,14 +31,14 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionnew;
-    QAction *actionfilter;
-    QAction *actionfindpeak;
     QAction *actionopen;
     QAction *actionparameter;
     QAction *actionstart_python;
-    QAction *actionexport_csv;
-    QAction *actionmergedata;
+    QAction *actionauto_run;
+    QAction *actionstop_auto;
+    QAction *actionfilter;
+    QAction *actionbaseline;
+    QAction *actionfind_peak;
     QWidget *centralwidget;
     QMdiArea *mdiArea;
     QMenuBar *menubar;
@@ -53,53 +54,67 @@ public:
     QDockWidget *dockWidget;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout;
+    QProgressBar *progressBar;
     VNPTreeWidget *treeWidget;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(2216, 962);
-        MainWindow->setMinimumSize(QSize(1000, 700));
-        actionnew = new QAction(MainWindow);
-        actionnew->setObjectName(QStringLiteral("actionnew"));
+        MainWindow->resize(1800, 944);
+        MainWindow->setMinimumSize(QSize(1500, 800));
+        actionopen = new QAction(MainWindow);
+        actionopen->setObjectName(QStringLiteral("actionopen"));
+        actionopen->setCheckable(false);
         QIcon icon;
         icon.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionnew->setIcon(icon);
+        actionopen->setIcon(icon);
+        actionparameter = new QAction(MainWindow);
+        actionparameter->setObjectName(QStringLiteral("actionparameter"));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/gear.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionparameter->setIcon(icon1);
+        actionstart_python = new QAction(MainWindow);
+        actionstart_python->setObjectName(QStringLiteral("actionstart_python"));
+        actionauto_run = new QAction(MainWindow);
+        actionauto_run->setObjectName(QStringLiteral("actionauto_run"));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/autorun.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionauto_run->setIcon(icon2);
+        actionstop_auto = new QAction(MainWindow);
+        actionstop_auto->setObjectName(QStringLiteral("actionstop_auto"));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionstop_auto->setIcon(icon3);
         actionfilter = new QAction(MainWindow);
         actionfilter->setObjectName(QStringLiteral("actionfilter"));
         actionfilter->setCheckable(true);
-        QIcon icon1;
-        icon1.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionfilter->setIcon(icon1);
-        actionfindpeak = new QAction(MainWindow);
-        actionfindpeak->setObjectName(QStringLiteral("actionfindpeak"));
-        QIcon icon2;
-        icon2.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/findpeak.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionfindpeak->setIcon(icon2);
-        actionopen = new QAction(MainWindow);
-        actionopen->setObjectName(QStringLiteral("actionopen"));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral("../../../../../.designer/resources/save.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionopen->setIcon(icon3);
-        actionparameter = new QAction(MainWindow);
-        actionparameter->setObjectName(QStringLiteral("actionparameter"));
-        actionstart_python = new QAction(MainWindow);
-        actionstart_python->setObjectName(QStringLiteral("actionstart_python"));
-        actionexport_csv = new QAction(MainWindow);
-        actionexport_csv->setObjectName(QStringLiteral("actionexport_csv"));
-        actionmergedata = new QAction(MainWindow);
-        actionmergedata->setObjectName(QStringLiteral("actionmergedata"));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform-off.png"), QSize(), QIcon::Normal, QIcon::On);
+        actionfilter->setIcon(icon4);
+        actionbaseline = new QAction(MainWindow);
+        actionbaseline->setObjectName(QStringLiteral("actionbaseline"));
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/align.png"), QSize(), QIcon::Normal, QIcon::On);
+        actionbaseline->setIcon(icon5);
+        actionfind_peak = new QAction(MainWindow);
+        actionfind_peak->setObjectName(QStringLiteral("actionfind_peak"));
+        actionfind_peak->setCheckable(true);
+        QIcon icon6;
+        icon6.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve-off.png"), QSize(), QIcon::Normal, QIcon::On);
+        actionfind_peak->setIcon(icon6);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         mdiArea = new QMdiArea(centralwidget);
         mdiArea->setObjectName(QStringLiteral("mdiArea"));
-        mdiArea->setGeometry(QRect(-20, 0, 1881, 1000));
+        mdiArea->setGeometry(QRect(0, 0, 1881, 1000));
         mdiArea->setMinimumSize(QSize(1462, 1000));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2216, 26));
+        menubar->setGeometry(QRect(0, 0, 1800, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuTools = new QMenu(menubar);
@@ -129,6 +144,12 @@ public:
         dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
         verticalLayout = new QVBoxLayout(dockWidgetContents);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        progressBar = new QProgressBar(dockWidgetContents);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setValue(0);
+
+        verticalLayout->addWidget(progressBar);
+
         treeWidget = new VNPTreeWidget(dockWidgetContents);
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
 
@@ -144,19 +165,25 @@ public:
         menubar->addAction(menuExtensions->menuAction());
         menubar->addAction(menuWindow->menuAction());
         menubar->addAction(menuHelp->menuAction());
-        menuFile->addAction(actionnew);
         menuFile->addAction(actionopen);
-        menuFile->addAction(actionexport_csv);
-        menuFile->addAction(actionmergedata);
+        menuTools->addAction(actionauto_run);
+        menuTools->addAction(actionstop_auto);
         menuTools->addAction(actionfilter);
-        menuTools->addAction(actionfindpeak);
+        menuTools->addAction(actionbaseline);
+        menuTools->addAction(actionfind_peak);
         menuExtensions->addAction(actionstart_python);
         menuSettings->addAction(actionparameter);
-        toolBar->addAction(actionnew);
+        toolBar->addAction(actionopen);
+        toolBar->addAction(actionparameter);
+        toolBar->addAction(actionstop_auto);
+        toolBar->addSeparator();
         toolBar->addAction(actionfilter);
-        toolBar->addAction(actionfindpeak);
+        toolBar->addAction(actionbaseline);
+        toolBar->addAction(actionfind_peak);
+        toolBar->addAction(actionauto_run);
 
         retranslateUi(MainWindow);
+        QObject::connect(treeWidget, SIGNAL(progress(int)), progressBar, SLOT(setValue(int)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -164,16 +191,16 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        actionnew->setText(QApplication::translate("MainWindow", "new", Q_NULLPTR));
-        actionfilter->setText(QApplication::translate("MainWindow", "filter", Q_NULLPTR));
-        actionfindpeak->setText(QApplication::translate("MainWindow", "findpeak", Q_NULLPTR));
-        actionopen->setText(QApplication::translate("MainWindow", "open", Q_NULLPTR));
+        actionopen->setText(QApplication::translate("MainWindow", "open folder", Q_NULLPTR));
         actionparameter->setText(QApplication::translate("MainWindow", "parameter", Q_NULLPTR));
         actionstart_python->setText(QApplication::translate("MainWindow", "start python", Q_NULLPTR));
-        actionexport_csv->setText(QApplication::translate("MainWindow", "export(csv)", Q_NULLPTR));
-        actionmergedata->setText(QApplication::translate("MainWindow", "mergedata", Q_NULLPTR));
+        actionauto_run->setText(QApplication::translate("MainWindow", "auto run", Q_NULLPTR));
+        actionstop_auto->setText(QApplication::translate("MainWindow", "stop auto", Q_NULLPTR));
+        actionfilter->setText(QApplication::translate("MainWindow", "filter", Q_NULLPTR));
+        actionbaseline->setText(QApplication::translate("MainWindow", "baseline", Q_NULLPTR));
+        actionfind_peak->setText(QApplication::translate("MainWindow", "find peak", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
-        menuTools->setTitle(QApplication::translate("MainWindow", "Edit", Q_NULLPTR));
+        menuTools->setTitle(QApplication::translate("MainWindow", "Tools", Q_NULLPTR));
         menuPython->setTitle(QApplication::translate("MainWindow", "View", Q_NULLPTR));
         menuExtensions->setTitle(QApplication::translate("MainWindow", "Extensions", Q_NULLPTR));
         menuWindow->setTitle(QApplication::translate("MainWindow", "Window", Q_NULLPTR));

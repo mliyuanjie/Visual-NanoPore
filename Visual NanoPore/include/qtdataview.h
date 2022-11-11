@@ -42,7 +42,8 @@ public slots:
     void update_event(QVector<QPointF>);
     void update_event_temp(QVector<QPointF>);
     void zoomdata(double, double);
-    void centerline(bool);
+    void centerline();
+    void changestats(QString);
 signals:
     void request_data(double, double, double, double);
     void send_eventstart(QString);
@@ -60,6 +61,7 @@ protected:
 
 
 private:
+    int stats = 0;
     int color = 0;
     bool isclick = false;
     

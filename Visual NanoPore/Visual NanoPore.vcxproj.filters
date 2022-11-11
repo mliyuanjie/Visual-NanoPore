@@ -39,9 +39,6 @@
     <ClInclude Include="include\createvnpdialog.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\configui.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\manualui.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -49,6 +46,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\vnpnetio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\paramsgui.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,6 +78,9 @@
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\nlineseries.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\calworker.h">
       <Filter>include</Filter>
     </QtMoc>
   </ItemGroup>
@@ -121,6 +124,9 @@
     <ClCompile Include="myview\nlineseries.cpp">
       <Filter>myview</Filter>
     </ClCompile>
+    <ClCompile Include="algorithm\calworker.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainUI\mainwindow.ui">
@@ -136,6 +142,9 @@
       <Filter>UI</Filter>
     </QtUic>
     <QtUic Include="mainUI\loginui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\paramsgui.ui">
       <Filter>UI</Filter>
     </QtUic>
   </ItemGroup>

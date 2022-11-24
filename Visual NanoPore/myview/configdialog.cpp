@@ -2,9 +2,7 @@
 
 ConfigDialog::ConfigDialog(QWidget* parent) :QDialog(parent) {
 	ui.setupUi(this);
-	QPushButton* selectbutton = this->findChild<QPushButton*>("pushButton");
 	QComboBox* bmbox = this->findChild<QComboBox*>("baselineMethodComboBox");
-	connect(selectbutton, SIGNAL(clicked()), this, SLOT(selectfile()));
 	connect(bmbox, SIGNAL(currentTextChanged(const QString&)), this, SLOT(changebm(const QString&)));
 	hLabel = this->findChild<QLabel*>("hLabel");
 	moveWindowLabel = this->findChild<QLabel*>("moveWindowLabel");
@@ -38,7 +36,7 @@ void ConfigDialog::changebm(const QString& name) {
 	orderSpinBox->setVisible(false);
 	resolutionSpinBox->setVisible(false);
 	stepSizeSpinBox->setVisible(false);
-	if (name == "Moving average") {
+	if (name == "Moving average" || name == "Self Adapt" || name == "Moving median") {
 		moveWindowLabel->setVisible(true);
 		moveWindowSpinBox->setVisible(true);
 	}
@@ -53,10 +51,6 @@ void ConfigDialog::changebm(const QString& name) {
 		stepSizeLabel->setVisible(true);
 		hSpinBox->setVisible(true);
 		stepSizeSpinBox->setVisible(true);
-	}
-	else if (name == "Self Adapt") {
-		moveWindowLabel->setVisible(true);
-		moveWindowSpinBox->setVisible(true);
 	}
 }
 

@@ -54,11 +54,11 @@ void ScalexFrame::mouseReleaseEvent(QMouseEvent* event) {
 	pfnew = dataview->charts->mapFromScene(pfnew);
 	pfnew = dataview->charts->mapToValue(pfnew);
 
-	if (pf.x() > pfnew.x())
-		emit sendscale(pfnew.x(), pf.x());
+	if (pf.x() < pfnew.x())
+		emit sendscale(pf.x(), pfnew.x());
 	else {
 		double delta = (pfnew.x() - pf.x());
-		emit sendscale(dataview->axisx->min() - delta, dataview->axisx->max() + delta);
+		emit sendscale(dataview->axisx->min() + delta, dataview->axisx->max() - delta);
 	}
 
 }

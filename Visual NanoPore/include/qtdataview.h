@@ -22,8 +22,10 @@ public:
 
 
     QLineSeries* series;
+    QLineSeries* series_temp;
     QLineSeries* series_event;
     QLineSeries* series_event_temp;
+    QScatterSeries* series_star;
     QLineSeries* line_1;
     QLineSeries* line_2;
     QLineSeries* line_3;
@@ -33,38 +35,36 @@ public:
     QValueAxis* axisy;
     QRubberBand* rubberBand = NULL;
     QVector<NLineSeries*> linestack;
-
+    void changestats(QString);
 public slots:
     //void setFilename(QString s);
     void setxscale(double, double);
     void setyscale(double, double);
-    void update_data(QVector<QPointF>);
-    void update_event(QVector<QPointF>);
-    void update_event_temp(QVector<QPointF>);
     void zoomdata(double, double);
     void centerline();
-    void changestats(QString);
+    void linevisible(bool);
+    void set_number(int);
+    
 signals:
     void request_data(double, double, double, double);
     void send_eventstart(QString);
     void send_eventend(QString);
     void send_eventbaseline(QString);
     void send_eventcurrent(QString);
-    void mousepress(QPointF);
-    void mousemove(QPointF);
-    void mouserelease(QPointF);
+    void send_number(int);
 
 protected:
     void mousePressEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
+    void mouseDoubleClickEvent(QMouseEvent* event);
 
 
 private:
     int stats = 0;
     int color = 0;
     bool isclick = false;
-    
+    int binarySearch(double i);
 };
 
 #endif //QTDATAVIEW_H

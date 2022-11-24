@@ -13,10 +13,13 @@ class CalWorker : public QObject {
 	Q_OBJECT
 
 public:
-	void run();
-
 	std::unordered_map<std::string, double> mymap;
 	QStringList filenames;
+
+public slots:
+	void run();
+
+
 signals:
 	void setprogress(int);
 	void finish();

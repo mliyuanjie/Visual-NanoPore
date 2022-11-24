@@ -21,7 +21,7 @@ void DATIO::close() {
 	if (file.is_open())
 		file.close();
 	pos = nullptr;
-	n = 0;
+	n = size_t(0);
 	return;
 }
 

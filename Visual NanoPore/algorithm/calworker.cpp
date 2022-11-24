@@ -30,6 +30,9 @@ void CalWorker::run() {
 		if (int(mymap["auto"]) == 2) {
 			res = findPeak_longevent(data, mymap, mymap["startpoint"], mymap["endpoint"]);
 		}
+		else if (mymap["auto"] == 3) {
+			res = findPeak_median(data, mymap, mymap["startpoint"], mymap["endpoint"]);
+		}
 		else {
 			res = findPeak(data, mymap, mymap["startpoint"], mymap["endpoint"]);
 		}
@@ -50,3 +53,4 @@ void CalWorker::run() {
 	}
 	emit finish();
 }
+

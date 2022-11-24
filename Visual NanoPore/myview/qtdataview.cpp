@@ -21,20 +21,25 @@ DataView::DataView(QWidget* parent) :
     axisy = new QValueAxis();
     axisy->setGridLineVisible(false);
     series = new QLineSeries();
-    series->setPen(QPen(Qt::black, 1)); 
+    series->setPen(QPen(Qt::white, 1));
+    series_temp = new QLineSeries();
+    series_temp->setPen(QPen(QColor(85,170,255, 50), 1));
     series_event = new QLineSeries();
     series_event->setPen(QPen(Qt::green, 2));
     series_event_temp = new QLineSeries();
     series_event_temp->setPen(QPen(Qt::red, 2));
+    series_star = new QScatterSeries();
+    series_star->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    series_star->setMarkerSize(15.0);
 
     line_1 = new QLineSeries();
     line_1->setPen(QPen(QColor(0, 255, 255), 2, Qt::DotLine));
     line_2 = new QLineSeries();
-    line_2->setPen(QPen(QColor(170, 170, 255), 2, Qt::DotLine));
+    line_2->setPen(QPen(QColor(255, 85, 255), 2, Qt::DotLine));
     line_3 = new QLineSeries();
-    line_3->setPen(QPen(QColor(255, 170, 255), 2, Qt::DotLine));
+    line_3->setPen(QPen(QColor(255, 137, 139), 2, Qt::DotLine));
     line_4 = new QLineSeries();
-    line_4->setPen(QPen(QColor(255, 255, 0), 2, Qt::DotLine));
+    line_4->setPen(QPen(QColor(255, 170, 0), 2, Qt::DotLine));
     *line_1 << QPointF(0, 0) << QPointF(0, 0);
     *line_2 << QPointF(0, 0) << QPointF(0, 0);
     *line_3 << QPointF(0, 0) << QPointF(0, 0);
@@ -44,18 +49,24 @@ DataView::DataView(QWidget* parent) :
     charts->addAxis(axisx, Qt::AlignBottom);
     charts->addAxis(axisy, Qt::AlignLeft);
     charts->addSeries(series);
+    charts->addSeries(series_temp);
     charts->addSeries(series_event);
     charts->addSeries(series_event_temp);
     charts->addSeries(line_1);
     charts->addSeries(line_2);
     charts->addSeries(line_3);
     charts->addSeries(line_4);
+    charts->addSeries(series_star);
     series->attachAxis(axisx);
     series->attachAxis(axisy);
+    series_temp->attachAxis(axisx);
+    series_temp->attachAxis(axisy);
     series_event->attachAxis(axisx);
     series_event->attachAxis(axisy);
     series_event_temp->attachAxis(axisx);
     series_event_temp->attachAxis(axisy);
+    series_star->attachAxis(axisx);
+    series_star->attachAxis(axisy);
     line_1->attachAxis(axisx);
     line_1->attachAxis(axisy);
     line_2->attachAxis(axisx);
@@ -64,6 +75,8 @@ DataView::DataView(QWidget* parent) :
     line_3->attachAxis(axisy);
     line_4->attachAxis(axisx);
     line_4->attachAxis(axisy);
+
+    charts->setBackgroundBrush(Qt::black);
 
     charts->legend()->hide();
     setChart(charts);
@@ -79,12 +92,38 @@ void DataView::mousePressEvent(QMouseEvent* event) {
     
     if (event->button() == Qt::LeftButton) {
         color = -1 * color;
-        emit mousepress(pf);
         return;
     }  
     rubberBand->setGeometry(QRect(p, QSize()));
     rubberBand->show();
     isclick = true;
+}
+
+void DataView::mouseDoubleClickEvent(QMouseEvent* event) {
+    QPoint p = event->pos();
+    QPointF pf = mapToScene(p);
+    pf = charts->mapFromScene(pf);
+    pf = charts->mapToValue(pf);
+
+    if (event->button() == Qt::LeftButton) {
+        int i = binarySearch(pf.x());
+        if (i >= 0)
+            emit send_number(i);
+    }
+}
+
+void DataView::linevisible(bool ischeck) {
+    series_event->setVisible(ischeck);
+}
+
+void DataView::set_number(int i) {
+    QVector<QPointF> data = series_event->pointsVector();
+    if (4 * i >= data.size())
+        return;
+    double x = (data[i * 4].x() + data[i * 4 + 2].x()) / 2;
+    double y = data[i * 4 + 1].y() + 0.3 * (data[i * 4 + 1].y() - data[i * 4].y());
+    series_star->clear();
+    *series_star << QPointF(x, y);
 }
 
 void DataView::changestats(QString str) {
@@ -146,7 +185,6 @@ void DataView::mouseMoveEvent(QMouseEvent* event) {
     QPointF pf = mapToScene(p);
     pf = charts->mapFromScene(pf);
     pf = charts->mapToValue(pf);
-    emit mousemove(pf);
     rubberBand->setGeometry(QRect(rubberBand->pos(), event->pos())); 
     if (isclick)
         return;
@@ -220,7 +258,6 @@ void DataView::mouseReleaseEvent(QMouseEvent* event) {
     QPointF pf = mapToScene(p);
     pf = charts->mapFromScene(pf);
     pf = charts->mapToValue(pf);
-    emit mouserelease(pf);
     if (event->button() == Qt::RightButton) {
         QPair<double, double> x;
         QPair<double, double> y;
@@ -251,7 +288,7 @@ void DataView::setxscale(double x1, double x2) {
 }
 
 void DataView::zoomdata(double x1, double x2) {
-    request_data(x1, x2, axisy->min(), axisy->max());
+    emit request_data(x1, x2, axisy->min(), axisy->max());
 }
 
 
@@ -267,6 +304,19 @@ void DataView::setyscale(double y1, double y2) {
     line_2->replace(line);
 }
 
+int DataView::binarySearch(double time) {
+    QVector<QPointF> data = series_event->pointsVector();
+    for (int i = 1; i < data.size(); i += 4) {
+        if (data[i].x() <= time && data[i + 1].x() >= time)
+            return i / 4;
+        else if (data[i].x() > time) {
+            return -1;
+        }
+    }
+    return -1;
+}
+
+/**
 void DataView::update_data(QVector<QPointF> data) {
     series->replace(data);
     return;
@@ -281,8 +331,6 @@ void DataView::update_event_temp(QVector<QPointF> data) {
     series_event_temp->replace(data);
     return;
 }
-
-/**
 void DataView::update_done(QVector<QPointF> data) {
     for (auto i : series_done) {
         charts->removeSeries(i);

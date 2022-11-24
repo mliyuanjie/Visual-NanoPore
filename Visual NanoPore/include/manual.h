@@ -3,13 +3,13 @@
 #define MAUNAL_H
 
 #include <QtCore/qobject.h>
-#include <QtWidgets/QMdiSubWindow>
 #include <list>
 #include <utility>
 #include <vector>
 #include "manualui.h"
 #include "tools.h"
 #include "datio.h"
+#include "qtdataview.h"
 
 struct axisrange {
 	double xmin;
@@ -18,68 +18,43 @@ struct axisrange {
 	double ymax;
 };
 
-class ManualPeakFind :public QMdiSubWindow {
+class ManualPeakFind :public QWidget {
 	Q_OBJECT
 public:
 	ManualPeakFind(QWidget* p = nullptr);
-	~ManualPeakFind();
+
+	int method = 0;
+	void getbar(double&, double&, double&, double&);
+	void getaxis(double&, double&, double&, double&);
+	std::list<axisrange> history;
 
 
 public slots:
-	void opendat(QString&);
-	void autorun(QStringList&);
-	void senddata(double xmin, double xmax, double ymin, double ymax);
+	//showing data interface, two float data and two event list
+	void setdata(QVector<QPointF>);
+	void setdata2(QVector<QPointF>);
+	void seteventlist(QVector<QPointF>);
+	void seteventlist2(QVector<QPointF>);
+
+	//button in manual ui
+	void setscale(double, double, double, double);
+	void setx1(double);
+	void setx2(double);
+	void sety1(double);
+	void sety2(double);
 	void home();
 	void backward();
-	void forward();
-	void insertevent();
-	void removeevent();
-	void sendeventlist();
-	void addeventlist_temp(bool);
-	void saveeventlist();
-	//void savedatadone();
-	void backwardwindow();
 	void forwardwindow();
-	void filter(bool);
-	void helperfn(bool);
-	void findpeak();
-	void readparams();
-	void stoprun();
+	void methodboxchange(QString);
+
 
 signals:
-	void senddata(QVector<QPointF>);
-	//void senddatadone(QVector<double>);
-	void sendxscale(double, double);
-	void sendyscale(double, double);
-	void sendeventlist(QVector<QPointF>);
-	void sendeventlist_temp(QVector<QPointF>);
-	void offline();
-	void csvchange();
-	void startauto();
-	void setprogress(int);
+	void askdata(double xmin, double xmax, double ymin, double ymax);
 
 private:
 	Ui::Form ui;
-	QWidget* widget;
-	std::string filename;
-	std::list<Peak> history;
-	std::list<std::pair<double, double>> datadone;
-	//int windowsize = 500000;
-	double interval = 2;
-	std::list<Peak> eventlist;
-	std::list<Peak> eventlist_temp;
-	DATIO dat;
-	DATIO dat2;
-	std::vector<float> data_temp;
-	int n = 0;
-	int datastate = 0;
-	std::list<Peak>::iterator pos;
-	std::list<Peak>::iterator findposs(double);
-	std::list<Peak>::iterator findpose(double);
-	std::unordered_map<std::string, double> mymap;
-	QThread calthread;
-protected:
-	void closeEvent(QCloseEvent* event);
+	
+	DataView* firstview = NULL;
 };
 
 #endif //MAUNAL_H

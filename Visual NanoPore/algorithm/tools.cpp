@@ -1,6 +1,7 @@
 #include <numeric>
 #include <algorithm>
 #include <deque>
+#include <set>
 #include <time.h>
 #include <Eigen/Dense>
 #include <unsupported/Eigen/Polynomials>
@@ -60,6 +61,12 @@ void polyfit(const std::vector<double>& t,
 
 }
 
+float mediancurrent(std::vector<float> data) {
+    auto mid = data.begin() + data.size() / 2;
+    std::nth_element(data.begin(), mid, data.end());
+    return *mid;
+}
+
 std::vector<int> extreminval(std::vector<float>& x, int s, int e, int k) {
     std::vector<int> l;
     if (s == 0 || e == x.size())
@@ -73,7 +80,7 @@ std::vector<int> extreminval(std::vector<float>& x, int s, int e, int k) {
 }
 
 float meancurrent(std::vector<float>& data, int s, int e) {
-    float res = 0;
+    double res = 0;
     for (int i = s; i <= e; i++) {
         res = (res * (i - s) + data[i]) / (i - s + 1);
     }
@@ -115,8 +122,10 @@ Baseline::Baseline(std::vector<float>& data, int autob, int order, int resolutio
         int skip = (e - s) / resolution;
         for (int i = s; i < e; i += skip) {
             t.push_back(double(i));
-            double mean = meancurrent(data, i, ((i + skip) < e) ? (i + skip) : e - 1);
-            y.push_back(mean);
+            int j = ((i + skip) < e) ? (i + skip) : e - 1;
+            auto mid = data.begin() + (j - i + 1) / 2;
+            float median = mediancurrent(std::vector<float>(data.begin() + i, data.begin() + j));
+            y.push_back(median);
         }
         polyfit(t, y, coeff, order);
     }
@@ -154,7 +163,7 @@ void Baseline::clear() {
 double calbaseline(std::vector<float>& data, int pos, int pree, int s) {
     double res = 0;
     int count = 0;
-    while (count < 2000) {
+    while (count < 3000) {
         res += data[pos];
         count++;
         pos--;
@@ -162,7 +171,31 @@ double calbaseline(std::vector<float>& data, int pos, int pree, int s) {
             return res / count;
         }
     }
-    return res / 2000;
+    return res / 3000;
+}
+
+void calsd(std::vector<float>& data, int s, int e, float& sd) {
+    int n = 0;
+    int i = s;
+    while (i < e - 5000 && n < 20) {
+        auto iter = data.begin() + s;
+        double sum = std::accumulate(iter, std::next(iter, 5000), 0.0);
+        double m = sum / 5000;
+        double accum = 0.0;
+        std::for_each(iter, std::next(iter, 5000), [&](const double d) {
+            accum += (d - m) * (d - m);
+        });
+        float stdev = sqrt(accum / (5000 - 1));
+        if (n == 0) {
+            sd = stdev;
+        }
+        else {
+            sd = (stdev < sd) ? stdev : sd;
+        }
+        n++;
+        i += 5000;
+    }
+    return;
 }
 
 void adaptmoverage(std::vector<float>& data, Baseline& b, int pos, int s, int resolution) {
@@ -182,12 +215,12 @@ void adaptmoverage(std::vector<float>& data, Baseline& b, int pos, int s, int re
         b.set(pos, (double(b[pos - 1]) * resolution - data[pos-resolution] + data[pos]) / double(resolution));
 }
 
-void updatemoverage(std::vector<float>& data, Baseline& b, int pos, int min_resolution) {
+double getmoverage(std::vector<float>& data, Baseline& b, int pos, int min_resolution) {
     double baseline = 0;
     for (int i = 0; i < min_resolution; i++) {
         baseline += data[pos - i];
     }
-    b.set(pos, baseline / min_resolution);
+    return  baseline / min_resolution;
 
 }
 
@@ -248,10 +281,11 @@ std::list<Peak> findPeak_longevent(std::vector<float>& data, std::unordered_map<
     int level = 0;
     int ps = s;
     int pe = s;
-    
-    quemin.clear();
+
     flag = false;
+
     for (int i = s; i < e; i++) {
+        
         //clock_t times = clock();
         while (!quemin.empty() && quemin.back().first >= k * data[i])
             quemin.pop_back();
@@ -266,12 +300,30 @@ std::list<Peak> findPeak_longevent(std::vector<float>& data, std::unordered_map<
         while (quemax.front().second <= i - window)
             quemax.pop_front();
         float max = quemax.front().first;
+        adaptmoverage(data, b, i, pe, resolution);
+        if (!flag) {
+            if (i-pe > resolution/100 && k * data[i] < k * b[i] - th) {
+                for (int j = i; j > pe; j--) {
+                    if (k * data[j] >= k * data[j - 1] && k * data[j] >= k * data[j + 1] && k * data[j] > k * b[j] - stdev) {
+                        Peak peak = { 0, 0, 0, 0, 0, 0, 0 };
+                        res.push_back(peak);
+                        res.back().start = float(j) * interval / 1000;
+                        res.back().s = j;
+                        res.back().s0 = i;
+                        res.back().baseline = b[i];
+                        flag = true;
+                        ps = i;
+                        break;
+                    }
+                }
+            }
+                
+        }
+        else if (flag) {
+            if (min> k * res.back().baseline - 2 * stdev && max - min < th) {
 
-        if (level == 1) {
-            adaptmoverage(data, b, i, ps, resolution);
-            if (k * data[i] > k * b[i] + th && flag) {
                 for (int j = i; j > ps; j--) {
-                    if (k * data[j] <= k * data[j - 1] && k * data[j] <= k * data[j + 1] && k * data[j] < k * b[j] + stdev) {
+                    if (k * data[j] <= k * data[j - 1] && k * data[j] <= k * data[j + 1] && k * data[j] < k * res.back().baseline - th) {
                         res.back().end = float(j) * interval / 1000;
                         res.back().e = j;
                         std::vector<int> l = extreminval(data, ps, j, k);
@@ -285,69 +337,186 @@ std::list<Peak> findPeak_longevent(std::vector<float>& data, std::unordered_map<
                             res.pop_back();
                         flag = false;
                         pe = i;
-                        level = 0;
-                        updatemoverage(data, b, i, resolution / 100);
+                        adaptmoverage(data, b, i, i, resolution);
                         break;
                     }
                 }
             }
         }
-        else {
-            adaptmoverage(data, b, i, pe, resolution);
-            if (!flag) {
-                if (i-pe > resolution/100 && k * data[i] < k * b[i] - th) {
-                    for (int j = i; j > pe; j--) {
-                        if (k * data[j] >= k * data[j - 1] && k * data[j] >= k * data[j + 1] && k * data[j] > k * b[j] - stdev) {
-                            Peak peak = { 0, 0, 0, 0, 0, 0 };
-                            res.push_back(peak);
-                            res.back().start = float(j) * interval / 1000;
-                            res.back().s = j;
-                            res.back().baseline = b[i];
-                            flag = true;
-                            ps = i;
-                            break;
-                        }
-                    }
-                }
-                
-            }
-            else if (flag) {
-                if (i - ps == resolution / 100) {
-                    updatemoverage(data, b, i, resolution / 100);
-                    if (abs(b[i] - res.back().baseline) > th && max - min < 6 * stdev)
-                         level = 1;
-                }
-                else if (min> k * b[ps] - 3 * stdev && max - min < 6 * stdev) {
-                    for (int j = i; j > ps; j--) {
-                        if (k * data[j] <= k * data[j - 1] && k * data[j] <= k * data[j + 1] && k * data[j] < k * b[i] - 0.8*th) {
-                            res.back().end = float(j) * interval / 1000;
-                            res.back().e = j;
-                            std::vector<int> l = extreminval(data, ps, j, k);
-                            if (l.size() == 1) {
-                                res.back().currentpeak = data[l[0]];
-                            }
-                            else if (l.size() > 1) {
-                                res.back().currentpeak = meancurrent(data, ps, j);
-                            }
-                            if (abs(res.back().currentpeak - res.back().baseline) < 3*stdev)
-                                res.pop_back();
-                            flag = false;
-                            pe = i;
-                            updatemoverage(data, b, i, resolution / 100);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
     }
+
     if (flag)
         res.pop_back();
     b.clear();
     return res;
 }
 
+std::list<Peak> findPeak_median(std::vector<float>& data, std::unordered_map<std::string, double>& params, double sdouble, double edouble) {
+    if (data.size() == 0)
+        return std::list<Peak>();
+    double interval = params["interval"];
+    int resolution = int(params["resolution"]);
+    int k = (params["direction"] >= 0) ? 1 : -1;
+    int window = int(params["window"]);
+    double thres = params["threshold"];
+
+    int s = (sdouble * 1000 / interval >= 0) ? sdouble * 1000 / interval : 0;
+    int e = (edouble * 1000 / interval > data.size()) ? data.size() : edouble * 1000 / interval;
+    //stddev calculate
+    float stdev = 0;
+    calsd(data, s, e, stdev);
+    float th = thres * stdev;
+
+    std::list<Peak> res;
+    bool flag = false;
+    std::deque<std::pair<float, int>> quemin;
+    std::deque<std::pair<float, int>> quemax;
+   
+    std::deque<int> medianwindow;
+    double median = 0;
+    float mean = 0;
+    float meanold = 0;
+    float d2 = 0;
+    float d = 0;
+    float z = 0;
+    //float meanpre = 0;
+    //float dpre = 0;
+
+    
+    //pre mean value
+    int prelength = std::max(resolution, window);
+    for (int i = s; i < s + prelength; i++) {
+        if (medianwindow.size() < resolution) {
+            median = (median * medianwindow.size() + data[i]) / (medianwindow.size() + 1);
+            medianwindow.push_back(i);
+        }
+        else {
+            median += (data[i] - data[i - resolution]) / resolution;
+            medianwindow.pop_front();
+            medianwindow.push_back(i);
+        }
+        if (i >= s + prelength - window) {
+            while (!quemin.empty() && quemin.back().first >= k * data[i])
+                quemin.pop_back();
+            quemin.push_back(std::pair<float, int>(k * data[i], i));
+            while (!quemax.empty() && quemax.back().first <= k * data[i])
+                quemax.pop_back();
+            quemax.push_back(std::pair<float, int>(k * data[i], i));
+        }
+    }
+    //pre window min max mean sd build
+    auto iter = data.begin() + s + prelength - window;
+    double sum = std::accumulate(iter, iter+window, 0.0);
+    double m = sum / window;
+    double accum = 0.0;
+    std::for_each(iter, iter+window, [&](const double d) {
+        accum += d * d - m * m;
+        });
+
+    mean = float(m);
+    d2 = accum;
+    d = sqrt(d2 / window);
+
+    int ps = s + prelength;
+    int pe = s + prelength;
+
+
+    for (int i = s + prelength; i < e; i++) {
+        //cal moving mean for find start of peak
+        if (!flag) {
+            if (medianwindow.size() < resolution) {
+                median = (medianwindow.size() * median + data[i]) / (medianwindow.size() + 1);
+                medianwindow.push_back(i);
+            }
+            else {
+                median += (data[i] - data[medianwindow.front()]) / resolution;
+                medianwindow.pop_front();
+                medianwindow.push_back(i);
+            }        
+        }
+              
+
+        //maintain min by dequene
+        while (!quemin.empty() && quemin.back().first >= k * data[i])
+            quemin.pop_back();
+        quemin.push_back(std::pair<float, int>(k * data[i], i));
+        while (quemin.front().second <= i - window)
+            quemin.pop_front();
+        //time1 += double(clock() - times)/ CLOCKS_PER_SEC;
+        float min = quemin.front().first;
+        while (!quemax.empty() && quemax.back().first <= k * data[i])
+            quemax.pop_back();
+        quemax.push_back(std::pair<float, int>(k * data[i], i));
+        while (quemax.front().second <= i - window)
+            quemax.pop_front();
+        float max = quemax.front().first;
+        
+        //maintain sliding std and mean, mean, d, d2
+        meanold = mean;
+        mean += (data[i] - data[i - window]) / window;
+        d2 += (data[i] - data[i - window]) * (data[i] + data[i - window] - mean - meanold);
+        d = sqrt(d2 / window);
+        //float z = 0;
+
+        if (!flag) {
+            if (i - pe > resolution / 100 && k * data[i] < k * median - th) {
+                for (int j = i; j > pe && j==medianwindow.back(); j--) {
+                    if (k * data[j] >= k * data[j - 1] && k * data[j] >= k * data[j + 1] && k * data[j] > k * median - stdev) {
+                        Peak peak = { 0, 0, 0, 0, 0, 0, 0};
+                        res.push_back(peak);
+                        res.back().start = float(j) * interval / 1000;
+                        res.back().s = j;
+                        res.back().s0 = i;
+                        res.back().baseline = median;
+                        flag = true;
+                        ps = i;
+                        //meanpre = mean;
+                        //dpre = d;
+                        break;
+                    }
+                    median = (medianwindow.size() * median - data[j]) / (medianwindow.size() - 1);
+                    medianwindow.pop_back();
+                }
+            }
+
+        }
+        else if (flag) {
+            z = abs((res.back().baseline - mean) / (sqrt(d * d / window + stdev * stdev / window)));
+            //k * mean > k * res.back().baseline - 0.5 * d && d < 1.2 * stdev && min > k * res.back().baseline - 3 * d && max > res.back().baseline + d
+            if (z < 1.96 && min > k * res.back().baseline - 0.8 * th && max > res.back().baseline + stdev) {                
+                for (int j = i; j >= ps; j--) {                   
+                    if (k * data[j] <= k * data[j - 1] && k * data[j] <= k * data[j + 1] && k * data[j] < k * res.back().baseline - 0.8 * th) {
+                        res.back().end = float(j) * interval / 1000;
+                        res.back().e = j;
+                        std::vector<int> l = extreminval(data, ps, j, k);
+                        if (l.size() == 1) {
+                            res.back().currentpeak = data[l[0]];
+                        }
+                        else if (l.size() > 1) {
+                            res.back().currentpeak = meancurrent(data, ps, j);
+                        }
+                        if (abs(res.back().currentpeak - res.back().baseline) < 3 * stdev)
+                            res.pop_back();
+                        flag = false;
+                        pe = i;
+                        break;
+
+                    }
+                    if (j == ps) {
+                        flag = false;
+                        res.pop_back();
+                        pe = i;
+                    }
+                }
+            }
+        }
+    }
+
+    if (flag)
+        res.pop_back();
+    
+    return res;
+}
 
 std::list<Peak> findPeak(std::vector<float>& data, std::unordered_map<std::string, double>& params, double sdouble, double edouble) {
     if (data.size() == 0)
@@ -391,19 +560,21 @@ std::list<Peak> findPeak(std::vector<float>& data, std::unordered_map<std::strin
         if (k*data[i] < k*b[i] - th && !flag) {
             for (int j = i; j >= 1; j--) {
                 if (j == s) {
-                    Peak peak = { 0, 0, 0, 0, 0, 0 };
+                    Peak peak = { 0, 0, 0, 0, 0, 0, 0 };
                     res.push_back(peak);
                     res.back().start = float(j) * interval / 1000;
                     res.back().s = j;
+                    res.back().s0 = i;
                     flag = true;
                     ps = i;
                     break;
                 }
                 if (k*data[j] >= k*data[j - 1] && k*data[j] >= k*data[j + 1] && k*data[j] > k*b[j] - stdev) {
-                    Peak peak = { 0, 0, 0, 0, 0, 0 };
+                    Peak peak = { 0, 0, 0, 0, 0, 0, 0 };
                     res.push_back(peak);
                     res.back().start = float(j) * interval / 1000;
                     res.back().s = j;
+                    res.back().s0 = i;
                     flag = true;
                     ps = i;
                     break;
@@ -511,19 +682,21 @@ std::list<Peak> findPeak_manual(std::vector<float>& data, std::unordered_map<std
         if (k * data[i] < k * b[i - s] - th && !flag) {
             for (int j = i; j >= s; j--) {
                 if (j == s) {
-                    Peak peak = { 0, 0, 0, 0, 0, 0 };
+                    Peak peak = { 0, 0, 0, 0, 0, 0, 0};
                     res.push_back(peak);
                     res.back().start = float(j) * interval / 1000;
                     res.back().s = j;
+                    res.back().s0 = i;
                     flag = true;
                     ps = i;
                     break;
                 }
                 if (k * data[j] >= k * data[j - 1] && k * data[j] >= k * data[j + 1] && k * data[j] > k * b[j - s] - stdev) {
-                    Peak peak = { 0, 0, 0, 0, 0, 0 };
+                    Peak peak = { 0, 0, 0, 0, 0, 0, 0};
                     res.push_back(peak);
                     res.back().start = float(j) * interval / 1000;
                     res.back().s = j;
+                    res.back().s0 = i;
                     flag = true;
                     ps = i;
                     break;
@@ -594,34 +767,38 @@ std::list<Peak> readcsv(std::string& filename) {
     std::list<Peak> res;
     std::string line;
     std::getline(file, line);
-    int i0, i1, i2, i3, i4, i5;
+    int i0 = 0, i1 = 0, i2 = 0, i3 = 0, i4 = 0, i5 = 0, i6 = 0;
     std::vector<std::string> r = split(line, ",");
     for (int i = 0; i < r.size(); i++) {
-        if (r[i].compare("start(ms)")==0)
+        if (r[i].compare("start(ms)") == 0)
             i0 = i;
-        else if (r[i].compare("end(ms)")==0)
+        else if (r[i].compare("end(ms)") == 0)
             i1 = i;
-        else if (r[i].compare("I0(pA)")==0)
+        else if (r[i].compare("I0(pA)") == 0)
             i2 = i;
-        else if (r[i].compare("I1(pA)")==0)
+        else if (r[i].compare("I1(pA)") == 0)
             i3 = i;
-        else if (r[i].compare("start")==0)
+        else if (r[i].compare("start") == 0)
             i4 = i;
-        else if (r[i].compare("end")==0)
+        else if (r[i].compare("end") == 0)
             i5 = i;
+        else if (r[i].compare("begin") == 0)
+            i6 = i;
     }
     
     while (std::getline(file, line)) {
         r = split(line, ",");
         if (!isNumber(r[i5]))
             continue;
-        Peak vs = { 0, 0, 0, 0, 0, 0 };
+        Peak vs = { 0, 0, 0, 0, 0, 0, 0};
         vs.start = std::stod(r[i0]);
         vs.end = std::stod(r[i1]);
         vs.baseline = std::stod(r[i2]);
         vs.currentpeak = std::stod(r[i3]);
         vs.s = std::stoi(r[i4]);
         vs.e = std::stoi(r[i5]);
+        if (i6 != 0)
+            vs.s0 = std::stoi(r[i6]);
         res.push_back(vs);
     }
     file.close();

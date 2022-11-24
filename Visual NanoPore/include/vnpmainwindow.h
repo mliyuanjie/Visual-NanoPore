@@ -6,34 +6,26 @@
 #include <string>
 #include <QtWidgets/QMainWindow>
 #include <unordered_map>
-#include "configdialog.h"
 #include "mainwindow.h"
-#include "manual.h"
+#include "vnpcontroller.h"
 
 QT_CHARTS_USE_NAMESPACE
 
 class VNPMainWindow :public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT;
 public:
     VNPMainWindow(QWidget* parent = nullptr);
-    std::unordered_map<std::string, double> mymap;
-public slots:
-    void openfile();
-    //void createfile();
-    void createconfig();
-    //void filter(bool);
-    //void tocsv();
- 
-signals:
-    void configchange();
-    void autorun();
 
  
+public slots:
+    void pythonvisible(bool);
+    void datavisible(bool);
+
 private:
     Ui::MainWindow ui;
-    ConfigDialog* configdialog;
-    ManualPeakFind* manualtask;
+   
+    VNPController* controller;
     
     
 };

@@ -20,6 +20,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -53,6 +54,10 @@ public:
     QSpinBox *stepSizeSpinBox;
     QLabel *hLabel;
     QSpinBox *hSpinBox;
+    QLabel *label_8;
+    QFormLayout *formLayout_2;
+    QLabel *cSVPathLabel;
+    QLineEdit *pyedit;
     QLabel *label_6;
     QFormLayout *formLayout_5;
     QLabel *thresholdLabel;
@@ -70,10 +75,10 @@ public:
     {
         if (configDialog->objectName().isEmpty())
             configDialog->setObjectName(QStringLiteral("configDialog"));
-        configDialog->resize(572, 817);
+        configDialog->resize(574, 918);
         buttonBox = new QDialogButtonBox(configDialog);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(210, 600, 161, 51));
+        buttonBox->setGeometry(QRect(200, 780, 161, 51));
         QFont font;
         font.setFamily(QStringLiteral("Arial"));
         font.setPointSize(12);
@@ -82,7 +87,7 @@ public:
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         verticalLayoutWidget = new QWidget(configDialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 20, 551, 572));
+        verticalLayoutWidget->setGeometry(QRect(10, 20, 551, 752));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -238,6 +243,34 @@ public:
 
         verticalLayout->addLayout(formLayout);
 
+        label_8 = new QLabel(verticalLayoutWidget);
+        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setFont(font2);
+        label_8->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(label_8);
+
+        formLayout_2 = new QFormLayout();
+        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
+        cSVPathLabel = new QLabel(verticalLayoutWidget);
+        cSVPathLabel->setObjectName(QStringLiteral("cSVPathLabel"));
+        cSVPathLabel->setFont(font);
+
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, cSVPathLabel);
+
+        pyedit = new QLineEdit(verticalLayoutWidget);
+        pyedit->setObjectName(QStringLiteral("pyedit"));
+        QFont font4;
+        font4.setFamily(QStringLiteral("Arial"));
+        font4.setPointSize(10);
+        font4.setItalic(false);
+        pyedit->setFont(font4);
+
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, pyedit);
+
+
+        verticalLayout->addLayout(formLayout_2);
+
         label_6 = new QLabel(verticalLayoutWidget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setFont(font2);
@@ -327,14 +360,15 @@ public:
     void retranslateUi(QDialog *configDialog)
     {
         configDialog->setWindowTitle(QApplication::translate("configDialog", "Dialog", Q_NULLPTR));
-        label->setText(QApplication::translate("configDialog", "Sampling rate(Hz):", Q_NULLPTR));
+        label->setText(QApplication::translate("configDialog", "Sampling rate(kHz):", Q_NULLPTR));
         label_4->setText(QApplication::translate("configDialog", "Filter (IIR-5 order)", Q_NULLPTR));
-        label_5->setText(QApplication::translate("configDialog", "Low pass(Hz):", Q_NULLPTR));
+        label_5->setText(QApplication::translate("configDialog", "Low pass(kHz):", Q_NULLPTR));
         label_7->setText(QApplication::translate("configDialog", "Baseline", Q_NULLPTR));
         baselineMethodLabel->setText(QApplication::translate("configDialog", "Baseline method:", Q_NULLPTR));
         baselineMethodComboBox->clear();
         baselineMethodComboBox->insertItems(0, QStringList()
          << QApplication::translate("configDialog", "Moving average", Q_NULLPTR)
+         << QApplication::translate("configDialog", "Moving median", Q_NULLPTR)
          << QApplication::translate("configDialog", "Self Adapt", Q_NULLPTR)
          << QApplication::translate("configDialog", "Polynomial fit", Q_NULLPTR)
          << QApplication::translate("configDialog", "CUMSUM fit", Q_NULLPTR)
@@ -344,6 +378,9 @@ public:
         resolutionLabel->setText(QApplication::translate("configDialog", "Resolution:", Q_NULLPTR));
         stepSizeLabel->setText(QApplication::translate("configDialog", "Step size:", Q_NULLPTR));
         hLabel->setText(QApplication::translate("configDialog", "h:", Q_NULLPTR));
+        label_8->setText(QApplication::translate("configDialog", "External File", Q_NULLPTR));
+        cSVPathLabel->setText(QApplication::translate("configDialog", "Python Path:", Q_NULLPTR));
+        pyedit->setText(QApplication::translate("configDialog", "C:/Users/LiYu/Anaconda3;C:/Users/LiYu/Anaconda3/Scripts;C:/Users/LiYu/Anaconda3/lib;C:/Users/LiYu/Anaconda3/DLLs", Q_NULLPTR));
         label_6->setText(QApplication::translate("configDialog", "Event Detection (Block event detection)", Q_NULLPTR));
         thresholdLabel->setText(QApplication::translate("configDialog", "Threshold:         ", Q_NULLPTR));
         startPointLabel->setText(QApplication::translate("configDialog", "Start point:", Q_NULLPTR));

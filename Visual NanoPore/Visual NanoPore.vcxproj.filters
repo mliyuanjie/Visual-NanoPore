@@ -51,6 +51,9 @@
     <ClInclude Include="include\paramsgui.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\pythonui.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\qtdataview.h">
@@ -81,6 +84,21 @@
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\calworker.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\vnpcontroller.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\pythonwidget.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\pyworker.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\console.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\consolelinedit.h">
       <Filter>include</Filter>
     </QtMoc>
   </ItemGroup>
@@ -127,6 +145,21 @@
     <ClCompile Include="algorithm\calworker.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="myview\vnpcontroller.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\pythonwidget.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\pyworker.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\console.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\consolelinedit.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainUI\mainwindow.ui">
@@ -145,6 +178,9 @@
       <Filter>UI</Filter>
     </QtUic>
     <QtUic Include="mainUI\paramsgui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\pythonui.ui">
       <Filter>UI</Filter>
     </QtUic>
   </ItemGroup>

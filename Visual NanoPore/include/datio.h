@@ -12,7 +12,7 @@ public:
 	void close();
 	void open(std::string);
 	float interval() { return interv; };
-	int size() { return n; };
+	int size() { return int(n); };
 	float valmin(size_t start = 0, size_t end = 0);
 	float valmax(size_t start = 0, size_t end = 0);
 	float at(size_t);
@@ -21,7 +21,7 @@ public:
 	std::pair<float, float> meansd(size_t start = 0, size_t end = 0);
 private:
 	float interv;
-	size_t n = 0;
+	size_t n = size_t(0);
 	float* pos;
 	boost::iostreams::mapped_file_source file;
 };

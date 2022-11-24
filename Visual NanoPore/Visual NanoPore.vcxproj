@@ -14,6 +14,7 @@
     <ProjectGuid>{4606B710-D1E4-47CC-829E-80EEDB8E2790}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -53,14 +54,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\vcpkg\packages\hdf5_x64-windows\include;C:\Users\LiYu\source\eigen-3.4.0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\vcpkg\packages\hdf5_x64-windows\include;C:\Users\LiYu\source\eigen-3.4.0;C:\Users\LiYu\Anaconda3\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>H5_BUILT_AS_DYNAMIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <QtUic>
       <QtUicDir>$(ProjectDir)/include</QtUicDir>
@@ -69,8 +72,10 @@
       <QtUicFileName>%(Filename).h</QtUicFileName>
     </QtUic>
     <Link>
-      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_D.lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_hl_D.lib;$(ProjectDir)/lib/iir_static.lib;$(ProjectDir)/lib/gsl.lib;$(ProjectDir)/lib/gslcblas.lib;C:\Users\LiYu\source\repos\vnpnetio\x64\Debug\vnpnetio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_D.lib;C:\vcpkg\packages\hdf5_x64-windows\debug\lib\hdf5_hl_D.lib;$(ProjectDir)/lib/iir_static.lib;$(ProjectDir)/lib/gsl.lib;$(ProjectDir)/lib/gslcblas.lib;C:\Users\LiYu\source\repos\vnpnetio\x64\Debug\vnpnetio.lib;C:\Users\LiYu\Anaconda3\libs\python38.lib;C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib\boost_python38-vc142-mt-gd-x64-1_75.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
     <QtRcc>
       <QtRccDir>$(ProjectDir)/resources</QtRccDir>
@@ -90,13 +95,13 @@
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
@@ -114,7 +119,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="include\calworker.h" />
+    <QtMoc Include="include\console.h" />
+    <QtMoc Include="include\consolelinedit.h" />
     <ClInclude Include="include\paramsgui.h" />
+    <QtMoc Include="include\vnpcontroller.h" />
+    <ClInclude Include="include\pythonui.h" />
+    <QtMoc Include="include\pythonwidget.h" />
+    <QtMoc Include="include\pyworker.h" />
     <ClInclude Include="include\vnpnetio.h" />
     <QtMoc Include="include\vnpmainwindow.h" />
     <QtMoc Include="include\createvnp.h" />
@@ -134,17 +145,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithm\calworker.cpp" />
+    <ClCompile Include="algorithm\pyworker.cpp" />
     <ClCompile Include="algorithm\tools.cpp" />
     <ClCompile Include="dataIO\datio.cpp" />
     <ClCompile Include="dataIO\vnpio.cpp" />
     <QtMoc Include="include\nlineseries.h" />
     <ClCompile Include="myview\configdialog.cpp" />
+    <ClCompile Include="myview\console.cpp" />
+    <ClCompile Include="myview\consolelinedit.cpp" />
     <ClCompile Include="myview\createvnp.cpp" />
     <ClCompile Include="myview\login.cpp" />
     <ClCompile Include="myview\manual.cpp" />
     <ClCompile Include="myview\nlineseries.cpp" />
+    <ClCompile Include="myview\pythonwidget.cpp" />
     <ClCompile Include="myview\qtdataview.cpp" />
     <ClCompile Include="myview\scaleframe.cpp" />
+    <ClCompile Include="myview\vnpcontroller.cpp" />
     <ClCompile Include="myview\vnpmainwindow.cpp" />
     <ClCompile Include="myview\vnptreewidget.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -156,6 +172,7 @@
     <QtUic Include="mainUI\loginui.ui" />
     <QtUic Include="mainUI\mainwindow.ui" />
     <QtUic Include="mainUI\manualui.ui" />
+    <QtUic Include="mainUI\pythonui.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="resources\resources.qrc" />

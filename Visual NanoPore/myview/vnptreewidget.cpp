@@ -1,5 +1,3 @@
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QMdiArea>
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qmenu.h>
 #include <QtCore/qdebug.h>
@@ -7,7 +5,7 @@
 #include <QtWidgets/QDockWidget>
 #include <fstream>
 #include <vnptreewidget.h>
-#include "tools.h"
+
 
 VNPTreeWidget::VNPTreeWidget(QWidget* parent) :
 	QTreeWidget(parent) {
@@ -15,7 +13,7 @@ VNPTreeWidget::VNPTreeWidget(QWidget* parent) :
 	
 } 
 
-void VNPTreeWidget::open1() {
+QStringList VNPTreeWidget::open1() {
 	filenames = QFileDialog::getOpenFileNames(
 		this,
 		"Select one to open",
@@ -31,6 +29,10 @@ void VNPTreeWidget::open1() {
 			items->setTextColor(0, Qt::green);
 		this->insertTopLevelItem(i, items);
 	}
+	if (filenames.size() == 0) {
+		return QStringList();
+	}
+	return filenames;
 }
 
 void VNPTreeWidget::checkcsv() {
@@ -81,35 +83,9 @@ void VNPTreeWidget::open2(std::string fn) {
 }
 */
 void VNPTreeWidget::doubleclick(QTreeWidgetItem* item, int column) {
-	ManualPeakFind* manualtask = this->parent()->parent()->parent()->findChild<ManualPeakFind*>("manualtask");
-	manualtask->setVisible(true);
 	QString datfn = info.path() + "/" + item->text(0) + ".dat";
-	manualtask->opendat(datfn);
-	
+	emit showdat(datfn);
 	return;
-}
-
-void VNPTreeWidget::autorun() {
-	ManualPeakFind* manualtask = this->parent()->parent()->parent()->findChild<ManualPeakFind*>("manualtask");
-	QMessageBox msgBox;
-	msgBox.setText("Auto find peak will overwrite the csv file,\nDo you want to stop auto find peak?\n");
-	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-	if (msgBox.exec() == QMessageBox::Yes)
-		return;
-	QMdiArea* mdiarea = this->parent()->parent()->parent()->findChild<QMdiArea*>("mdiArea");
-	if (manualtask == NULL) {
-		manualtask = new ManualPeakFind();
-		connect(manualtask, SIGNAL(offline()), this, SLOT(closedata()));
-		connect(this, SIGNAL(configchange()), manualtask, SLOT(readparams()));
-		connect(manualtask, SIGNAL(csvchange()), this, SLOT(checkcsv()));
-		connect(this, SIGNAL(stoprun()), manualtask, SLOT(stoprun()));
-		mdiarea->addSubWindow(manualtask);
-		manualtask->show();
-	}
-	QProgressBar* bar = this->parent()->findChild<QProgressBar*>("progressBar");
-	connect(manualtask, SIGNAL(setprogress(int)), bar, SLOT(setValue(int)));
-	connect(manualtask, SIGNAL(csvchange()), bar, SLOT(readcsv()));
-	manualtask->autorun(filenames);
 }
 
 

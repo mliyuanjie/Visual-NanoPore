@@ -5,16 +5,6 @@
 #include <cmath>
 #include <vector>
 #include <string>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_filter.h>
-#include <gsl/gsl_statistics.h>
-#include <gsl/gsl_math.h>
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_multifit_nlinear.h>
-#include <gsl/gsl_spline.h>
-#include <gsl/gsl_fft_complex.h>
 #include <unordered_map>
 #include <fstream>
 
@@ -26,6 +16,7 @@ struct Peak {
 	double baseline;
 	int s;
 	int e;
+	int s0;
 };
 
 class Baseline {
@@ -46,6 +37,7 @@ std::unordered_map<std::string, double> readconfig(std::string);
 std::list<Peak> readcsv(std::string&);
 std::list<Peak> findPeak(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
 std::list<Peak> findPeak_longevent(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
+std::list<Peak> findPeak_median(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
 std::list<Peak> findPeak_manual(std::vector<float>&, std::unordered_map<std::string, double>&, double, double, float, float);
 std::list<Peak> findPeak_cumsum(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
 

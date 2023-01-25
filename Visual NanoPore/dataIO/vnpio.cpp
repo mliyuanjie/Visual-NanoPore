@@ -21,10 +21,14 @@ std::vector<std::string> split(const std::string& s, char delim) {
 	return elems;
 }
 
-void VNPIO::open(std::string fn) {
+void VNPIO::open(std::string& fn) {
 	filename = fn;
 	file = H5Fopen(fn.c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
 
+}
+
+void VNPIO::setdata_float(std::string& groupname, std::string& objname, std::vector<float>& data) {
+	  
 }
 
 std::string VNPIO::getdatapath(std::string groupname) {

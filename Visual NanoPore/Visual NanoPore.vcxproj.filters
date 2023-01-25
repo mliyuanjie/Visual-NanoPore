@@ -33,9 +33,6 @@
     <ClInclude Include="include\tools.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\vnpio.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\createvnpdialog.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -54,6 +51,9 @@
     <ClInclude Include="include\pythonui.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\tools2.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\qtdataview.h">
@@ -63,9 +63,6 @@
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\manual.h">
-      <Filter>include</Filter>
-    </QtMoc>
-    <QtMoc Include="include\createvnp.h">
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\vnpmainwindow.h">
@@ -101,6 +98,9 @@
     <QtMoc Include="include\consolelinedit.h">
       <Filter>include</Filter>
     </QtMoc>
+    <QtMoc Include="include\findpeakworker.h">
+      <Filter>include</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dataIO\datio.cpp">
@@ -115,13 +115,7 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="dataIO\vnpio.cpp">
-      <Filter>dataIO</Filter>
-    </ClCompile>
     <ClCompile Include="myview\vnpmainwindow.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
-    <ClCompile Include="myview\createvnp.cpp">
       <Filter>myview</Filter>
     </ClCompile>
     <ClCompile Include="myview\manual.cpp">
@@ -159,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="myview\consolelinedit.cpp">
       <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\findpeakworker.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\tools2.cpp">
+      <Filter>algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

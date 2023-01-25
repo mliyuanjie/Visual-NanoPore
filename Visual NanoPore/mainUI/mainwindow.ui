@@ -221,6 +221,8 @@ QProgressBar::chunk {
    <addaction name="separator"/>
    <addaction name="actioninsert_event"/>
    <addaction name="actionremove_event"/>
+   <addaction name="separator"/>
+   <addaction name="actioncopy_data"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
@@ -456,6 +458,15 @@ QProgressBar::chunk {
     <string>show plot</string>
    </property>
   </action>
+  <action name="actioncopy_data">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png</iconset>
+   </property>
+   <property name="text">
+    <string>copy data</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -490,8 +501,8 @@ QProgressBar::chunk {
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>599</x>
-     <y>399</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>138</x>

@@ -121,7 +121,7 @@ void DataView::set_number(int i) {
     if (4 * i >= data.size())
         return;
     double x = (data[i * 4].x() + data[i * 4 + 2].x()) / 2;
-    double y = data[i * 4 + 1].y() + 0.3 * (data[i * 4 + 1].y() - data[i * 4].y());
+    double y = data[i * 4 + 1].y() - 0.5 * (data[i * 4 + 1].y() - data[i * 4].y());
     series_star->clear();
     *series_star << QPointF(x, y);
 }
@@ -136,12 +136,12 @@ void DataView::changestats(QString str) {
 void DataView::centerline() {
     if (stats == 0) {
         QVector<QPointF> line;
-        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->min()));
-        line.push_back(QPointF(axisx->min() + 0.6 * (axisx->max() - axisx->min()), axisy->max()));
+        line.push_back(QPointF(axisx->min() + 0.8 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.8 * (axisx->max() - axisx->min()), axisy->max()));
         line_2->replace(line);
         line.clear();
-        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->min()));
-        line.push_back(QPointF(axisx->min() + 0.3 * (axisx->max() - axisx->min()), axisy->max()));
+        line.push_back(QPointF(axisx->min() + 0.2 * (axisx->max() - axisx->min()), axisy->min()));
+        line.push_back(QPointF(axisx->min() + 0.2 * (axisx->max() - axisx->min()), axisy->max()));
         line_1->replace(line);
         line.clear();
         line.push_back(QPointF(0, 0));

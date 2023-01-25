@@ -121,14 +121,15 @@
     <QtMoc Include="include\calworker.h" />
     <QtMoc Include="include\console.h" />
     <QtMoc Include="include\consolelinedit.h" />
+    <QtMoc Include="include\findpeakworker.h" />
     <ClInclude Include="include\paramsgui.h" />
     <QtMoc Include="include\vnpcontroller.h" />
     <ClInclude Include="include\pythonui.h" />
     <QtMoc Include="include\pythonwidget.h" />
     <QtMoc Include="include\pyworker.h" />
+    <ClInclude Include="include\tools2.h" />
     <ClInclude Include="include\vnpnetio.h" />
     <QtMoc Include="include\vnpmainwindow.h" />
-    <QtMoc Include="include\createvnp.h" />
     <QtMoc Include="include\configdialog.h" />
     <ClInclude Include="include\createvnpdialog.h" />
     <ClInclude Include="include\datio.h" />
@@ -137,7 +138,6 @@
     <ClInclude Include="include\manualui.h" />
     <QtMoc Include="include\scaleframe.h" />
     <ClInclude Include="include\tools.h" />
-    <ClInclude Include="include\vnpio.h" />
     <QtMoc Include="include\manual.h" />
     <ClInclude Include="include\mainwindow.h" />
     <QtMoc Include="include\vnptreewidget.h" />
@@ -145,15 +145,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithm\calworker.cpp" />
+    <ClCompile Include="algorithm\findpeakworker.cpp" />
     <ClCompile Include="algorithm\pyworker.cpp" />
     <ClCompile Include="algorithm\tools.cpp" />
+    <ClCompile Include="algorithm\tools2.cpp" />
     <ClCompile Include="dataIO\datio.cpp" />
-    <ClCompile Include="dataIO\vnpio.cpp" />
     <QtMoc Include="include\nlineseries.h" />
     <ClCompile Include="myview\configdialog.cpp" />
     <ClCompile Include="myview\console.cpp" />
     <ClCompile Include="myview\consolelinedit.cpp" />
-    <ClCompile Include="myview\createvnp.cpp" />
     <ClCompile Include="myview\login.cpp" />
     <ClCompile Include="myview\manual.cpp" />
     <ClCompile Include="myview\nlineseries.cpp" />

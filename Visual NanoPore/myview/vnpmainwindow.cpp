@@ -23,6 +23,7 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	QAction* actionload_dat = this->findChild<QAction*>("actionload_dat");
 	QAction* actionstart_python = this->findChild<QAction*>("actionstart_python");
 	QAction* actionshow_plot = this->findChild<QAction*>("actionshow_plot");
+	QAction* actioncopy_data = this->findChild<QAction*>("actioncopy_data");
 
 	ManualPeakFind* p1 = this->findChild<ManualPeakFind*>("widget_2");
 	VNPTreeWidget* p2 = this->findChild<VNPTreeWidget*>("treeWidget");
@@ -39,6 +40,7 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	connect(actionremove_event, SIGNAL(triggered()), controller, SLOT(removeevent()));
 	connect(actioninsert_event, SIGNAL(triggered()), controller, SLOT(insertevent()));
 	connect(actionsave_to_csv, SIGNAL(triggered()), controller, SLOT(saveeventlist()));
+	connect(actioncopy_data, SIGNAL(triggered()), controller, SLOT(copydata()));
 	connect(actionload_csv, SIGNAL(triggered(bool)), controller, SLOT(opencsv(bool)));
 	connect(actionload_dat, SIGNAL(triggered(bool)), controller, SLOT(opendat2dialog(bool)));
 	connect(actionstart_python, SIGNAL(triggered(bool)), controller, SIGNAL(startpy(bool)));

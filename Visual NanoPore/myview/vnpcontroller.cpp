@@ -40,7 +40,12 @@ VNPController::VNPController(QObject* p, ManualPeakFind* p1,
 	connect(this, SIGNAL(setdatapy(QString)), pyworker, SLOT(setdata(QString)));
 	pythread.start();
 
-	
+	fpworker = new FindPeakWorker();
+	fpworker->moveToThread(&calthread);
+	connect(this, SIGNAL(startfp()), fpworker, SLOT(run()));
+	connect(fpworker, SIGNAL(setevent(QVector<QPointF>)), dataview, SLOT(seteventlist2(QVector<QPointF>)));
+	connect(fpworker, SIGNAL(finish()), this, SLOT(readeventlist()));
+	calthread.start();
 }
 
 VNPController::~VNPController() {
@@ -49,6 +54,11 @@ VNPController::~VNPController() {
 	pythread.quit();
 	delete worker;
 	delete pyworker;
+}
+
+void VNPController::readeventlist() {
+	eventlist_temp = fpworker->eventlist;
+	emit setprogress(0);
 }
 
 void VNPController::opendatlist() {
@@ -64,7 +74,7 @@ void VNPController::opendat(QString& fn) {
 	}
 		
 	fndata = fn;
-	dat.open(fndata.toStdString());
+	dat.open(fndata.toStdString(), 1);
 	n = dat.size();
 	double xmin = 0;
 	double xmax = dat.size() * interval / 1000;
@@ -96,7 +106,7 @@ void VNPController::opendat2dialog(bool isopen) {
 
 void VNPController::opendat2(QString& fn) {
 	emit setprogress(100);
-	dat2.open(fn.toStdString());
+	dat2.open(fn.toStdString(), 2);
 	fndata2 = fn;
 	double xmin = 0;
 	double xmax = 0;
@@ -124,10 +134,25 @@ void VNPController::setdata(double xmin, double xmax, double ymin, double ymax) 
 	emit setprogress(100);
 	int s = (xmin * 1000 / interval >= 0) ? xmin * 1000 / interval : 0;
 	int e = (xmax * 1000 / interval <= n && xmax * 1000 / interval >= 0) ? xmax * 1000 / interval : n;
+	
+	QVector<QPointF> point;
+	std::vector<float> data = dat.datafig(s, e);
+	int k = ceil(double(e - s) / double(data.size()));
+	for (int i = 0; i < data.size(); i++) {
+		point.append(QPointF((double)(i * k + s) * interval / 1000, data[i]));
+	}
+	if (dat2.size() == n) {
+		QVector<QPointF> point2;
+		data = dat2.datafig(s, e);
+		for (int i = 0; i < data.size(); i++) {
+			point2.append(QPointF((double)(i * k + s) * interval / 1000, data[i]));
+		}
+		emit senddata2(point2);
+	}
+	//clock_t t1 = clock();
+	/*
 	int skip = (e - s) / 1500;
 	int j;
-	QVector<QPointF> point;
-	//clock_t t1 = clock();
 	if (skip <= 1) {
 		for (int i = s; i < e; i += 1) {
 			point.append(QPointF((double)i * interval / 1000, dat.at(i)));
@@ -157,7 +182,7 @@ void VNPController::setdata(double xmin, double xmax, double ymin, double ymax) 
 			}
 		}
 		emit senddata2(point2);
-	}
+	}*/
 	emit senddata(point);
 	emit setprogress(0);
 	return;
@@ -169,7 +194,14 @@ void VNPController::filter(bool check) {
 	}
 	emit setprogress(100);
 	if (!check) {
-		opendat(fndata);
+		dat.open(fndata.toStdString(), 1);
+		n = dat.size();
+		double xmin = 0;
+		double xmax = 0;
+		double ymin = 0;
+		double ymax = 0;
+		dataview->getaxis(xmin, xmax, ymin, ymax);
+		setdata(xmin, xmax, ymin, ymax);
 	}
 	else {
 		float samplingrate = mymap["fs"];
@@ -182,13 +214,13 @@ void VNPController::filter(bool check) {
 		}
 
 		std::ofstream wf;
-		std::string temppath = cwdpath + "/temporary.dat";
+		std::string temppath = cwdpath + "/_filter_can_delete.dat";
 		wf.open(temppath, std::ios::out | std::ios::binary);
 		wf.write(reinterpret_cast<const char*>(data), n * sizeof(float));
 		wf.close();
 		delete[] data;
 		QString fn = QString::fromStdString(temppath);
-		dat.open(fn.toStdString());
+		dat.open(fn.toStdString(),1);
 		n = dat.size();
 		double xmin = 0;
 		double xmax = 0;
@@ -196,7 +228,6 @@ void VNPController::filter(bool check) {
 		double ymax = 0;
 		dataview->getaxis(xmin, xmax, ymin, ymax);
 		setdata(xmin, xmax, ymin, ymax);
-		emit setdatapy(fn);
 	}
 	emit setprogress(0);
 }
@@ -240,22 +271,29 @@ void VNPController::findpeak(bool draw) {
 			double eventcurrent = 0;
 			double baseline = 0;
 			dataview->getbar(xmin, xmax, eventcurrent, baseline);
-			if (xmin == xmax)
+			if (xmin != xmax) {
+				fpworker->mymap = mymap;
+				fpworker->filename = QString::fromStdString(dat.getfilename());
+				fpworker->xmin = xmin;
+				fpworker->xmax = xmax;
+				emit startfp();
 				return;
-			std::vector<float> dats = dat.data(0, n, 1);
-			if (int(mymap["auto"]) == 2)
-				eventlist_temp = findPeak_longevent(dats, mymap, xmin, xmax);
-			else if (int(mymap["auto"]) == 3)
-				eventlist_temp = findPeak_median(dats, mymap, xmin, xmax);
-			else
-				eventlist_temp = findPeak(dats, mymap, xmin, xmax);
+			}	
+			//std::vector<float> dats = dat.data(0, n, 1);
+			//if (int(mymap["auto"]) == 2)
+				//eventlist_temp = findPeak_longevent(dats, mymap, xmin, xmax);
+			//else if (int(mymap["auto"]) == 3)
+			
+				//eventlist_temp = findPeak_parallel(dats, mymap, xmin, xmax);
+			//else
+				//eventlist_temp = findPeak(dats, mymap, xmin, xmax);
 		}
 	}
 	else {
 		eventlist_temp.clear();
 	}
 	QVector<QPointF> p;
-	for (auto it : eventlist_temp) {
+	for (auto& it : eventlist_temp) {
 		p.append(QPointF(it.start, it.baseline));
 		p.append(QPointF(it.start, it.currentpeak));
 		p.append(QPointF(it.end, it.currentpeak));
@@ -366,7 +404,7 @@ void VNPController::saveeventlist() {
 	std::string csvfn = fndata.toStdString().substr(0, fndata.size() - 3) + "csv";
 	std::ofstream file(csvfn, std::ofstream::out | std::ofstream::trunc);
 	file << "start,end,start(ms),end(ms),I0(pA),I1(pA),begin\n";
-	for (auto it : eventlist) {
+	for (auto& it : eventlist) {
 		file << std::to_string(it.s) << ","
 			<< std::to_string(it.e) << ","
 			<< std::to_string(it.start) << ","
@@ -407,12 +445,15 @@ void VNPController::readparams() {
 	QSpinBox* minWindowSpinBox = configdialog->findChild<QSpinBox*>("minWindowSpinBox");
 	QComboBox* directionComboBox = configdialog->findChild<QComboBox*>("directionComboBox");
 	QLineEdit* pyedit = configdialog->findChild<QLineEdit*>("pyedit");
+	QSpinBox* parallelSpinBox = configdialog->findChild<QSpinBox*>("parallelSpinBox");
 
 	mymap["direction"] = (directionComboBox->currentText() == "Negative") ? -1 : 1;
-	mymap["interval"] = 1.0 / double(spinBox->value()) * 1000;
+	interval = 1.0 / double(spinBox->value()) * 1000;
+	mymap["interval"] = interval;
 	mymap["cutoff"] = spinBox_2->value();
 	mymap["fs"] = spinBox->value();
 	mymap["order"] = orderSpinBox->value();
+	mymap["parallel"] = parallelSpinBox->value();
 	if (baselineMethodComboBox->currentText() == "Polynomial fit") {
 		mymap["auto"] = 1;
 		mymap["resolution"] = resolutionSpinBox->value();
@@ -439,5 +480,35 @@ void VNPController::readparams() {
 	std::string str = pyedit->text().toStdString();
 	std::replace(str.begin(), str.end(), '/', '\\');
 	pyworker->setpath(cwdpath, str);
+	emit setprogress(0);
+}
+
+void VNPController::copydata() {
+	if (dat.size() == 0 || eventlist.empty()) {
+		return;
+	}
+	emit setprogress(100);
+	double x1, x2, y1, y2;
+	dataview->getaxis(x1, x2, y1, y2);
+	//QSpinBox* spinbox = dataview->findChild<QSpinBox*>("spinBox");
+	//int i = spinbox->value();
+	//int s = std::next(eventlist.begin(), i)->s0;
+	//int e = std::next(eventlist.begin(), i)->e;
+	int s = x1 / interval * 1000;
+	int e = x2 / interval * 1000;
+	if (e > dat.size())
+		e = dat.size();
+	if (s < 0)
+		s = 0;
+	std::vector<float> data = dat.datafig(s, e);
+	int k = ceil(double(e - s) / double(data.size()));
+	std::ofstream myfile;
+	std::string fn = fndata.toStdString().substr(0, fndata.size() - 4) + "_" + std::to_string(x1) + "_ms_" + std::to_string(x2) + "_ms.csv";
+	myfile.open(fn, std::ofstream::out | std::ofstream::trunc);
+	myfile << "dt(ms),current(pA)\n";
+	for (int i = 0; i < data.size(); i++) {
+		myfile << std::to_string((double)(i * k) * interval / 1000) + "," + std::to_string(data[i]) + "\n";
+	}
+	myfile.close();
 	emit setprogress(0);
 }

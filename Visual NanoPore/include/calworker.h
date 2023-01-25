@@ -15,6 +15,7 @@ class CalWorker : public QObject {
 public:
 	std::unordered_map<std::string, double> mymap;
 	QStringList filenames;
+	QString filename;
 
 public slots:
 	void run();

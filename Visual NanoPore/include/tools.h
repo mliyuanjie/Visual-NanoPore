@@ -9,6 +9,7 @@
 #include <fstream>
 
 
+
 struct Peak {
 	double start;
 	double end;
@@ -17,6 +18,9 @@ struct Peak {
 	int s;
 	int e;
 	int s0;
+	bool operator<(const Peak& val) const {
+		return s < val.s;
+	}
 };
 
 class Baseline {
@@ -40,5 +44,6 @@ std::list<Peak> findPeak_longevent(std::vector<float>&, std::unordered_map<std::
 std::list<Peak> findPeak_median(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
 std::list<Peak> findPeak_manual(std::vector<float>&, std::unordered_map<std::string, double>&, double, double, float, float);
 std::list<Peak> findPeak_cumsum(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
+std::list<Peak> findPeak_parallel(std::vector<float>&, std::unordered_map<std::string, double>&, double, double);
 
 #endif // !TOOLS_H

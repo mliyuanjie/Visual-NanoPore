@@ -20,6 +20,8 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QWidget(p) {
 	ui.setupUi(this);
 
 	firstview = this->findChild<DataView*>("graphicsView");
+	spinbox = this->findChild<QSpinBox*>("spinBox");
+	connect(spinbox, SIGNAL(valueChanged(int)), this, SLOT(zoomevent(int)));
 
 	QPushButton* button_12 = this->findChild<QPushButton*>("pushButton_12");
 	connect(button_12, SIGNAL(clicked()), this, SLOT(backward()));
@@ -66,15 +68,38 @@ void ManualPeakFind::home() {
 	return;
 }
 
-
-void ManualPeakFind::forwardwindow() {
-	double skip = this->findChild<QDoubleSpinBox*>("doubleSpinBox_2")->value();
-	double xmax = firstview->axisx->max();
+void ManualPeakFind::zoomevent(int currenteventitem) {
+	if (currenteventitem >= eventlist.size() / 4)
+		return;
+	double xmin = eventlist[currenteventitem * 4].x();
+	double xmax = eventlist[currenteventitem * 4 + 2].x();
+	double dx = xmax - xmin;
+	xmin = xmin - dx;
+	xmax = xmax + dx;
 	double ymin = firstview->axisy->min();
 	double ymax = firstview->axisy->max();
-	emit askdata(xmax, xmax + skip, ymin, ymax);
-	history.push_back({ xmax, xmax + skip, ymin, ymax });
-	firstview->setxscale(xmax, xmax + skip);
+	emit askdata(xmin, xmax, ymin, ymax);
+	history.push_back({ xmin, xmax, ymin, ymax });
+	firstview->setxscale(xmin, xmax);
+	firstview->centerline();
+}
+
+void ManualPeakFind::forwardwindow() {
+	if (eventlist.size() > 0 && firstview->series_event->isVisible()) {
+		int currenteventitem = this->spinbox->value() + 1;
+		if (currenteventitem >= eventlist.size() / 4)
+			return;
+		spinbox->setValue(currenteventitem);
+	}
+	else {
+		double skip = this->findChild<QDoubleSpinBox*>("doubleSpinBox_2")->value();
+		double xmax = firstview->axisx->max();
+		double ymin = firstview->axisy->min();
+		double ymax = firstview->axisy->max();
+		emit askdata(xmax, xmax + skip, ymin, ymax);
+		history.push_back({ xmax, xmax + skip, ymin, ymax });
+		firstview->setxscale(xmax, xmax + skip);
+	}
 }
 
 void ManualPeakFind::backward() {
@@ -138,6 +163,7 @@ void ManualPeakFind::setdata2(QVector<QPointF> data) {
 
 void ManualPeakFind::seteventlist(QVector<QPointF> data) {
 	firstview->series_event->replace(data);
+	eventlist = data;
 }
 
 void ManualPeakFind::seteventlist2(QVector<QPointF> data) {

@@ -19,6 +19,7 @@
 #include "calworker.h"
 #include "pyworker.h"
 #include "pythonwidget.h"
+#include "findpeakworker.h"
 
 
 class VNPController :public QObject {
@@ -43,6 +44,8 @@ public slots:
 	void saveeventlist();
 	void setdata(double, double, double, double);	
 	void readparams();
+	void copydata();
+	void readeventlist();
 
 
 signals:
@@ -56,6 +59,7 @@ signals:
 	void setprogress(int);
 	void showconfig();
 	void setdatapy(QString);
+	void startfp();
 
 private:
 	QStringList foldername;
@@ -87,6 +91,7 @@ private:
 	PYWorker* pyworker;
 	ConfigDialog* configdialog;
 	PythonWidget* pywidget;
+	FindPeakWorker* fpworker;
 };
 
 #endif //VNPCONTROLLER_H

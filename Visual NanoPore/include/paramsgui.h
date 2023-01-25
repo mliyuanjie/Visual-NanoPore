@@ -70,6 +70,8 @@ public:
     QSpinBox *minWindowSpinBox;
     QLabel *directionLabel;
     QComboBox *directionComboBox;
+    QLabel *parallelLabel;
+    QSpinBox *parallelSpinBox;
 
     void setupUi(QDialog *configDialog)
     {
@@ -346,6 +348,20 @@ public:
 
         formLayout_5->setWidget(4, QFormLayout::FieldRole, directionComboBox);
 
+        parallelLabel = new QLabel(verticalLayoutWidget);
+        parallelLabel->setObjectName(QStringLiteral("parallelLabel"));
+        parallelLabel->setFont(font);
+
+        formLayout_5->setWidget(5, QFormLayout::LabelRole, parallelLabel);
+
+        parallelSpinBox = new QSpinBox(verticalLayoutWidget);
+        parallelSpinBox->setObjectName(QStringLiteral("parallelSpinBox"));
+        parallelSpinBox->setFont(font);
+        parallelSpinBox->setMinimum(1);
+        parallelSpinBox->setValue(1);
+
+        formLayout_5->setWidget(5, QFormLayout::FieldRole, parallelSpinBox);
+
 
         verticalLayout->addLayout(formLayout_5);
 
@@ -392,6 +408,7 @@ public:
          << QApplication::translate("configDialog", "Negative", Q_NULLPTR)
          << QApplication::translate("configDialog", "Positive", Q_NULLPTR)
         );
+        parallelLabel->setText(QApplication::translate("configDialog", "Parallel:", Q_NULLPTR));
     } // retranslateUi
 
 };

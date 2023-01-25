@@ -3,6 +3,7 @@
 #include "calworker.h"
 #include "Iir.h"
 #include "tools.h" 
+#include <omp.h>
 
 void CalWorker::run() {
 	if (filenames.empty() || mymap.empty())
@@ -53,4 +54,5 @@ void CalWorker::run() {
 	}
 	emit finish();
 }
+
 

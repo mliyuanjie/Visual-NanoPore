@@ -46,6 +46,7 @@ public slots:
 	void backward();
 	void forwardwindow();
 	void methodboxchange(QString);
+	void zoomevent(int);
 
 
 signals:
@@ -53,8 +54,9 @@ signals:
 
 private:
 	Ui::Form ui;
-	
+	QVector<QPointF> eventlist;
 	DataView* firstview = NULL;
+	QSpinBox* spinbox = NULL;
 };
 
 #endif //MAUNAL_H

@@ -48,6 +48,7 @@ public:
     QAction *actioninsert_event;
     QAction *actionremove_event;
     QAction *actionshow_plot;
+    QAction *actioncopy_data;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_4;
     QWidget *widget_3;
@@ -163,6 +164,11 @@ public:
         actionshow_plot = new QAction(MainWindow);
         actionshow_plot->setObjectName(QStringLiteral("actionshow_plot"));
         actionshow_plot->setCheckable(true);
+        actioncopy_data = new QAction(MainWindow);
+        actioncopy_data->setObjectName(QStringLiteral("actioncopy_data"));
+        QIcon icon12;
+        icon12.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actioncopy_data->setIcon(icon12);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
@@ -309,6 +315,8 @@ public:
         toolBar->addSeparator();
         toolBar->addAction(actioninsert_event);
         toolBar->addAction(actionremove_event);
+        toolBar->addSeparator();
+        toolBar->addAction(actioncopy_data);
 
         retranslateUi(MainWindow);
         QObject::connect(actionfilebrowsers, SIGNAL(triggered(bool)), dockWidget, SLOT(setVisible(bool)));
@@ -337,6 +345,7 @@ public:
         actioninsert_event->setText(QApplication::translate("MainWindow", "insert event", Q_NULLPTR));
         actionremove_event->setText(QApplication::translate("MainWindow", "remove event", Q_NULLPTR));
         actionshow_plot->setText(QApplication::translate("MainWindow", "show plot", Q_NULLPTR));
+        actioncopy_data->setText(QApplication::translate("MainWindow", "copy data", Q_NULLPTR));
         progressBar->setFormat(QString());
         menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", Q_NULLPTR));

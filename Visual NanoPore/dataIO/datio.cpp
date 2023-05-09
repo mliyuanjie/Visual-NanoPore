@@ -228,34 +228,4 @@ float DATIO::at(size_t i) {
 	return pos[i];
 }
 
-float DATIO::baseline(size_t start, size_t end) {
-	float sum = 0;
-	int num = 0;
-	for (size_t i = start; (i > 0) && (i > (start - 2000)); i--) {
-		sum += pos[i];
-		num++;
-	}
-		
-	for (size_t i = end; (i < n) && (i < (end + 2000)); i++) {
-		sum += pos[i];
-		num++;
-	}
-	return sum / num;
-}
 
-std::pair<float, float> DATIO::meansd(size_t start, size_t end) {
-	if (!file.is_open())
-		return std::pair<float, float>(0, 0);
-	end = (end == 0 || end > n) ? n : end;
-	double mean = 0;
-	double sd = 0;
-	for (size_t i = start; i < end; i++) {
-		mean += pos[i];
-	}
-	mean = mean / (end - start);
-	for (size_t i = start; i < end; i++) {
-		sd += pow(pos[i] - mean, 2);
-	}
-	sd = sqrt(sd / (end - start));
-	return std::pair<float, float>(mean, sd);
-}

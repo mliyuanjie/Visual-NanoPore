@@ -8,7 +8,7 @@
 #include <list>
 #include <unordered_map>
 #include <string>
-#include "tools2.h"
+#include "tools.h"
 
 
 class FindPeakWorker : public QObject {
@@ -20,10 +20,11 @@ public:
 	std::list<Peak> eventlist;
 	double xmin;
 	double xmax;
+	void run_long();
+	void run_short();
 
 public slots:
 	void run();
-
 
 signals:
 	void setevent(QVector<QPointF>);

@@ -196,17 +196,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Self Adapt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Polynomial fit</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>CUMSUM fit</string>
+          <string>Local Baseline</string>
          </property>
         </item>
        </widget>
@@ -394,7 +384,7 @@
          </font>
         </property>
         <property name="text">
-         <string>C:/Users/LiYu/Anaconda3;C:/Users/LiYu/Anaconda3/Scripts;C:/Users/LiYu/Anaconda3/lib;C:/Users/LiYu/Anaconda3/DLLs</string>
+         <string>C:/Users/LiYu/Anaconda3/lib;C:/Users/LiYu/Anaconda3/DLLs</string>
         </property>
        </widget>
       </item>

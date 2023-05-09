@@ -21,15 +21,16 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	QAction* actionsave_to_csv = this->findChild<QAction*>("actionsave_to_csv");
 	QAction* actionload_csv = this->findChild<QAction*>("actionload_csv");
 	QAction* actionload_dat = this->findChild<QAction*>("actionload_dat");
-	QAction* actionstart_python = this->findChild<QAction*>("actionstart_python");
+	//QAction* actionstart_python = this->findChild<QAction*>("actionstart_python");
 	QAction* actionshow_plot = this->findChild<QAction*>("actionshow_plot");
 	QAction* actioncopy_data = this->findChild<QAction*>("actioncopy_data");
+	QAction* actionshow_Imin_Imax = this->findChild<QAction*>("actionshow_Imin_Imax");
 
 	ManualPeakFind* p1 = this->findChild<ManualPeakFind*>("widget_2");
 	VNPTreeWidget* p2 = this->findChild<VNPTreeWidget*>("treeWidget");
-	PythonWidget* p3 = this->findChild<PythonWidget*>("widget");
+	//PythonWidget* p3 = this->findChild<PythonWidget*>("widget");
 	QProgressBar* progressbar = this->findChild<QProgressBar*>("progressBar");
-	controller = new VNPController(this, p1, p2, p3);
+	controller = new VNPController(this, p1, p2);
 	connect(controller, SIGNAL(setprogress(int)), progressbar, SLOT(setValue(int)));
 	connect(actionopen, SIGNAL(triggered()), controller, SLOT(opendatlist()));
 	connect(actionauto_run, SIGNAL(triggered()), controller, SLOT(autorun()));
@@ -43,17 +44,18 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	connect(actioncopy_data, SIGNAL(triggered()), controller, SLOT(copydata()));
 	connect(actionload_csv, SIGNAL(triggered(bool)), controller, SLOT(opencsv(bool)));
 	connect(actionload_dat, SIGNAL(triggered(bool)), controller, SLOT(opendat2dialog(bool)));
-	connect(actionstart_python, SIGNAL(triggered(bool)), controller, SIGNAL(startpy(bool)));
-	connect(actionstart_python, SIGNAL(triggered(bool)), this, SLOT(pythonvisible(bool)));
+	//connect(actionstart_python, SIGNAL(triggered(bool)), controller, SLOT(startpy(bool)));
+	//connect(actionstart_python, SIGNAL(triggered(bool)), this, SLOT(pythonvisible(bool)));
 	connect(actionshow_plot, SIGNAL(triggered(bool)), this, SLOT(datavisible(bool)));
-	QDockWidget* pw = this->findChild<QDockWidget*>("dockWidget_2");
-	pw->setVisible(false);
+	connect(actionshow_Imin_Imax, SIGNAL(triggered(bool)), controller, SLOT(show_Imin_Imax(bool)));
+	//QDockWidget* pw = this->findChild<QDockWidget*>("dockWidget_2");
+	//pw->setVisible(false);
 }
 
-void VNPMainWindow::pythonvisible(bool ischeck) {
-	QDockWidget* pw = this->findChild<QDockWidget*>("dockWidget_2");
-	pw->setVisible(ischeck);
-}
+//void VNPMainWindow::pythonvisible(bool ischeck) {
+//	QDockWidget* pw = this->findChild<QDockWidget*>("dockWidget_2");
+//	pw->setVisible(ischeck);
+//}
 
 void VNPMainWindow::datavisible(bool ischeck) {
 	ManualPeakFind* pw = this->findChild<ManualPeakFind*>("widget_2");

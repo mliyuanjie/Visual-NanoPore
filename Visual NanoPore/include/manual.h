@@ -35,6 +35,7 @@ public slots:
 	void setdata2(QVector<QPointF>);
 	void seteventlist(QVector<QPointF>);
 	void seteventlist2(QVector<QPointF>);
+	void seteventlist3(QVector<QPointF>);
 
 	//button in manual ui
 	void setscale(double, double, double, double);
@@ -51,6 +52,7 @@ public slots:
 
 signals:
 	void askdata(double xmin, double xmax, double ymin, double ymax);
+	void send_number(int);
 
 private:
 	Ui::Form ui;

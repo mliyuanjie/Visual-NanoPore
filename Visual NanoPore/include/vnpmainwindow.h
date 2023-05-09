@@ -19,7 +19,7 @@ public:
 
  
 public slots:
-    void pythonvisible(bool);
+    //void pythonvisible(bool);
     void datavisible(bool);
 
 private:

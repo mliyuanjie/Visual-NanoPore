@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
+    <width>1326</width>
     <height>800</height>
    </rect>
   </property>
@@ -135,7 +135,7 @@ QProgressBar::chunk {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>1326</width>
      <height>26</height>
     </rect>
    </property>
@@ -155,9 +155,12 @@ QProgressBar::chunk {
     <addaction name="actionauto_run"/>
     <addaction name="actionstop_auto"/>
     <addaction name="actionfilter"/>
+    <addaction name="actionadd_baseline"/>
     <addaction name="actionfind_peak"/>
     <addaction name="actioninsert_event"/>
     <addaction name="actionremove_event"/>
+    <addaction name="actionremove_baseline"/>
+    <addaction name="actionfilter_save"/>
    </widget>
    <widget class="QMenu" name="menuPython">
     <property name="title">
@@ -166,12 +169,7 @@ QProgressBar::chunk {
     <addaction name="actioncommand"/>
     <addaction name="actionfilebrowsers"/>
     <addaction name="actionshow_plot"/>
-   </widget>
-   <widget class="QMenu" name="menuExtensions">
-    <property name="title">
-     <string>Extensions</string>
-    </property>
-    <addaction name="actionstart_python"/>
+    <addaction name="actionshow_Imin_Imax"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -193,7 +191,6 @@ QProgressBar::chunk {
    <addaction name="menuTools"/>
    <addaction name="menuPython"/>
    <addaction name="menuSettings"/>
-   <addaction name="menuExtensions"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -208,21 +205,25 @@ QProgressBar::chunk {
     <bool>false</bool>
    </attribute>
    <addaction name="actionopen"/>
+   <addaction name="actionload_dat"/>
+   <addaction name="actionload_csv"/>
+   <addaction name="actioncopy_data"/>
+   <addaction name="separator"/>
    <addaction name="actionfilter"/>
+   <addaction name="separator"/>
    <addaction name="actionfind_peak"/>
+   <addaction name="actioninsert_event"/>
+   <addaction name="actionremove_event"/>
    <addaction name="actionsave_to_csv"/>
+   <addaction name="separator"/>
+   <addaction name="actionadd_baseline"/>
+   <addaction name="actionremove_baseline"/>
+   <addaction name="separator"/>
    <addaction name="actionauto_run"/>
    <addaction name="actionstop_auto"/>
    <addaction name="separator"/>
-   <addaction name="separator"/>
-   <addaction name="actionload_dat"/>
-   <addaction name="actionload_csv"/>
    <addaction name="actionparameter"/>
    <addaction name="separator"/>
-   <addaction name="actioninsert_event"/>
-   <addaction name="actionremove_event"/>
-   <addaction name="separator"/>
-   <addaction name="actioncopy_data"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
@@ -258,54 +259,6 @@ QProgressBar::chunk {
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QDockWidget" name="dockWidget_2">
-   <property name="minimumSize">
-    <size>
-     <width>91</width>
-     <height>200</height>
-    </size>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <widget class="PythonWidget" name="widget" native="true">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetDefaultConstraint</enum>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <action name="actionopen">
    <property name="checkable">
     <bool>false</bool>
@@ -467,6 +420,37 @@ QProgressBar::chunk {
     <string>copy data</string>
    </property>
   </action>
+  <action name="actionadd_baseline">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</iconset>
+   </property>
+   <property name="text">
+    <string>add baseline</string>
+   </property>
+  </action>
+  <action name="actionremove_baseline">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</iconset>
+   </property>
+   <property name="text">
+    <string>remove baseline</string>
+   </property>
+  </action>
+  <action name="actionfilter_save">
+   <property name="text">
+    <string>filter save</string>
+   </property>
+  </action>
+  <action name="actionshow_Imin_Imax">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show Imin Imax</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -481,12 +465,6 @@ QProgressBar::chunk {
    <class>ManualPeakFind</class>
    <extends>QWidget</extends>
    <header>manual.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PythonWidget</class>
-   <extends>QWidget</extends>
-   <header>pythonwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

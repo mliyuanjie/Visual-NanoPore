@@ -25,7 +25,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "manual.h"
-#include "pythonwidget.h"
 #include "vnptreewidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -49,6 +48,10 @@ public:
     QAction *actionremove_event;
     QAction *actionshow_plot;
     QAction *actioncopy_data;
+    QAction *actionadd_baseline;
+    QAction *actionremove_baseline;
+    QAction *actionfilter_save;
+    QAction *actionshow_Imin_Imax;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_4;
     QWidget *widget_3;
@@ -60,7 +63,6 @@ public:
     QMenu *menuFile;
     QMenu *menuTools;
     QMenu *menuPython;
-    QMenu *menuExtensions;
     QMenu *menuWindow;
     QMenu *menuHelp;
     QMenu *menuSettings;
@@ -70,17 +72,12 @@ public:
     QVBoxLayout *verticalLayout;
     VNPTreeWidget *treeWidget;
     QStatusBar *statusBar;
-    QDockWidget *dockWidget_2;
-    QWidget *dockWidgetContents_2;
-    QVBoxLayout *verticalLayout_6;
-    PythonWidget *widget;
-    QVBoxLayout *verticalLayout_2;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1200, 800);
+        MainWindow->resize(1326, 800);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -169,6 +166,21 @@ public:
         QIcon icon12;
         icon12.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png"), QSize(), QIcon::Normal, QIcon::Off);
         actioncopy_data->setIcon(icon12);
+        actionadd_baseline = new QAction(MainWindow);
+        actionadd_baseline->setObjectName(QStringLiteral("actionadd_baseline"));
+        QIcon icon13;
+        icon13.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionadd_baseline->setIcon(icon13);
+        actionremove_baseline = new QAction(MainWindow);
+        actionremove_baseline->setObjectName(QStringLiteral("actionremove_baseline"));
+        QIcon icon14;
+        icon14.addFile(QStringLiteral(":/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionremove_baseline->setIcon(icon14);
+        actionfilter_save = new QAction(MainWindow);
+        actionfilter_save->setObjectName(QStringLiteral("actionfilter_save"));
+        actionshow_Imin_Imax = new QAction(MainWindow);
+        actionshow_Imin_Imax->setObjectName(QStringLiteral("actionshow_Imin_Imax"));
+        actionshow_Imin_Imax->setCheckable(true);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
@@ -215,15 +227,13 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1200, 26));
+        menubar->setGeometry(QRect(0, 0, 1326, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuTools = new QMenu(menubar);
         menuTools->setObjectName(QStringLiteral("menuTools"));
         menuPython = new QMenu(menubar);
         menuPython->setObjectName(QStringLiteral("menuPython"));
-        menuExtensions = new QMenu(menubar);
-        menuExtensions->setObjectName(QStringLiteral("menuExtensions"));
         menuWindow = new QMenu(menubar);
         menuWindow->setObjectName(QStringLiteral("menuWindow"));
         menuHelp = new QMenu(menubar);
@@ -253,37 +263,11 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
-        dockWidget_2 = new QDockWidget(MainWindow);
-        dockWidget_2->setObjectName(QStringLiteral("dockWidget_2"));
-        dockWidget_2->setMinimumSize(QSize(91, 200));
-        dockWidgetContents_2 = new QWidget();
-        dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
-        verticalLayout_6 = new QVBoxLayout(dockWidgetContents_2);
-        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        widget = new PythonWidget(dockWidgetContents_2);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setEnabled(true);
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy1);
-        verticalLayout_2 = new QVBoxLayout(widget);
-        verticalLayout_2->setSpacing(0);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
-        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-
-        verticalLayout_6->addWidget(widget);
-
-        dockWidget_2->setWidget(dockWidgetContents_2);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(8), dockWidget_2);
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuTools->menuAction());
         menubar->addAction(menuPython->menuAction());
         menubar->addAction(menuSettings->menuAction());
-        menubar->addAction(menuExtensions->menuAction());
         menubar->addAction(menuWindow->menuAction());
         menubar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionopen);
@@ -293,30 +277,37 @@ public:
         menuTools->addAction(actionauto_run);
         menuTools->addAction(actionstop_auto);
         menuTools->addAction(actionfilter);
+        menuTools->addAction(actionadd_baseline);
         menuTools->addAction(actionfind_peak);
         menuTools->addAction(actioninsert_event);
         menuTools->addAction(actionremove_event);
+        menuTools->addAction(actionremove_baseline);
+        menuTools->addAction(actionfilter_save);
         menuPython->addAction(actioncommand);
         menuPython->addAction(actionfilebrowsers);
         menuPython->addAction(actionshow_plot);
-        menuExtensions->addAction(actionstart_python);
+        menuPython->addAction(actionshow_Imin_Imax);
         menuSettings->addAction(actionparameter);
         toolBar->addAction(actionopen);
+        toolBar->addAction(actionload_dat);
+        toolBar->addAction(actionload_csv);
+        toolBar->addAction(actioncopy_data);
+        toolBar->addSeparator();
         toolBar->addAction(actionfilter);
+        toolBar->addSeparator();
         toolBar->addAction(actionfind_peak);
+        toolBar->addAction(actioninsert_event);
+        toolBar->addAction(actionremove_event);
         toolBar->addAction(actionsave_to_csv);
+        toolBar->addSeparator();
+        toolBar->addAction(actionadd_baseline);
+        toolBar->addAction(actionremove_baseline);
+        toolBar->addSeparator();
         toolBar->addAction(actionauto_run);
         toolBar->addAction(actionstop_auto);
         toolBar->addSeparator();
-        toolBar->addSeparator();
-        toolBar->addAction(actionload_dat);
-        toolBar->addAction(actionload_csv);
         toolBar->addAction(actionparameter);
         toolBar->addSeparator();
-        toolBar->addAction(actioninsert_event);
-        toolBar->addAction(actionremove_event);
-        toolBar->addSeparator();
-        toolBar->addAction(actioncopy_data);
 
         retranslateUi(MainWindow);
         QObject::connect(actionfilebrowsers, SIGNAL(triggered(bool)), dockWidget, SLOT(setVisible(bool)));
@@ -346,11 +337,14 @@ public:
         actionremove_event->setText(QApplication::translate("MainWindow", "remove event", Q_NULLPTR));
         actionshow_plot->setText(QApplication::translate("MainWindow", "show plot", Q_NULLPTR));
         actioncopy_data->setText(QApplication::translate("MainWindow", "copy data", Q_NULLPTR));
+        actionadd_baseline->setText(QApplication::translate("MainWindow", "add baseline", Q_NULLPTR));
+        actionremove_baseline->setText(QApplication::translate("MainWindow", "remove baseline", Q_NULLPTR));
+        actionfilter_save->setText(QApplication::translate("MainWindow", "filter save", Q_NULLPTR));
+        actionshow_Imin_Imax->setText(QApplication::translate("MainWindow", "show Imin Imax", Q_NULLPTR));
         progressBar->setFormat(QString());
         menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", Q_NULLPTR));
         menuPython->setTitle(QApplication::translate("MainWindow", "View", Q_NULLPTR));
-        menuExtensions->setTitle(QApplication::translate("MainWindow", "Extensions", Q_NULLPTR));
         menuWindow->setTitle(QApplication::translate("MainWindow", "Window", Q_NULLPTR));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", Q_NULLPTR));
         menuSettings->setTitle(QApplication::translate("MainWindow", "Settings", Q_NULLPTR));

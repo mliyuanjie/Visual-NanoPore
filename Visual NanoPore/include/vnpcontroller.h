@@ -4,28 +4,29 @@
 
 #include <QtCore/qobject.h>
 #include <QtWidgets/QMdiSubWindow>
+#include <QtWidgets/qtooltip.h>
 #include <list>
 #include <algorithm>
 #include <utility>
 #include <vector>
 #include <QtWidgets/QFileDialog>
 #include <QtCore/qfileinfo.h>
-#include <filesystem>
 #include "vnptreewidget.h"
 #include "manual.h"
 #include "configdialog.h"
+#include "findpeak.h"
 #include "tools.h"
 #include "datio.h"
 #include "calworker.h"
-#include "pyworker.h"
-#include "pythonwidget.h"
+//#include "pyworker.h"
+//#include "pythonwidget.h"
 #include "findpeakworker.h"
 
 
 class VNPController :public QObject {
 	Q_OBJECT;
 public:
-	VNPController(QObject* p, ManualPeakFind* p1, VNPTreeWidget* p2, PythonWidget* p3);
+	VNPController(QObject* p, ManualPeakFind* p1, VNPTreeWidget* p2);
 	~VNPController();
 
 
@@ -38,6 +39,8 @@ public slots:
 	void autorun();
 	void filter(bool);
 	void findpeak(bool);
+	//void addbaseline();
+	//void removebaseline();
 	void insertevent();
 	void removeevent();
 	void seteventlist();
@@ -46,6 +49,8 @@ public slots:
 	void readparams();
 	void copydata();
 	void readeventlist();
+	void show_Imin_Imax(bool);
+	void show_tips(int);
 
 
 signals:
@@ -53,12 +58,12 @@ signals:
 	void senddata2(QVector<QPointF>);
 	void sendeventlist(QVector<QPointF>);
 	void sendeventlist2(QVector<QPointF>);
-	void startpy(bool);
+	void sendeventlist3(QVector<QPointF>);
 	void csvchange();
 	void startauto();
 	void setprogress(int);
 	void showconfig();
-	void setdatapy(QString);
+	//void setdatapy(QString);
 	void startfp();
 
 private:
@@ -68,9 +73,10 @@ private:
 	QString fneventlist;
 	QString fneventlist2;
 	std::string cwdpath;
-	
+	//bool pystarted = false;
 	std::list<Peak> eventlist;
 	std::list<Peak> eventlist_temp;
+	//std::vector<std::vector<double>> baselinelist;
 	
 
 	int n = 0;
@@ -82,15 +88,15 @@ private:
 	std::unordered_map<std::string, double> mymap;
 
 	QThread calthread;
-	QThread pythread;
+	//QThread pythread;
 	ManualPeakFind* dataview;
 	VNPTreeWidget* filewidget;
 	DATIO dat;
 	DATIO dat2;
 	CalWorker* worker;
-	PYWorker* pyworker;
+	//PYWorker* pyworker;
 	ConfigDialog* configdialog;
-	PythonWidget* pywidget;
+	//PythonWidget* pywidget;
 	FindPeakWorker* fpworker;
 };
 

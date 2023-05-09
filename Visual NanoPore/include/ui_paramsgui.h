@@ -6,8 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef PARAMSGUI_H
-#define PARAMSGUI_H
+#ifndef UI_PARAMSGUI_H
+#define UI_PARAMSGUI_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
@@ -417,4 +417,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // PARAMSGUI_H
+#endif // UI_PARAMSGUI_H

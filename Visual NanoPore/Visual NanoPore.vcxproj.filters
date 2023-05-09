@@ -39,19 +39,13 @@
     <ClInclude Include="include\manualui.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\loginui.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\vnpnetio.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\paramsgui.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\pythonui.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tools2.h">
+    <ClInclude Include="include\findpeak.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,9 +68,6 @@
     <QtMoc Include="include\scaleframe.h">
       <Filter>include</Filter>
     </QtMoc>
-    <QtMoc Include="include\login.h">
-      <Filter>include</Filter>
-    </QtMoc>
     <QtMoc Include="include\nlineseries.h">
       <Filter>include</Filter>
     </QtMoc>
@@ -84,18 +75,6 @@
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\vnpcontroller.h">
-      <Filter>include</Filter>
-    </QtMoc>
-    <QtMoc Include="include\pythonwidget.h">
-      <Filter>include</Filter>
-    </QtMoc>
-    <QtMoc Include="include\pyworker.h">
-      <Filter>include</Filter>
-    </QtMoc>
-    <QtMoc Include="include\console.h">
-      <Filter>include</Filter>
-    </QtMoc>
-    <QtMoc Include="include\consolelinedit.h">
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\findpeakworker.h">
@@ -130,9 +109,6 @@
     <ClCompile Include="myview\scaleframe.cpp">
       <Filter>myview</Filter>
     </ClCompile>
-    <ClCompile Include="myview\login.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
     <ClCompile Include="myview\nlineseries.cpp">
       <Filter>myview</Filter>
     </ClCompile>
@@ -142,22 +118,10 @@
     <ClCompile Include="myview\vnpcontroller.cpp">
       <Filter>myview</Filter>
     </ClCompile>
-    <ClCompile Include="myview\pythonwidget.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
-    <ClCompile Include="algorithm\pyworker.cpp">
-      <Filter>algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="myview\console.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
-    <ClCompile Include="myview\consolelinedit.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\findpeakworker.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\tools2.cpp">
+    <ClCompile Include="algorithm\findpeak.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,9 +142,6 @@
       <Filter>UI</Filter>
     </QtUic>
     <QtUic Include="mainUI\paramsgui.ui">
-      <Filter>UI</Filter>
-    </QtUic>
-    <QtUic Include="mainUI\pythonui.ui">
       <Filter>UI</Filter>
     </QtUic>
   </ItemGroup>

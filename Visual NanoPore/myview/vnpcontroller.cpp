@@ -4,41 +4,31 @@
 
 
 VNPController::VNPController(QObject* p, ManualPeakFind* p1,
-	VNPTreeWidget* p2, PythonWidget* p3): QObject(p) {
+	VNPTreeWidget* p2): QObject(p) {
 	filewidget = p2;
 	connect(filewidget, SIGNAL(showdat(QString&)), this, SLOT(opendat(QString&)));
 	connect(this, SIGNAL(csvchange()), filewidget, SLOT(checkcsv()));
 
 	dataview = p1;
 	connect(dataview, SIGNAL(askdata(double, double, double, double)), this, SLOT(setdata(double, double, double, double)));
+	connect(dataview, SIGNAL(send_number(int)), this, SLOT(show_tips(int)));
 	connect(this, SIGNAL(senddata(QVector<QPointF>)), dataview, SLOT(setdata(QVector<QPointF>)));
 	connect(this, SIGNAL(senddata2(QVector<QPointF>)), dataview, SLOT(setdata2(QVector<QPointF>)));
 	connect(this, SIGNAL(sendeventlist(QVector<QPointF>)), dataview, SLOT(seteventlist(QVector<QPointF>)));
 	connect(this, SIGNAL(sendeventlist2(QVector<QPointF>)), dataview, SLOT(seteventlist2(QVector<QPointF>)));
+	connect(this, SIGNAL(sendeventlist3(QVector<QPointF>)), dataview, SLOT(seteventlist3(QVector<QPointF>)));
 
 	worker = new CalWorker;
 	connect(worker, &CalWorker::setprogress, this, &VNPController::setprogress);
 	connect(worker, &CalWorker::finish, filewidget, &VNPTreeWidget::checkcsv);
 	connect(this, &VNPController::startauto, worker, &CalWorker::run);
 
-	cwdpath = std::filesystem::current_path().string();
-	std::replace(cwdpath.begin(), cwdpath.end(), '\\', '/');
 	configdialog = new ConfigDialog();
 	connect(this, SIGNAL(showconfig()), configdialog, SLOT(show()));
 	connect(configdialog, SIGNAL(accepted()), this, SLOT(readparams()));
 
-	pywidget = p3;
-
-	pyworker = new PYWorker();
-	readparams();
-	pyworker->moveToThread(&pythread);
-	connect(p3, SIGNAL(textinput(QString)), pyworker, SLOT(run_command(QString)));
-	connect(p3, SIGNAL(sendcomp(QString)), pyworker, SLOT(completion(QString)));
-	connect(pyworker, SIGNAL(result_command(QString)), p3,SLOT(showtext(QString)));
-	connect(pyworker, SIGNAL(send_completion(QString)), p3, SLOT(showcompletion(QString)));
-	connect(this, SIGNAL(startpy(bool)), pyworker, SLOT(run(bool)));
-	connect(this, SIGNAL(setdatapy(QString)), pyworker, SLOT(setdata(QString)));
-	pythread.start();
+	//pywidget = p3;
+	
 
 	fpworker = new FindPeakWorker();
 	fpworker->moveToThread(&calthread);
@@ -51,9 +41,9 @@ VNPController::VNPController(QObject* p, ManualPeakFind* p1,
 VNPController::~VNPController() {
 	dat.close();
 	calthread.quit();
-	pythread.quit();
+	//pythread.quit();
 	delete worker;
-	delete pyworker;
+	//delete pyworker;
 }
 
 void VNPController::readeventlist() {
@@ -61,6 +51,33 @@ void VNPController::readeventlist() {
 	emit setprogress(0);
 }
 
+/*
+void VNPController::startpy(bool ischeck) {
+	if (ischeck && !pystarted) {
+		pyworker = new PYWorker();
+		readparams();
+		pyworker->moveToThread(&pythread);
+		connect(pywidget, SIGNAL(textinput(QString)), pyworker, SLOT(run_command(QString)));
+		connect(pywidget, SIGNAL(sendcomp(QString)), pyworker, SLOT(completion(QString)));
+		connect(pyworker, SIGNAL(result_command(QString)), pywidget, SLOT(showtext(QString)));
+		connect(pyworker, SIGNAL(send_completion(QString)), pywidget, SLOT(showcompletion(QString)));
+		connect(this, SIGNAL(setdatapy(QString)), pyworker, SLOT(setdata(QString)));
+		pythread.start();
+
+		QLineEdit* pyedit = configdialog->findChild<QLineEdit*>("pyedit");
+		std::string str = pyedit->text().toStdString();
+		std::replace(str.begin(), str.end(), '/', '\\');
+		std::string pypath = "PYTHONPATH=" + str;
+		pyworker->setpath(pypath);
+		auto r = pyworker->run();
+		if (r) {
+			pystarted = true;
+			emit setdatapy(fndata);
+		}
+	}
+	
+}
+*/
 void VNPController::opendatlist() {
 	foldername = filewidget->open1();
 }
@@ -72,7 +89,8 @@ void VNPController::opendat(QString& fn) {
 	if (QFileInfo::exists(QString::fromStdString(csvfn))) {
 		eventlist = readcsv(csvfn);
 	}
-		
+	QDir qdir = QFileInfo(fn).absoluteDir();
+	cwdpath = qdir.absolutePath().toStdString();
 	fndata = fn;
 	dat.open(fndata.toStdString(), 1);
 	n = dat.size();
@@ -85,7 +103,8 @@ void VNPController::opendat(QString& fn) {
 	dataview->history.push_back({ xmin, xmax, ymin, ymax });
 	dataview->home();
 	seteventlist();
-	emit setdatapy(fn);
+	//if (pystarted)
+	//	emit setdatapy(fn);
 	emit setprogress(0);
 	return;
 }
@@ -102,6 +121,34 @@ void VNPController::opendat2dialog(bool isopen) {
 		QVector<QPointF> point;
 		emit senddata2(point);
 	}
+}
+
+void VNPController::show_Imin_Imax(bool isshow) {
+	if (isshow) {
+		QVector<QPointF> point;
+		for (const auto it : eventlist) {
+			if (it.Imin == 0)
+				continue;
+			point.append(QPointF(it.start, it.baseline - it.Imin));
+			point.append(QPointF(it.end, it.baseline - it.Imax));
+		}
+		emit sendeventlist3(point);
+	}
+	else {
+		QVector<QPointF> point;
+		emit sendeventlist3(point);
+	}
+}
+
+void VNPController::show_tips(int number) {
+	std::list<Peak>::iterator it = eventlist.begin();
+	std::advance(it, number);
+	QString msg = QString("shape_oblate: ") + QString::number(it->shape_o) + "\n"\
+		+ QString("volume_oblate: ") + QString::number(it->volume_o) + "\n"\
+		+ QString("shape_prolate: ") + QString::number(it->shape_p) + "\n"\
+		+ QString("volume_prolate: ") + QString::number(it->volume_p);
+	QMessageBox::information(filewidget, "events information", msg);
+	
 }
 
 void VNPController::opendat2(QString& fn) {
@@ -214,7 +261,7 @@ void VNPController::filter(bool check) {
 		}
 
 		std::ofstream wf;
-		std::string temppath = cwdpath + "/_filter_can_delete.dat";
+		std::string temppath = "filter_can_delete.dat";
 		wf.open(temppath, std::ios::out | std::ios::binary);
 		wf.write(reinterpret_cast<const char*>(data), n * sizeof(float));
 		wf.close();
@@ -250,7 +297,7 @@ void VNPController::findpeak(bool draw) {
 				return;
 			int s = xmin * 1000 / interval;
 			int e = xmax * 1000 / interval;
-			Peak point = { xmin, xmax, eventcurrent, baseline, s, e };
+			Peak point = { xmin, xmax, eventcurrent, baseline, s, e, s};
 			eventlist_temp.clear();
 			eventlist_temp.push_back(point);
 		}
@@ -399,9 +446,13 @@ std::list<Peak>::iterator VNPController::findpose(double end) {
 
 void VNPController::saveeventlist() {
 	emit setprogress(100);
-	if (eventlist.size()==0)
-		return;
 	std::string csvfn = fndata.toStdString().substr(0, fndata.size() - 3) + "csv";
+	if (eventlist.size() == 0) {
+		std::remove(csvfn.c_str());
+		return;
+	}
+		
+	
 	std::ofstream file(csvfn, std::ofstream::out | std::ofstream::trunc);
 	file << "start,end,start(ms),end(ms),I0(pA),I1(pA),begin\n";
 	for (auto& it : eventlist) {
@@ -454,22 +505,17 @@ void VNPController::readparams() {
 	mymap["fs"] = spinBox->value();
 	mymap["order"] = orderSpinBox->value();
 	mymap["parallel"] = parallelSpinBox->value();
-	if (baselineMethodComboBox->currentText() == "Polynomial fit") {
-		mymap["auto"] = 1;
-		mymap["resolution"] = resolutionSpinBox->value();
-		mymap["order"] = orderSpinBox->value();
+	if (baselineMethodComboBox->currentText() == "Local Baseline") {
+		mymap["auto"] = 2;
+		mymap["resolution"] = moveWindowSpinBox->value();
+		mymap["maxtime"] = resolutionSpinBox->value();
 	}
 	else if (baselineMethodComboBox->currentText() == "Moving average") {
 		mymap["auto"] = 0;
 		mymap["resolution"] = moveWindowSpinBox->value();
 	}
-	else if (baselineMethodComboBox->currentText() == "Self Adapt") {
-		mymap["auto"] = 2;
-		mymap["resolution"] = moveWindowSpinBox->value();
-
-	}
 	else if(baselineMethodComboBox->currentText() == "Moving median") {
-		mymap["auto"] = 3;
+		mymap["auto"] = 1;
 		mymap["resolution"] = moveWindowSpinBox->value();
 
 	}
@@ -477,14 +523,12 @@ void VNPController::readparams() {
 	mymap["window"] = minWindowSpinBox->value();
 	mymap["startpoint"] = startPointSpinBox->value();
 	mymap["endpoint"] = endPointSpinBox->value();
-	std::string str = pyedit->text().toStdString();
-	std::replace(str.begin(), str.end(), '/', '\\');
-	pyworker->setpath(cwdpath, str);
+	
 	emit setprogress(0);
 }
 
 void VNPController::copydata() {
-	if (dat.size() == 0 || eventlist.empty()) {
+	if (dat.size() == 0) {
 		return;
 	}
 	emit setprogress(100);

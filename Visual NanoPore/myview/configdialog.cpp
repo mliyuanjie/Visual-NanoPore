@@ -36,14 +36,14 @@ void ConfigDialog::changebm(const QString& name) {
 	orderSpinBox->setVisible(false);
 	resolutionSpinBox->setVisible(false);
 	stepSizeSpinBox->setVisible(false);
-	if (name == "Moving average" || name == "Self Adapt" || name == "Moving median") {
+	if (name == "Moving average" || name == "Moving median") {
 		moveWindowLabel->setVisible(true);
 		moveWindowSpinBox->setVisible(true);
 	}
-	else if (name == "Polynomial fit") {
-		orderLabel->setVisible(true);
+	else if (name == "Local Baseline") {
+		moveWindowLabel->setVisible(true);
+		moveWindowSpinBox->setVisible(true);
 		resolutionLabel->setVisible(true);
-		orderSpinBox->setVisible(true);
 		resolutionSpinBox->setVisible(true);
 	}
 	else if (name == "CUMSUM fit") {

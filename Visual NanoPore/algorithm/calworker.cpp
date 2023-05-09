@@ -2,7 +2,7 @@
 
 #include "calworker.h"
 #include "Iir.h"
-#include "tools.h" 
+#include "findpeak.h" 
 #include <omp.h>
 
 void CalWorker::run() {
@@ -28,15 +28,7 @@ void CalWorker::run() {
 		}
 		std::list<Peak> res;
 		double per = double(i + 1) / double(filenames.size());
-		if (int(mymap["auto"]) == 2) {
-			res = findPeak_longevent(data, mymap, mymap["startpoint"], mymap["endpoint"]);
-		}
-		else if (mymap["auto"] == 3) {
-			res = findPeak_median(data, mymap, mymap["startpoint"], mymap["endpoint"]);
-		}
-		else {
-			res = findPeak(data, mymap, mymap["startpoint"], mymap["endpoint"]);
-		}
+		res = findPeak(data, mymap, mymap["startpoint"], mymap["endpoint"]);
 		std::string csvname = filenames[i].toStdString().substr(0, filenames[i].size() - 3) + "csv";
 		std::ofstream ofn(csvname, std::ofstream::out | std::ofstream::trunc);
 		ofn << "start,end,start(ms),end(ms),I0(pA),I1(pA)\n";

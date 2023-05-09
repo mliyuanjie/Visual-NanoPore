@@ -51,6 +51,7 @@ ManualPeakFind::ManualPeakFind(QWidget* p):QWidget(p) {
 	connect(doubleSpinBox_4, SIGNAL(valueChanged(double)), this, SLOT(sety2(double)));
 
 	connect(firstview, SIGNAL(request_data(double, double, double, double)), this, SLOT(setscale(double, double, double, double)));
+	connect(firstview, SIGNAL(send_number(int)), this, SIGNAL(send_number(int)));
 }
 
 
@@ -168,6 +169,10 @@ void ManualPeakFind::seteventlist(QVector<QPointF> data) {
 
 void ManualPeakFind::seteventlist2(QVector<QPointF> data) {
 	firstview->series_event_temp->replace(data);
+}
+
+void ManualPeakFind::seteventlist3(QVector<QPointF> data) {
+	firstview->series_star->replace(data);
 }
 
 void ManualPeakFind::getbar(double& xmin, double& xmax, double& ymin, double& ymax) {

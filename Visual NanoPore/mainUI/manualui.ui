@@ -181,7 +181,6 @@
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -204,7 +203,7 @@ color: rgb(0, 0, 0);</string>
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_1">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -215,7 +214,6 @@ color: rgb(0, 0, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -255,7 +253,6 @@ background-color: rgb(0, 0, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -296,7 +293,6 @@ background-color:rgb(0, 0, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -337,7 +333,6 @@ color: rgb(0, 255, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -378,7 +373,6 @@ color: rgb(0, 255, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -422,7 +416,6 @@ color: rgb(0, 255, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -466,7 +459,6 @@ color: rgb(0, 255, 0);</string>
          <font>
           <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <italic>false</italic>
           <bold>true</bold>
          </font>
@@ -498,7 +490,6 @@ color: rgb(0, 255, 0);</string>
     <widget class="QWidget" name="widget_3" native="true">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -594,7 +585,6 @@ border:5px;
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -617,7 +607,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -646,7 +635,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -666,7 +654,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -692,7 +679,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -712,7 +698,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -738,7 +723,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>
@@ -758,7 +742,6 @@ background-color: rgb(0, 0, 0);</string>
             <font>
              <family>Arial</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <italic>false</italic>
              <bold>true</bold>
             </font>

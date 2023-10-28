@@ -10,6 +10,8 @@
 #include <fstream>
 #include <random>
 
+#define M_PI 3.141592653
+
 struct Peak {
     double start;
     double end;
@@ -27,6 +29,13 @@ struct Peak {
     bool operator<(const Peak& val) const {
         return s < val.s;
     }
+};
+
+struct Physical {
+    double rp;
+    double lp;
+    double er;
+    double vol;
 };
 
 
@@ -89,6 +98,11 @@ std::vector<int> extreminval(std::vector<T>& x, int s, int e, int k) {
 
 std::unordered_map<std::string, double> readconfig(std::string);
 std::list<Peak> readcsv(std::string&);
+float Efield(Physical& p);
+float gvalue(Physical& p);
+void oblate(std::vector<float>& m, std::vector<float>& y);
+void prolate(std::vector<float>& m, std::vector<float>& y);
+void volum_shape(std::vector<float>& data, Peak& peak, float imin, float imax, float g, std::vector<float>& m_o, std::vector<float>& y_o, std::vector<float>& m_p, std::vector<float>& y_p);
 
 
 

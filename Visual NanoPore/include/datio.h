@@ -20,8 +20,9 @@ public:
 	std::vector<float> datafig(size_t start, size_t end);
 	float* cdata();
 	std::string getfilename() { return currentfilename; };
-private:
 	size_t n = size_t(0);
+private:
+	
 	boost::iostreams::mapped_file_source file;
 	boost::iostreams::mapped_file filepyramid;
 	float* pospyramid;

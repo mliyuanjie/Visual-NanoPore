@@ -45,7 +45,7 @@ DataView::DataView(QWidget* parent) :
     *line_3 << QPointF(0, 0) << QPointF(0, 0);
     *line_4 << QPointF(0, 0) << QPointF(0, 0);
     //series->setUseOpenGL(true);
-    charts = new QtCharts::QChart();
+    charts = new QChart();
     charts->addAxis(axisx, Qt::AlignBottom);
     charts->addAxis(axisy, Qt::AlignLeft);
     charts->addSeries(series);
@@ -285,6 +285,7 @@ void DataView::setxscale(double x1, double x2) {
     line.push_back(QPointF(axisx->min(), line_4->at(0).y()));
     line.push_back(QPointF(axisx->max(), line_4->at(1).y()));
     line_4->replace(line);
+    //emit request_data(x1, x2, axisy->min(), axisy->max());
 }
 
 void DataView::zoomdata(double x1, double x2) {

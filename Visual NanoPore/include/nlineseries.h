@@ -3,7 +3,7 @@
 
 #include <QtCharts>
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 
 

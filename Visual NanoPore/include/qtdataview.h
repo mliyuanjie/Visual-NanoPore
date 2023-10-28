@@ -12,7 +12,7 @@
 #include <QtCharts>
 #include "nlineseries.h"
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 class DataView : public QChartView
 {

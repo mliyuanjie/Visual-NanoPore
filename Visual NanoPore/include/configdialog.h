@@ -8,7 +8,7 @@
 #include "tools.h"
 #include "paramsgui.h"
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 class ConfigDialog :public QDialog
 {

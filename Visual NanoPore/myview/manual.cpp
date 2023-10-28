@@ -93,7 +93,7 @@ void ManualPeakFind::forwardwindow() {
 		spinbox->setValue(currenteventitem);
 	}
 	else {
-		double skip = this->findChild<QDoubleSpinBox*>("doubleSpinBox_2")->value();
+		double skip = this->findChild<QDoubleSpinBox*>("doubleSpinBox_1")->value();
 		double xmax = firstview->axisx->max();
 		double ymin = firstview->axisy->min();
 		double ymax = firstview->axisy->max();
@@ -136,12 +136,20 @@ void ManualPeakFind::setscale(double xmin, double xmax, double ymin, double ymax
 
 void ManualPeakFind::setx1(double x) {
 	double xmax = firstview->axisx->max();
+	if (x >= xmax) return;
+	double ymax = firstview->axisy->max();
+	double ymin = firstview->axisy->min();
 	firstview->setxscale(x, xmax);
+	emit askdata(x, xmax, ymin, ymax);
 }
 
 void ManualPeakFind::setx2(double x) {
 	double xmin = firstview->axisx->min();
+	if (x <= xmin) return;
+	double ymax = firstview->axisy->max();
+	double ymin = firstview->axisy->min();
 	firstview->setxscale(xmin, x);
+	emit askdata(xmin, x, ymin, ymax);
 }
 
 void ManualPeakFind::sety1(double y) {

@@ -26,7 +26,7 @@ QStringList VNPTreeWidget::open1() {
 		items->setText(0, info.completeBaseName());
 		QString csvname = info.path() + "/" + info.completeBaseName() + ".csv";
 		if (QFileInfo::exists(csvname))
-			items->setTextColor(0, Qt::green);
+			items->setForeground(0, Qt::green);
 		this->insertTopLevelItem(i, items);
 	}
 	if (filenames.size() == 0) {
@@ -42,7 +42,7 @@ void VNPTreeWidget::checkcsv() {
 		QString csvfn = info.path() + "/" + items->text(0) + ".csv";
 		info = QFileInfo(csvfn);
 		if (QFileInfo::exists(csvfn))
-			items->setTextColor(0, Qt::green);
+			items->setForeground(0, Qt::green);
 	}
 }
 

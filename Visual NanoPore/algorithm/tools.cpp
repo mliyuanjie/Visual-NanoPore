@@ -3,13 +3,9 @@
 #include <deque>
 #include <set>
 #include <time.h>
-#include <Eigen/Dense>
-#include <unsupported/Eigen/Polynomials>
 #include <cmath>
 #include <vector>
-#include <Eigen/QR>
 #include <omp.h>
-
 #include "tools.h"
 
 std::unordered_map<std::string, double> readconfig(std::string fn) {
@@ -116,3 +112,62 @@ std::list<Peak> readcsv(std::string& filename) {
     return res;
 }
 
+float Efield(Physical& p) {
+    float e;
+    e = p.vol * (p.er * p.lp / (M_PI * p.rp * p.rp)) / (p.er * p.lp / (M_PI * p.rp * p.rp) + p.er / (2 * p.rp)) / p.lp;
+    return e;
+}
+
+float gvalue(Physical& p) {
+    float g;
+    g = 1 / (M_PI * p.rp * p.rp * (p.lp + 1.6 * p.rp));
+    return g;
+}
+
+void oblate(std::vector<float>& m, std::vector<float>& y) {
+    float t;
+    float k;
+    for (int i = 0; i < 999; i++) {
+        k = 0.001 * (i + 1);
+        m[998 - i] = k;
+        y[998 - i] = 1 / (k * std::acos(k) / pow((1 - k * k), 1.5) - k * k / (1 - k * k));
+    }
+    return;
+}
+
+void prolate(std::vector<float>& m, std::vector<float>& y) {
+    float t;
+    float k;
+    for (int i = 0; i < 999; i++) {
+        k = (0.1 * (i + 1)) / 2 + 1;
+        m[998 - i] = k;
+        y[998 - i] = 1 / (k * k / (k * k - 1) - k * acosh(k) / pow((k * k - 1), 1.5));
+    }
+    return;
+}
+
+void volum_shape(std::vector<float>& data, Peak& peak, float imin0, float imax0, float g, std::vector<float>& m_o, std::vector<float>& y_o, std::vector<float>& m_p, std::vector<float>& y_p) {
+    int Imin_number = int(imin0 / 100 * data.size()); 
+    int Imax_number = int(imax0 / 100 * data.size());
+    if (Imax_number <= Imin_number) return;
+    if (Imin_number < 0 || Imin_number >= data.size()) return;
+    if (Imax_number < 0 || Imax_number >= data.size()) return;
+    std::sort(data.begin(), data.end()); // please try the tree kth algorithm for faster 
+    float Imin = data[Imin_number];
+    float Imax = data[Imax_number];
+    float F_max_o = Imax / Imin + 0.5;
+    float F_min_p = Imin / Imax + 0.5;
+    auto index = std::lower_bound(y_o.begin(), y_o.end(), F_max_o) - y_o.begin(); 
+    if (index < 0) index = 0;
+    if (index >= 999) index = 998;
+    peak.shape_o = m_o[index];
+    index = std::lower_bound(y_p.begin(), y_p.end(), F_min_p) - y_p.begin();
+    if (index < 0) index = 0;
+    if (index >= 999) index = 998;
+    peak.shape_p = m_p[index];
+    peak.volume_o = Imax / (g * F_max_o * 1e-27);
+    peak.volume_p = Imin / (g * F_min_p * 1e-27);
+    peak.Imin = Imin;
+    peak.Imax = Imax;
+    return;
+}

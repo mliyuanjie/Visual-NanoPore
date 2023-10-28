@@ -59,7 +59,8 @@ void VNPController::startpy(bool ischeck) {
 		pyworker->moveToThread(&pythread);
 		connect(pywidget, SIGNAL(textinput(QString)), pyworker, SLOT(run_command(QString)));
 		connect(pywidget, SIGNAL(sendcomp(QString)), pyworker, SLOT(completion(QString)));
-		connect(pyworker, SIGNAL(result_command(QString)), pywidget, SLOT(showtext(QString)));
+		connect(pyworker, SIGNAL(result_command(QString)), pywidget, SLOT(
+		text(QString)));
 		connect(pyworker, SIGNAL(send_completion(QString)), pywidget, SLOT(showcompletion(QString)));
 		connect(this, SIGNAL(setdatapy(QString)), pyworker, SLOT(setdata(QString)));
 		pythread.start();
@@ -178,6 +179,10 @@ void VNPController::seteventlist() {
 }
 
 void VNPController::setdata(double xmin, double xmax, double ymin, double ymax) {
+	if (dat.n == 0) {
+		return;
+	}
+		
 	emit setprogress(100);
 	int s = (xmin * 1000 / interval >= 0) ? xmin * 1000 / interval : 0;
 	int e = (xmax * 1000 / interval <= n && xmax * 1000 / interval >= 0) ? xmax * 1000 / interval : n;
@@ -454,7 +459,7 @@ void VNPController::saveeventlist() {
 		
 	
 	std::ofstream file(csvfn, std::ofstream::out | std::ofstream::trunc);
-	file << "start,end,start(ms),end(ms),I0(pA),I1(pA),begin\n";
+	file << "start,end,start(ms),end(ms),I0(pA),I1(pA),begin,Imin,Imax,shape_o_m,volume_o_m,shape_p_m,volume_p_m\n";
 	for (auto& it : eventlist) {
 		file << std::to_string(it.s) << ","
 			<< std::to_string(it.e) << ","
@@ -462,7 +467,13 @@ void VNPController::saveeventlist() {
 			<< std::to_string(it.end) << ","
 			<< std::to_string(it.baseline) << ","
 			<< std::to_string(it.currentpeak) << ","
-			<< std::to_string(it.s0) << "\n";
+			<< std::to_string(it.s0) << ","
+			<< std::to_string(it.Imin) << ","
+			<< std::to_string(it.Imax) << ","
+			<< std::to_string(it.shape_o) << ","
+			<< std::to_string(it.volume_o) << ","
+			<< std::to_string(it.shape_p) << ","
+			<< std::to_string(it.volume_p) << "\n";
 	}
 	file.close();
 	emit csvchange();
@@ -498,6 +509,14 @@ void VNPController::readparams() {
 	QLineEdit* pyedit = configdialog->findChild<QLineEdit*>("pyedit");
 	QSpinBox* parallelSpinBox = configdialog->findChild<QSpinBox*>("parallelSpinBox");
 
+	QDoubleSpinBox* poreradiusBox = configdialog->findChild<QDoubleSpinBox*>("prSpinBox");
+	QDoubleSpinBox* porelengthBox = configdialog->findChild<QDoubleSpinBox*>("plSpinBox_2");
+	QDoubleSpinBox* saltBox = configdialog->findChild<QDoubleSpinBox*>("saltSpinBox_3");
+	QDoubleSpinBox* voltageBox = configdialog->findChild<QDoubleSpinBox*>("voltageSpinBox_4");
+	QDoubleSpinBox* IminBox = configdialog->findChild<QDoubleSpinBox*>("iminSpinBox_5");
+	QDoubleSpinBox* ImaxBox = configdialog->findChild<QDoubleSpinBox*>("imaxSpinBox_6");
+	QDoubleSpinBox* sdBox = configdialog->findChild<QDoubleSpinBox*>("sdSpinBox_7");
+
 	mymap["direction"] = (directionComboBox->currentText() == "Negative") ? -1 : 1;
 	interval = 1.0 / double(spinBox->value()) * 1000;
 	mymap["interval"] = interval;
@@ -505,6 +524,15 @@ void VNPController::readparams() {
 	mymap["fs"] = spinBox->value();
 	mymap["order"] = orderSpinBox->value();
 	mymap["parallel"] = parallelSpinBox->value();
+
+	mymap["pr"] = poreradiusBox->value() * 1e-9;
+	mymap["pl"] = porelengthBox->value() * 1e-9;
+	mymap["resistivity"] = saltBox->value();
+	mymap["voltage"] = voltageBox->value();
+	mymap["Imin"] = IminBox->value();
+	mymap["Imax"] = ImaxBox->value();
+	mymap["sd"] = sdBox->value() * 1e-12;
+
 	if (baselineMethodComboBox->currentText() == "Local Baseline") {
 		mymap["auto"] = 2;
 		mymap["resolution"] = moveWindowSpinBox->value();
@@ -554,5 +582,27 @@ void VNPController::copydata() {
 		myfile << std::to_string((double)(i * k) * interval / 1000) + "," + std::to_string(data[i]) + "\n";
 	}
 	myfile.close();
+	emit setprogress(0);
+}
+
+void VNPController::estimationevent() {
+	emit setprogress(100);
+	Physical pore_physics = { mymap["pr"], mymap["pl"], mymap["resistivity"], mymap["voltage"] };
+	float g = gvalue(pore_physics);
+	std::vector<float> y_o(999);
+	std::vector<float> y_p(999);
+	std::vector<float> m_o(999);
+	std::vector<float> m_p(999);
+	oblate(m_o, y_o);
+	prolate(m_p, y_p);
+	for (auto& it : eventlist_temp) {
+		std::vector<float> data = dat.data(it.s0, it.e);
+		for (int i = 0; i < data.size(); i++) {
+			data[i] = (it.baseline - data[i]) / it.baseline;
+		}
+		volum_shape(data, it, mymap["Imin"], mymap["Imax"], g, m_o, y_o, m_p, y_p);
+		it.Imax *= it.baseline;
+		it.Imin *= it.baseline;
+	}
 	emit setprogress(0);
 }

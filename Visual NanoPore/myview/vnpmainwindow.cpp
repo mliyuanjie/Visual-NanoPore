@@ -14,7 +14,7 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	QAction* actionauto_run = this->findChild<QAction*>("actionauto_run");
 	QAction* actionstop_auto = this->findChild<QAction*>("actionstop_auto");
 	QAction* actionfilter = this->findChild<QAction*>("actionfilter");
-	QAction* actionbaseline = this->findChild<QAction*>("actionbaseline");
+	QAction* actionestimation = this->findChild<QAction*>("actionestimation");
 	QAction* actionfind_peak = this->findChild<QAction*>("actionfind_peak");
 	QAction* actioninsert_event = this->findChild<QAction*>("actioninsert_event");
 	QAction* actionremove_event = this->findChild<QAction*>("actionremove_event");
@@ -40,6 +40,7 @@ VNPMainWindow::VNPMainWindow(QWidget* parent) :QMainWindow(parent) {
 	connect(actioninsert_event, SIGNAL(triggered()), controller, SLOT(insertevent()));
 	connect(actionremove_event, SIGNAL(triggered()), controller, SLOT(removeevent()));
 	connect(actioninsert_event, SIGNAL(triggered()), controller, SLOT(insertevent()));
+	connect(actionestimation, SIGNAL(triggered()), controller, SLOT(estimationevent()));
 	connect(actionsave_to_csv, SIGNAL(triggered()), controller, SLOT(saveeventlist()));
 	connect(actioncopy_data, SIGNAL(triggered()), controller, SLOT(copydata()));
 	connect(actionload_csv, SIGNAL(triggered(bool)), controller, SLOT(opencsv(bool)));

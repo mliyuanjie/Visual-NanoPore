@@ -136,7 +136,7 @@ QProgressBar::chunk {
      <x>0</x>
      <y>0</y>
      <width>1326</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -155,11 +155,11 @@ QProgressBar::chunk {
     <addaction name="actionauto_run"/>
     <addaction name="actionstop_auto"/>
     <addaction name="actionfilter"/>
-    <addaction name="actionadd_baseline"/>
+    <addaction name="actionestimation"/>
     <addaction name="actionfind_peak"/>
     <addaction name="actioninsert_event"/>
     <addaction name="actionremove_event"/>
-    <addaction name="actionremove_baseline"/>
+    <addaction name="actionestimation2"/>
     <addaction name="actionfilter_save"/>
    </widget>
    <widget class="QMenu" name="menuPython">
@@ -212,12 +212,12 @@ QProgressBar::chunk {
    <addaction name="actionfilter"/>
    <addaction name="separator"/>
    <addaction name="actionfind_peak"/>
+   <addaction name="actionestimation"/>
    <addaction name="actioninsert_event"/>
    <addaction name="actionremove_event"/>
    <addaction name="actionsave_to_csv"/>
    <addaction name="separator"/>
-   <addaction name="actionadd_baseline"/>
-   <addaction name="actionremove_baseline"/>
+   <addaction name="actionestimation2"/>
    <addaction name="separator"/>
    <addaction name="actionauto_run"/>
    <addaction name="actionstop_auto"/>
@@ -420,22 +420,28 @@ QProgressBar::chunk {
     <string>copy data</string>
    </property>
   </action>
-  <action name="actionadd_baseline">
+  <action name="actionestimation">
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
      <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</iconset>
    </property>
    <property name="text">
-    <string>add baseline</string>
+    <string>Estimation</string>
+   </property>
+   <property name="toolTip">
+    <string>Estimation Protein</string>
    </property>
   </action>
-  <action name="actionremove_baseline">
+  <action name="actionestimation2">
    <property name="icon">
     <iconset resource="../resources/resources.qrc">
      <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</iconset>
    </property>
    <property name="text">
     <string>remove baseline</string>
+   </property>
+   <property name="toolTip">
+    <string>undefine</string>
    </property>
   </action>
   <action name="actionfilter_save">

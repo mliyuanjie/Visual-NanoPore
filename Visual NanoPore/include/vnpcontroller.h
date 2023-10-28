@@ -51,7 +51,7 @@ public slots:
 	void readeventlist();
 	void show_Imin_Imax(bool);
 	void show_tips(int);
-
+	void estimationevent();
 
 signals:
 	void senddata(QVector<QPointF>);

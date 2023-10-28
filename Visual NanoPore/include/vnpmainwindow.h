@@ -9,7 +9,7 @@
 #include "mainwindow.h"
 #include "vnpcontroller.h"
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 class VNPMainWindow :public QMainWindow
 {

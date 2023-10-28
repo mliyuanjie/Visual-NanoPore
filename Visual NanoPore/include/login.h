@@ -6,7 +6,7 @@
 #include "loginui.h"
 
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 class Login :public QDialog
 {

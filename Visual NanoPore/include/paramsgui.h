@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'paramsgui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.9
+** Created by: Qt User Interface Compiler version 6.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,15 +10,14 @@
 #define PARAMSGUI_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
+#include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
@@ -72,33 +71,50 @@ public:
     QComboBox *directionComboBox;
     QLabel *parallelLabel;
     QSpinBox *parallelSpinBox;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *verticalLayout_2;
+    QFormLayout *formLayout_3;
+    QLabel *label_2;
+    QDoubleSpinBox *prSpinBox;
+    QLabel *label_3;
+    QDoubleSpinBox *plSpinBox_2;
+    QLabel *label_9;
+    QDoubleSpinBox *saltSpinBox_3;
+    QLabel *label_10;
+    QDoubleSpinBox *voltageSpinBox_4;
+    QLabel *label_11;
+    QDoubleSpinBox *iminSpinBox_5;
+    QLabel *label_12;
+    QDoubleSpinBox *imaxSpinBox_6;
+    QLabel *label_13;
+    QDoubleSpinBox *sdSpinBox_7;
 
     void setupUi(QDialog *configDialog)
     {
         if (configDialog->objectName().isEmpty())
-            configDialog->setObjectName(QStringLiteral("configDialog"));
-        configDialog->resize(574, 918);
+            configDialog->setObjectName("configDialog");
+        configDialog->resize(1144, 831);
         buttonBox = new QDialogButtonBox(configDialog);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
+        buttonBox->setObjectName("buttonBox");
         buttonBox->setGeometry(QRect(200, 780, 161, 51));
         QFont font;
-        font.setFamily(QStringLiteral("Arial"));
+        font.setFamilies({QString::fromUtf8("Arial")});
         font.setPointSize(12);
         buttonBox->setFont(font);
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         verticalLayoutWidget = new QWidget(configDialog);
-        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setObjectName("verticalLayoutWidget");
         verticalLayoutWidget->setGeometry(QRect(10, 20, 551, 752));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
         label = new QLabel(verticalLayoutWidget);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName("label");
         QFont font1;
-        font1.setFamily(QStringLiteral("Arial"));
+        font1.setFamilies({QString::fromUtf8("Arial")});
         font1.setPointSize(12);
         font1.setItalic(false);
         label->setFont(font1);
@@ -107,7 +123,7 @@ public:
         horizontalLayout_5->addWidget(label);
 
         spinBox = new QSpinBox(verticalLayoutWidget);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
+        spinBox->setObjectName("spinBox");
         spinBox->setFont(font1);
         spinBox->setMaximum(5000);
         spinBox->setValue(500);
@@ -118,29 +134,28 @@ public:
         verticalLayout->addLayout(horizontalLayout_5);
 
         label_4 = new QLabel(verticalLayoutWidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setObjectName("label_4");
         QFont font2;
-        font2.setFamily(QStringLiteral("Arial"));
+        font2.setFamilies({QString::fromUtf8("Arial")});
         font2.setPointSize(12);
         font2.setBold(true);
         font2.setItalic(false);
-        font2.setWeight(75);
         label_4->setFont(font2);
         label_4->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_4);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
         label_5 = new QLabel(verticalLayoutWidget);
-        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setObjectName("label_5");
         label_5->setFont(font1);
         label_5->setAlignment(Qt::AlignCenter);
 
         horizontalLayout_3->addWidget(label_5);
 
         spinBox_2 = new QSpinBox(verticalLayoutWidget);
-        spinBox_2->setObjectName(QStringLiteral("spinBox_2"));
+        spinBox_2->setObjectName("spinBox_2");
         spinBox_2->setFont(font1);
         spinBox_2->setMaximum(5000);
         spinBox_2->setValue(50);
@@ -151,24 +166,27 @@ public:
         verticalLayout->addLayout(horizontalLayout_3);
 
         label_7 = new QLabel(verticalLayoutWidget);
-        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setObjectName("label_7");
         label_7->setFont(font2);
         label_7->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_7);
 
         formLayout = new QFormLayout();
-        formLayout->setObjectName(QStringLiteral("formLayout"));
+        formLayout->setObjectName("formLayout");
         baselineMethodLabel = new QLabel(verticalLayoutWidget);
-        baselineMethodLabel->setObjectName(QStringLiteral("baselineMethodLabel"));
+        baselineMethodLabel->setObjectName("baselineMethodLabel");
         baselineMethodLabel->setFont(font1);
 
         formLayout->setWidget(1, QFormLayout::LabelRole, baselineMethodLabel);
 
         baselineMethodComboBox = new QComboBox(verticalLayoutWidget);
-        baselineMethodComboBox->setObjectName(QStringLiteral("baselineMethodComboBox"));
+        baselineMethodComboBox->addItem(QString());
+        baselineMethodComboBox->addItem(QString());
+        baselineMethodComboBox->addItem(QString());
+        baselineMethodComboBox->setObjectName("baselineMethodComboBox");
         QFont font3;
-        font3.setFamily(QStringLiteral("Arial"));
+        font3.setFamilies({QString::fromUtf8("Arial")});
         font3.setPointSize(12);
         font3.setItalic(true);
         baselineMethodComboBox->setFont(font3);
@@ -176,13 +194,13 @@ public:
         formLayout->setWidget(1, QFormLayout::FieldRole, baselineMethodComboBox);
 
         moveWindowLabel = new QLabel(verticalLayoutWidget);
-        moveWindowLabel->setObjectName(QStringLiteral("moveWindowLabel"));
+        moveWindowLabel->setObjectName("moveWindowLabel");
         moveWindowLabel->setFont(font1);
 
         formLayout->setWidget(2, QFormLayout::LabelRole, moveWindowLabel);
 
         moveWindowSpinBox = new QSpinBox(verticalLayoutWidget);
-        moveWindowSpinBox->setObjectName(QStringLiteral("moveWindowSpinBox"));
+        moveWindowSpinBox->setObjectName("moveWindowSpinBox");
         moveWindowSpinBox->setFont(font);
         moveWindowSpinBox->setMaximum(1000000000);
         moveWindowSpinBox->setValue(5000);
@@ -190,26 +208,26 @@ public:
         formLayout->setWidget(2, QFormLayout::FieldRole, moveWindowSpinBox);
 
         orderLabel = new QLabel(verticalLayoutWidget);
-        orderLabel->setObjectName(QStringLiteral("orderLabel"));
+        orderLabel->setObjectName("orderLabel");
         orderLabel->setFont(font);
 
         formLayout->setWidget(3, QFormLayout::LabelRole, orderLabel);
 
         orderSpinBox = new QSpinBox(verticalLayoutWidget);
-        orderSpinBox->setObjectName(QStringLiteral("orderSpinBox"));
+        orderSpinBox->setObjectName("orderSpinBox");
         orderSpinBox->setFont(font);
         orderSpinBox->setValue(5);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, orderSpinBox);
 
         resolutionLabel = new QLabel(verticalLayoutWidget);
-        resolutionLabel->setObjectName(QStringLiteral("resolutionLabel"));
+        resolutionLabel->setObjectName("resolutionLabel");
         resolutionLabel->setFont(font);
 
         formLayout->setWidget(4, QFormLayout::LabelRole, resolutionLabel);
 
         resolutionSpinBox = new QSpinBox(verticalLayoutWidget);
-        resolutionSpinBox->setObjectName(QStringLiteral("resolutionSpinBox"));
+        resolutionSpinBox->setObjectName("resolutionSpinBox");
         resolutionSpinBox->setFont(font);
         resolutionSpinBox->setMaximum(1000000000);
         resolutionSpinBox->setValue(100);
@@ -217,26 +235,26 @@ public:
         formLayout->setWidget(4, QFormLayout::FieldRole, resolutionSpinBox);
 
         stepSizeLabel = new QLabel(verticalLayoutWidget);
-        stepSizeLabel->setObjectName(QStringLiteral("stepSizeLabel"));
+        stepSizeLabel->setObjectName("stepSizeLabel");
         stepSizeLabel->setFont(font);
 
         formLayout->setWidget(5, QFormLayout::LabelRole, stepSizeLabel);
 
         stepSizeSpinBox = new QSpinBox(verticalLayoutWidget);
-        stepSizeSpinBox->setObjectName(QStringLiteral("stepSizeSpinBox"));
+        stepSizeSpinBox->setObjectName("stepSizeSpinBox");
         stepSizeSpinBox->setFont(font);
         stepSizeSpinBox->setValue(6);
 
         formLayout->setWidget(5, QFormLayout::FieldRole, stepSizeSpinBox);
 
         hLabel = new QLabel(verticalLayoutWidget);
-        hLabel->setObjectName(QStringLiteral("hLabel"));
+        hLabel->setObjectName("hLabel");
         hLabel->setFont(font);
 
         formLayout->setWidget(6, QFormLayout::LabelRole, hLabel);
 
         hSpinBox = new QSpinBox(verticalLayoutWidget);
-        hSpinBox->setObjectName(QStringLiteral("hSpinBox"));
+        hSpinBox->setObjectName("hSpinBox");
         hSpinBox->setFont(font);
         hSpinBox->setValue(6);
 
@@ -246,24 +264,24 @@ public:
         verticalLayout->addLayout(formLayout);
 
         label_8 = new QLabel(verticalLayoutWidget);
-        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setObjectName("label_8");
         label_8->setFont(font2);
         label_8->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_8);
 
         formLayout_2 = new QFormLayout();
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
+        formLayout_2->setObjectName("formLayout_2");
         cSVPathLabel = new QLabel(verticalLayoutWidget);
-        cSVPathLabel->setObjectName(QStringLiteral("cSVPathLabel"));
+        cSVPathLabel->setObjectName("cSVPathLabel");
         cSVPathLabel->setFont(font);
 
         formLayout_2->setWidget(0, QFormLayout::LabelRole, cSVPathLabel);
 
         pyedit = new QLineEdit(verticalLayoutWidget);
-        pyedit->setObjectName(QStringLiteral("pyedit"));
+        pyedit->setObjectName("pyedit");
         QFont font4;
-        font4.setFamily(QStringLiteral("Arial"));
+        font4.setFamilies({QString::fromUtf8("Arial")});
         font4.setPointSize(10);
         font4.setItalic(false);
         pyedit->setFont(font4);
@@ -274,48 +292,48 @@ public:
         verticalLayout->addLayout(formLayout_2);
 
         label_6 = new QLabel(verticalLayoutWidget);
-        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setObjectName("label_6");
         label_6->setFont(font2);
         label_6->setAlignment(Qt::AlignCenter);
 
         verticalLayout->addWidget(label_6);
 
         formLayout_5 = new QFormLayout();
-        formLayout_5->setObjectName(QStringLiteral("formLayout_5"));
+        formLayout_5->setObjectName("formLayout_5");
         thresholdLabel = new QLabel(verticalLayoutWidget);
-        thresholdLabel->setObjectName(QStringLiteral("thresholdLabel"));
+        thresholdLabel->setObjectName("thresholdLabel");
         thresholdLabel->setFont(font1);
 
         formLayout_5->setWidget(0, QFormLayout::LabelRole, thresholdLabel);
 
         thresholdSpinBox = new QSpinBox(verticalLayoutWidget);
-        thresholdSpinBox->setObjectName(QStringLiteral("thresholdSpinBox"));
+        thresholdSpinBox->setObjectName("thresholdSpinBox");
         thresholdSpinBox->setFont(font1);
         thresholdSpinBox->setValue(5);
 
         formLayout_5->setWidget(0, QFormLayout::FieldRole, thresholdSpinBox);
 
         startPointLabel = new QLabel(verticalLayoutWidget);
-        startPointLabel->setObjectName(QStringLiteral("startPointLabel"));
+        startPointLabel->setObjectName("startPointLabel");
         startPointLabel->setFont(font1);
 
         formLayout_5->setWidget(1, QFormLayout::LabelRole, startPointLabel);
 
         startPointSpinBox = new QSpinBox(verticalLayoutWidget);
-        startPointSpinBox->setObjectName(QStringLiteral("startPointSpinBox"));
+        startPointSpinBox->setObjectName("startPointSpinBox");
         startPointSpinBox->setFont(font1);
         startPointSpinBox->setMaximum(1000000000);
 
         formLayout_5->setWidget(1, QFormLayout::FieldRole, startPointSpinBox);
 
         endPointLabel = new QLabel(verticalLayoutWidget);
-        endPointLabel->setObjectName(QStringLiteral("endPointLabel"));
+        endPointLabel->setObjectName("endPointLabel");
         endPointLabel->setFont(font1);
 
         formLayout_5->setWidget(2, QFormLayout::LabelRole, endPointLabel);
 
         endPointSpinBox = new QSpinBox(verticalLayoutWidget);
-        endPointSpinBox->setObjectName(QStringLiteral("endPointSpinBox"));
+        endPointSpinBox->setObjectName("endPointSpinBox");
         endPointSpinBox->setFont(font1);
         endPointSpinBox->setMaximum(1000000000);
         endPointSpinBox->setValue(10000000);
@@ -323,13 +341,13 @@ public:
         formLayout_5->setWidget(2, QFormLayout::FieldRole, endPointSpinBox);
 
         minWindowLabel = new QLabel(verticalLayoutWidget);
-        minWindowLabel->setObjectName(QStringLiteral("minWindowLabel"));
+        minWindowLabel->setObjectName("minWindowLabel");
         minWindowLabel->setFont(font1);
 
         formLayout_5->setWidget(3, QFormLayout::LabelRole, minWindowLabel);
 
         minWindowSpinBox = new QSpinBox(verticalLayoutWidget);
-        minWindowSpinBox->setObjectName(QStringLiteral("minWindowSpinBox"));
+        minWindowSpinBox->setObjectName("minWindowSpinBox");
         minWindowSpinBox->setFont(font1);
         minWindowSpinBox->setMaximum(1000000000);
         minWindowSpinBox->setValue(5);
@@ -337,25 +355,27 @@ public:
         formLayout_5->setWidget(3, QFormLayout::FieldRole, minWindowSpinBox);
 
         directionLabel = new QLabel(verticalLayoutWidget);
-        directionLabel->setObjectName(QStringLiteral("directionLabel"));
+        directionLabel->setObjectName("directionLabel");
         directionLabel->setFont(font);
 
         formLayout_5->setWidget(4, QFormLayout::LabelRole, directionLabel);
 
         directionComboBox = new QComboBox(verticalLayoutWidget);
-        directionComboBox->setObjectName(QStringLiteral("directionComboBox"));
+        directionComboBox->addItem(QString());
+        directionComboBox->addItem(QString());
+        directionComboBox->setObjectName("directionComboBox");
         directionComboBox->setFont(font);
 
         formLayout_5->setWidget(4, QFormLayout::FieldRole, directionComboBox);
 
         parallelLabel = new QLabel(verticalLayoutWidget);
-        parallelLabel->setObjectName(QStringLiteral("parallelLabel"));
+        parallelLabel->setObjectName("parallelLabel");
         parallelLabel->setFont(font);
 
         formLayout_5->setWidget(5, QFormLayout::LabelRole, parallelLabel);
 
         parallelSpinBox = new QSpinBox(verticalLayoutWidget);
-        parallelSpinBox->setObjectName(QStringLiteral("parallelSpinBox"));
+        parallelSpinBox->setObjectName("parallelSpinBox");
         parallelSpinBox->setFont(font);
         parallelSpinBox->setMinimum(1);
         parallelSpinBox->setValue(1);
@@ -365,48 +385,167 @@ public:
 
         verticalLayout->addLayout(formLayout_5);
 
+        verticalLayoutWidget_2 = new QWidget(configDialog);
+        verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
+        verticalLayoutWidget_2->setGeometry(QRect(600, 20, 481, 751));
+        verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
+        verticalLayout_2->setObjectName("verticalLayout_2");
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        formLayout_3 = new QFormLayout();
+        formLayout_3->setObjectName("formLayout_3");
+        label_2 = new QLabel(verticalLayoutWidget_2);
+        label_2->setObjectName("label_2");
+        QFont font5;
+        font5.setPointSize(12);
+        label_2->setFont(font5);
+        label_2->setLayoutDirection(Qt::LeftToRight);
+
+        formLayout_3->setWidget(0, QFormLayout::LabelRole, label_2);
+
+        prSpinBox = new QDoubleSpinBox(verticalLayoutWidget_2);
+        prSpinBox->setObjectName("prSpinBox");
+        prSpinBox->setFont(font5);
+        prSpinBox->setAlignment(Qt::AlignCenter);
+        prSpinBox->setDecimals(1);
+        prSpinBox->setValue(10.000000000000000);
+
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, prSpinBox);
+
+        label_3 = new QLabel(verticalLayoutWidget_2);
+        label_3->setObjectName("label_3");
+        label_3->setFont(font5);
+
+        formLayout_3->setWidget(1, QFormLayout::LabelRole, label_3);
+
+        plSpinBox_2 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        plSpinBox_2->setObjectName("plSpinBox_2");
+        plSpinBox_2->setFont(font5);
+        plSpinBox_2->setAlignment(Qt::AlignCenter);
+        plSpinBox_2->setDecimals(1);
+        plSpinBox_2->setValue(30.000000000000000);
+
+        formLayout_3->setWidget(1, QFormLayout::FieldRole, plSpinBox_2);
+
+        label_9 = new QLabel(verticalLayoutWidget_2);
+        label_9->setObjectName("label_9");
+        label_9->setFont(font5);
+
+        formLayout_3->setWidget(2, QFormLayout::LabelRole, label_9);
+
+        saltSpinBox_3 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        saltSpinBox_3->setObjectName("saltSpinBox_3");
+        saltSpinBox_3->setFont(font5);
+        saltSpinBox_3->setAlignment(Qt::AlignCenter);
+        saltSpinBox_3->setDecimals(3);
+        saltSpinBox_3->setValue(0.046000000000000);
+
+        formLayout_3->setWidget(2, QFormLayout::FieldRole, saltSpinBox_3);
+
+        label_10 = new QLabel(verticalLayoutWidget_2);
+        label_10->setObjectName("label_10");
+        label_10->setFont(font5);
+
+        formLayout_3->setWidget(3, QFormLayout::LabelRole, label_10);
+
+        voltageSpinBox_4 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        voltageSpinBox_4->setObjectName("voltageSpinBox_4");
+        voltageSpinBox_4->setFont(font5);
+        voltageSpinBox_4->setAlignment(Qt::AlignCenter);
+        voltageSpinBox_4->setValue(0.100000000000000);
+
+        formLayout_3->setWidget(3, QFormLayout::FieldRole, voltageSpinBox_4);
+
+        label_11 = new QLabel(verticalLayoutWidget_2);
+        label_11->setObjectName("label_11");
+        label_11->setFont(font5);
+
+        formLayout_3->setWidget(4, QFormLayout::LabelRole, label_11);
+
+        iminSpinBox_5 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        iminSpinBox_5->setObjectName("iminSpinBox_5");
+        iminSpinBox_5->setFont(font5);
+        iminSpinBox_5->setAlignment(Qt::AlignCenter);
+        iminSpinBox_5->setDecimals(0);
+        iminSpinBox_5->setValue(5.000000000000000);
+
+        formLayout_3->setWidget(4, QFormLayout::FieldRole, iminSpinBox_5);
+
+        label_12 = new QLabel(verticalLayoutWidget_2);
+        label_12->setObjectName("label_12");
+        label_12->setFont(font5);
+
+        formLayout_3->setWidget(5, QFormLayout::LabelRole, label_12);
+
+        imaxSpinBox_6 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        imaxSpinBox_6->setObjectName("imaxSpinBox_6");
+        imaxSpinBox_6->setFont(font5);
+        imaxSpinBox_6->setAlignment(Qt::AlignCenter);
+        imaxSpinBox_6->setDecimals(0);
+        imaxSpinBox_6->setValue(95.000000000000000);
+
+        formLayout_3->setWidget(5, QFormLayout::FieldRole, imaxSpinBox_6);
+
+        label_13 = new QLabel(verticalLayoutWidget_2);
+        label_13->setObjectName("label_13");
+        label_13->setFont(font5);
+
+        formLayout_3->setWidget(6, QFormLayout::LabelRole, label_13);
+
+        sdSpinBox_7 = new QDoubleSpinBox(verticalLayoutWidget_2);
+        sdSpinBox_7->setObjectName("sdSpinBox_7");
+        sdSpinBox_7->setFont(font5);
+        sdSpinBox_7->setAlignment(Qt::AlignCenter);
+
+        formLayout_3->setWidget(6, QFormLayout::FieldRole, sdSpinBox_7);
+
+
+        verticalLayout_2->addLayout(formLayout_3);
+
 
         retranslateUi(configDialog);
-        QObject::connect(buttonBox, SIGNAL(accepted()), configDialog, SLOT(accept()));
-        QObject::connect(buttonBox, SIGNAL(rejected()), configDialog, SLOT(reject()));
+        QObject::connect(buttonBox, &QDialogButtonBox::accepted, configDialog, qOverload<>(&QDialog::accept));
+        QObject::connect(buttonBox, &QDialogButtonBox::rejected, configDialog, qOverload<>(&QDialog::reject));
 
         QMetaObject::connectSlotsByName(configDialog);
     } // setupUi
 
     void retranslateUi(QDialog *configDialog)
     {
-        configDialog->setWindowTitle(QApplication::translate("configDialog", "Dialog", Q_NULLPTR));
-        label->setText(QApplication::translate("configDialog", "Sampling rate(kHz):", Q_NULLPTR));
-        label_4->setText(QApplication::translate("configDialog", "Filter (IIR-5 order)", Q_NULLPTR));
-        label_5->setText(QApplication::translate("configDialog", "Low pass(kHz):", Q_NULLPTR));
-        label_7->setText(QApplication::translate("configDialog", "Baseline", Q_NULLPTR));
-        baselineMethodLabel->setText(QApplication::translate("configDialog", "Baseline method:", Q_NULLPTR));
-        baselineMethodComboBox->clear();
-        baselineMethodComboBox->insertItems(0, QStringList()
-         << QApplication::translate("configDialog", "Moving average", Q_NULLPTR)
-         << QApplication::translate("configDialog", "Moving median", Q_NULLPTR)
-         << QApplication::translate("configDialog", "Local Baseline", Q_NULLPTR)
-        );
-        moveWindowLabel->setText(QApplication::translate("configDialog", "Move window:", Q_NULLPTR));
-        orderLabel->setText(QApplication::translate("configDialog", "Order:", Q_NULLPTR));
-        resolutionLabel->setText(QApplication::translate("configDialog", "Resolution:", Q_NULLPTR));
-        stepSizeLabel->setText(QApplication::translate("configDialog", "Step size:", Q_NULLPTR));
-        hLabel->setText(QApplication::translate("configDialog", "h:", Q_NULLPTR));
-        label_8->setText(QApplication::translate("configDialog", "External File", Q_NULLPTR));
-        cSVPathLabel->setText(QApplication::translate("configDialog", "Python Path:", Q_NULLPTR));
-        pyedit->setText(QApplication::translate("configDialog", "C:/Users/LiYu/Anaconda3/lib;C:/Users/LiYu/Anaconda3/DLLs", Q_NULLPTR));
-        label_6->setText(QApplication::translate("configDialog", "Event Detection (Block event detection)", Q_NULLPTR));
-        thresholdLabel->setText(QApplication::translate("configDialog", "Threshold:         ", Q_NULLPTR));
-        startPointLabel->setText(QApplication::translate("configDialog", "Start point:", Q_NULLPTR));
-        endPointLabel->setText(QApplication::translate("configDialog", "End point:", Q_NULLPTR));
-        minWindowLabel->setText(QApplication::translate("configDialog", "Min window:", Q_NULLPTR));
-        directionLabel->setText(QApplication::translate("configDialog", "Direction:", Q_NULLPTR));
-        directionComboBox->clear();
-        directionComboBox->insertItems(0, QStringList()
-         << QApplication::translate("configDialog", "Negative", Q_NULLPTR)
-         << QApplication::translate("configDialog", "Positive", Q_NULLPTR)
-        );
-        parallelLabel->setText(QApplication::translate("configDialog", "Parallel:", Q_NULLPTR));
+        configDialog->setWindowTitle(QCoreApplication::translate("configDialog", "Dialog", nullptr));
+        label->setText(QCoreApplication::translate("configDialog", "Sampling rate(kHz):", nullptr));
+        label_4->setText(QCoreApplication::translate("configDialog", "Filter (IIR-5 order)", nullptr));
+        label_5->setText(QCoreApplication::translate("configDialog", "Low pass(kHz):", nullptr));
+        label_7->setText(QCoreApplication::translate("configDialog", "Baseline", nullptr));
+        baselineMethodLabel->setText(QCoreApplication::translate("configDialog", "Baseline method:", nullptr));
+        baselineMethodComboBox->setItemText(0, QCoreApplication::translate("configDialog", "Moving average", nullptr));
+        baselineMethodComboBox->setItemText(1, QCoreApplication::translate("configDialog", "Moving median", nullptr));
+        baselineMethodComboBox->setItemText(2, QCoreApplication::translate("configDialog", "Local Baseline", nullptr));
+
+        moveWindowLabel->setText(QCoreApplication::translate("configDialog", "Move window:", nullptr));
+        orderLabel->setText(QCoreApplication::translate("configDialog", "Order:", nullptr));
+        resolutionLabel->setText(QCoreApplication::translate("configDialog", "Resolution:", nullptr));
+        stepSizeLabel->setText(QCoreApplication::translate("configDialog", "Step size:", nullptr));
+        hLabel->setText(QCoreApplication::translate("configDialog", "h:", nullptr));
+        label_8->setText(QCoreApplication::translate("configDialog", "External File", nullptr));
+        cSVPathLabel->setText(QCoreApplication::translate("configDialog", "Python Path:", nullptr));
+        pyedit->setText(QCoreApplication::translate("configDialog", "C:/Users/LiYu/Anaconda3/lib;C:/Users/LiYu/Anaconda3/DLLs", nullptr));
+        label_6->setText(QCoreApplication::translate("configDialog", "Event Detection (Block event detection)", nullptr));
+        thresholdLabel->setText(QCoreApplication::translate("configDialog", "Threshold:         ", nullptr));
+        startPointLabel->setText(QCoreApplication::translate("configDialog", "Start point:", nullptr));
+        endPointLabel->setText(QCoreApplication::translate("configDialog", "End point:", nullptr));
+        minWindowLabel->setText(QCoreApplication::translate("configDialog", "Min window:", nullptr));
+        directionLabel->setText(QCoreApplication::translate("configDialog", "Direction:", nullptr));
+        directionComboBox->setItemText(0, QCoreApplication::translate("configDialog", "Negative", nullptr));
+        directionComboBox->setItemText(1, QCoreApplication::translate("configDialog", "Positive", nullptr));
+
+        parallelLabel->setText(QCoreApplication::translate("configDialog", "Parallel:", nullptr));
+        label_2->setText(QCoreApplication::translate("configDialog", "Pore Radius(nm):", nullptr));
+        label_3->setText(QCoreApplication::translate("configDialog", "Pore Length(nm): ", nullptr));
+        label_9->setText(QCoreApplication::translate("configDialog", "Salt(om): ", nullptr));
+        label_10->setText(QCoreApplication::translate("configDialog", "Voltage(V): ", nullptr));
+        label_11->setText(QCoreApplication::translate("configDialog", "Imin(%):", nullptr));
+        label_12->setText(QCoreApplication::translate("configDialog", "Imax(%): ", nullptr));
+        label_13->setText(QCoreApplication::translate("configDialog", "SD(pA):", nullptr));
     } // retranslateUi
 
 };

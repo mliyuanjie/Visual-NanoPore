@@ -5,6 +5,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtCore/qvector.h>
+#include  <QtCore/qpoint.h>
 #include <list>
 #include <unordered_map>
 #include <string>

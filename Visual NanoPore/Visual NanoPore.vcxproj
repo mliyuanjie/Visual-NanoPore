@@ -19,7 +19,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -30,7 +30,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc2017</QtInstall>
+    <QtInstall>6.5.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;charts</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -60,10 +60,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_75_0;C:\Users\LiYu\source\eigen-3.4.0;C:\Users\LiYu\Anaconda3\include;C:\Users\LiYu\Anaconda3\pkgs\pybind11-2.5.0-py38h74a9793_0\Lib\site-packages\pybind11\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories);$(ProjectDir)/include;C:\Users\LiYu\CppLibrary\boost_1_82_0\boost_1_82_0;C:\Users\LiYu\source\eigen-3.4.0;C:\Users\LiYu\Anaconda3\include;C:\Users\LiYu\Anaconda3\pkgs\pybind11-2.5.0-py38h74a9793_0\Lib\site-packages\pybind11\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>H5_BUILT_AS_DYNAMIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OpenMPSupport>true</OpenMPSupport>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <QtUic>
       <QtUicDir>$(ProjectDir)/include</QtUicDir>
@@ -72,8 +72,8 @@
       <QtUicFileName>%(Filename).h</QtUicFileName>
     </QtUic>
     <Link>
-      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(ProjectDir)/lib/iir_static.lib;C:\Users\LiYu\Anaconda3\libs\python38.lib;C:\Users\LiYu\CppLibrary\boost_1_75_0\stage\lib\boost_python38-vc142-mt-gd-x64-1_75.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Qt_LIBPATH_);$(ProjectDir)/lib;%(AdditionalLibraryDirectories);C:\Users\LiYu\CppLibrary\boost_1_82_0\boost_1_82_0\stage64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(ProjectDir)/lib/iir_static.lib;C:\Users\LiYu\CppLibrary\boost_1_82_0\boost_1_82_0\stage64\lib\libboost_iostreams-vc142-mt-gd-x64-1_82.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>

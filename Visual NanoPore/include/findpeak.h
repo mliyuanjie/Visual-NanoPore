@@ -10,8 +10,6 @@
 #include <set>
 #include "tools.h"
 
-
-
 class FindPeakRealTime {
 public:
     FindPeakRealTime(double fs, double sigma, int resolution, int window, int k, int offset, bool ismedian);

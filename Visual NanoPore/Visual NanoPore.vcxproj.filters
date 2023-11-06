@@ -30,19 +30,22 @@
     <ClInclude Include="include\mainwindow.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\manual peakfind.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\tools.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vnpio.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\createvnpdialog.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\configui.h">
+    <ClInclude Include="include\manualui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vnpnetio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\paramsgui.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\findpeak.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,13 +59,25 @@
     <QtMoc Include="include\manual.h">
       <Filter>include</Filter>
     </QtMoc>
-    <QtMoc Include="include\createvnp.h">
-      <Filter>include</Filter>
-    </QtMoc>
     <QtMoc Include="include\vnpmainwindow.h">
       <Filter>include</Filter>
     </QtMoc>
     <QtMoc Include="include\configdialog.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\scaleframe.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\nlineseries.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\calworker.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\vnpcontroller.h">
+      <Filter>include</Filter>
+    </QtMoc>
+    <QtMoc Include="include\findpeakworker.h">
       <Filter>include</Filter>
     </QtMoc>
   </ItemGroup>
@@ -79,16 +94,7 @@
     <ClCompile Include="source\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="resources\qrc_resources.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="dataIO\vnpio.cpp">
-      <Filter>dataIO</Filter>
-    </ClCompile>
     <ClCompile Include="myview\vnpmainwindow.cpp">
-      <Filter>myview</Filter>
-    </ClCompile>
-    <ClCompile Include="myview\createvnp.cpp">
       <Filter>myview</Filter>
     </ClCompile>
     <ClCompile Include="myview\manual.cpp">
@@ -100,11 +106,26 @@
     <ClCompile Include="algorithm\tools.cpp">
       <Filter>algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="myview\scaleframe.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\nlineseries.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\calworker.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="myview\vnpcontroller.cpp">
+      <Filter>myview</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\findpeakworker.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="algorithm\findpeak.cpp">
+      <Filter>algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="mainUI\manual peakfind.ui">
-      <Filter>UI</Filter>
-    </QtUic>
     <QtUic Include="mainUI\mainwindow.ui">
       <Filter>UI</Filter>
     </QtUic>
@@ -112,6 +133,15 @@
       <Filter>UI</Filter>
     </QtUic>
     <QtUic Include="mainUI\configui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\manualui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\loginui.ui">
+      <Filter>UI</Filter>
+    </QtUic>
+    <QtUic Include="mainUI\paramsgui.ui">
       <Filter>UI</Filter>
     </QtUic>
   </ItemGroup>

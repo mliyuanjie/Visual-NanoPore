@@ -8,7 +8,8 @@ The post analysis can easily handled in python script by using the time-tag of t
 ## visualization algorithm
 1. This software uses data pyramid to accelerate the data plotting, so its fast and can handle large dataset (2^32 bytes points).   
 2. mouse zoom in out backward, forward, home, work in here. 
-![image](https://github.com/user-attachments/assets/8c4cf0d5-601e-44da-b354-cea5c3703442)  
+![image](https://github.com/user-attachments/assets/e8c2d118-7fb7-4a8a-b3c7-16cfe53e7475)
+
 ## peak find manually
 ![image](https://github.com/user-attachments/assets/7d6f5500-8a93-4f5b-90e9-de570fe6b01e)  
 ![image](https://github.com/user-attachments/assets/993731c3-21c2-4262-a3fb-b721c1ed055e)  
@@ -36,11 +37,10 @@ if you open the multiple files in the files directory， then the rocket button 
 2. double click the events will see the message box about protiens estimation  
 ## downsample figure
 1. we might suffer a lot when we would like to plot the long nanopore traces
- 
+click the copy button, it will save the downsampled data to the file (along with your data folder). 
+2. overlap addition data traces, (light blue)
+![image](https://github.com/user-attachments/assets/46aaf9c9-acb2-4716-896b-0e210659f46a)
 
+## test on 1.8Ghz cpu, single threads could process the data with a ~2000 Mb/s speed.
 
-
-
-test on 1.8Ghz cpu, single threads could process the data with a ~2000 Mb/s speed.
-provide a manual events correction, and vis.
 

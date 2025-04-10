@@ -2,13 +2,21 @@
 ## qt c++ software for nanopore data visualize and analysis. 
 this software might be fully released after my papers are published. QAQ  
 I wrote in here is for postdoc or job application.  
+  
 this software only focuse on peak detection and visualize, then running speed priority.   
+  
 The post analysis can easily handled in python script by using the time-tag of the events.   
+
+the release version only exists for one month. 
+
+
 ![image](https://github.com/user-attachments/assets/04b24eb6-fd67-4fd1-9a03-50379bfc5293)  
 ## visualization algorithm
 1. This software uses data pyramid to accelerate the data plotting, so its fast and can handle large dataset (2^32 bytes points).   
 2. mouse zoom in out backward, forward, home, work in here. 
 ![image](https://github.com/user-attachments/assets/e8c2d118-7fb7-4a8a-b3c7-16cfe53e7475)
+
+3. right click and drag will zoom in   
 
 ## peak find manually
 ![image](https://github.com/user-attachments/assets/7d6f5500-8a93-4f5b-90e9-de570fe6b01e)  

@@ -24,8 +24,9 @@ the release version only exists for one month.
 1. we can easily add the events by drag the bar
 ![image](https://github.com/user-attachments/assets/21559758-1168-4648-a5d7-9cbd1050e570)   
 2. fist / second button will add / remove the events to the list (a temperary list is maintained for the detected events), third and fourth will add / remove from the storage file   
-![image](https://github.com/user-attachments/assets/61cb502a-e606-40d0-a86d-e37c172ce90d)  
-it becoomes green when the detected points was saved in csv file  
+![image](https://github.com/user-attachments/assets/61cb502a-e606-40d0-a86d-e37c172ce90d)
+
+4. the detected events will save in a CSV file, it becoomes green when the detected points was saved in csv file  
 ![image](https://github.com/user-attachments/assets/bab43e5a-736a-40cc-b3fe-bc53d602d08b)  
 3. the red events can add/remove to temporary or storage events list. the algorithm will merge them automatically, and here is the rules for add.  
 *1221 -> 22; 1122 -> 1122; 1212 -> 22; 2121 - > 22; 2211 -> 2211*  

@@ -1,9 +1,9 @@
 # Visual-NanoPore
 ## qt c++ software for nanopore data visualize and analysis. 
-this software might be fully released after my papers are published. QAQ
-I wrote in here is for postdoc or job application
-this software only focuse on peak detection and visualize, then running speed priority either for super large dataset. 
-The post analysis can easily handled in python script by using the time-tag of the events. 
+this software might be fully released after my papers are published. QAQ  
+I wrote in here is for postdoc or job application.  
+this software only focuse on peak detection and visualize, then running speed priority.   
+The post analysis can easily handled in python script by using the time-tag of the events.   
 ![image](https://github.com/user-attachments/assets/04b24eb6-fd67-4fd1-9a03-50379bfc5293)
 ## visualization algorithm
 This software uses data pyramid to accelerate the data plotting, so its fast and can handle large dataset (2^32 bytes points). 

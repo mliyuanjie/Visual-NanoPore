@@ -45,8 +45,7 @@ if you open the multiple files in the files directory， then the rocket button 
 ![image](https://github.com/user-attachments/assets/3d2f9934-e503-4186-acc3-34c3f73897c3)  
 2. double click the events will see the message box about protiens estimation  
 ## downsample figure
-1. we might suffer a lot when we would like to plot the long nanopore traces
-click the copy button, it will save the downsampled data to the file (along with your data folder). 
+1. click the copy button, it will save the downsampled data to the file (along with your data folder). 
 2. overlap addition data traces, (light blue)
 ![image](https://github.com/user-attachments/assets/46aaf9c9-acb2-4716-896b-0e210659f46a)
 

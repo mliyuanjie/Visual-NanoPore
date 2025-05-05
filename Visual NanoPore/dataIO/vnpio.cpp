@@ -21,10 +21,24 @@ std::vector<std::string> split(const std::string& s, char delim) {
 	return elems;
 }
 
-void VNPIO::open(std::string fn) {
+void VNPIO::open(std::string& fn) {
 	filename = fn;
 	file = H5Fopen(fn.c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
 
+}
+
+void VNPIO::setdata_float(std::string& groupname, std::string& objname, std::vector<float>& data) {
+	  
+}
+
+std::string VNPIO::getdatapath(std::string groupname) {
+	std::string directory;
+	const size_t last_slash_idx = filename.rfind('/');
+	if (std::string::npos != last_slash_idx)
+	{
+		directory = filename.substr(0, last_slash_idx);
+	}
+	return directory + std::string("/") + groupname +std::string(".dat");
 }
 
 void VNPIO::create(std::string fn) {
@@ -39,8 +53,9 @@ std::vector<std::string> VNPIO::getfilelist() {
 }
 
 std::list<Peak> VNPIO::geteventlist(std::string fn) {
+	fn = std::string("/") + fn + std::string("/eventlist");
 	std::list<Peak> res;
-	hsize_t dims[2] = { 1,1 };
+	hsize_t dims[2] = { 0,0 };
 	double* rdata;
 	hid_t dset = H5Dopen(file, fn.c_str(), H5P_DEFAULT);
 	hid_t space = H5Dget_space(dset);
@@ -48,7 +63,7 @@ std::list<Peak> VNPIO::geteventlist(std::string fn) {
 	rdata = new double[dims[0]*4];
 	status = H5Dread(dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
 	for (int i = 0; i < dims[0]; i++) {
-		Peak event = { int(rdata[i * 4]), int(rdata[i * 4 + 1]), rdata[i * 4 + 2], rdata[i * 4 + 3] };
+		Peak event = { rdata[i * 4], rdata[i * 4 + 1], rdata[i * 4 + 2], rdata[i * 4 + 3] };
 		res.push_back(event);
 	}
 	delete[] rdata;
@@ -58,8 +73,9 @@ std::list<Peak> VNPIO::geteventlist(std::string fn) {
 }
 
 std::list<std::pair<double, double>> VNPIO::getdatadone(std::string fn) {
+	fn = std::string("/") + fn + std::string("/datadone");
 	std::list<std::pair<double, double>> res;
-	hsize_t dims[2] = { 1,1 };
+	hsize_t dims[2] = { 0,0 };
 	double* rdata;
 	hid_t dset = H5Dopen(file, fn.c_str(), H5P_DEFAULT);
 	hid_t space = H5Dget_space(dset);
@@ -67,7 +83,7 @@ std::list<std::pair<double, double>> VNPIO::getdatadone(std::string fn) {
 	rdata = new double[dims[0] * 2];
 	status = H5Dread(dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
 	for (int i = 0; i < dims[0]; i++) {
-		res.push_back(std::pair<int, int>(rdata[i * 2], rdata[i * 2 + 1]));
+		res.push_back(std::pair<double, double>(rdata[i * 2], rdata[i * 2 + 1]));
 	}
 	delete[] rdata;
 	status = H5Dclose(dset);
@@ -76,6 +92,7 @@ std::list<std::pair<double, double>> VNPIO::getdatadone(std::string fn) {
 }
 
  void VNPIO::seteventlist(std::string fn, std::list<Peak>& eventlist) {
+	fn = std::string("/") + fn + std::string("/eventlist");
 	hsize_t dims[2] = { eventlist.size(), 4 };
 	double* wdata;
 	wdata = new double[dims[0] * 4];
@@ -99,6 +116,7 @@ std::list<std::pair<double, double>> VNPIO::getdatadone(std::string fn) {
 }
 
 void VNPIO::setdatadone(std::string fn, std::list<std::pair<double, double>>& datalist) {
+	fn = std::string("/") + fn + std::string("/datadone");
 	hsize_t dims[2] = { datalist.size(), 2 };
 	double* wdata;
 	wdata = new double[dims[0]*2];

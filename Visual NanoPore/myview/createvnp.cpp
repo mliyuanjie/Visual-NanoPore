@@ -4,7 +4,7 @@
 
 createvnp::createvnp(QWidget* parent) : QDialog(parent) {
 	ui.setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
+	//setAttribute(Qt::WA_DeleteOnClose);
 	QPushButton* selectbutton = this->findChild<QPushButton*>("pushButton");
 	connect(selectbutton, SIGNAL(clicked()), this, SLOT(selectdata()));
 }
@@ -17,9 +17,14 @@ void createvnp::selectdata() {
 		"Nanopore data (*.dat)");
 	QListWidget* listwidget = this->findChild<QListWidget*>("listWidget");
 	listwidget->addItems(filenames);
+}
+
+void createvnp::savefile() {
 	VNPIO file;
+	if (filenames.empty())
+		return;
 	QString foldername = QFileInfo(filenames[0]).absoluteDir().absolutePath();
-	QString fn = foldername + '/' + this->findChild<QLineEdit*>("lineEdit")->text() + ".vnp";
+	QString fn = foldername + '/' + this->findChild<QLineEdit*>("lineEdit")->text() + ".h5";
 	file.create(fn.toStdString());
 	for (const auto& i : filenames) {
 		file.creategroup(i.split('/').last().toStdString());

@@ -7,14 +7,19 @@
 #include <list>
 #include <fstream>
 #include "tools.h"
-#include "createvnp.h"
+
 
 class VNPIO {
 public:
-	void open(std::string);
-	void create(std::string);
+	void open(std::string&);
+	void create(std::string&);
+	void setdata_float(std::string&, std::string&, std::vector<float>&);
+	void setdata_int(std::string&, std::vector<int>&);
+	void setattribute(std::string&, float);
+	void setdata_group(std::string&, std::vector<float>&);
 	void close();
 	void creategroup(std::string);
+	std::string getdatapath(std::string);
 	void createattri(std::string fn, std::unordered_map<std::string, double> map);
 	void removegroup(std::string);
 	std::vector<std::string> getfilelist();

@@ -6,9 +6,9 @@
 #include <string>
 #include <QtWidgets/QDialog>
 #include "tools.h"
-#include "configui.h"
+#include "paramsgui.h"
 
-QT_CHARTS_USE_NAMESPACE
+//QT_CHARTS_USE_NAMESPACE
 
 class ConfigDialog :public QDialog
 {
@@ -17,9 +17,20 @@ public:
     ConfigDialog(QWidget* parent = nullptr);
 public slots:
     void selectfile();
+    void changebm(const QString& name);
 
 private:
     Ui::configDialog ui;
+    QLabel* hLabel;
+    QLabel* moveWindowLabel;
+    QLabel* orderLabel;
+    QLabel* resolutionLabel;
+    QLabel* stepSizeLabel;
+    QSpinBox* hSpinBox;
+    QSpinBox* moveWindowSpinBox;
+    QSpinBox* orderSpinBox;
+    QSpinBox* resolutionSpinBox;
+    QSpinBox* stepSizeSpinBox;
 };
 
 

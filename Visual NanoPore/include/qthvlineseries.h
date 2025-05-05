@@ -9,30 +9,20 @@
 
 QT_CHARTS_USE_NAMESPACE
 
-class HLineSeries : public QLineSeries
+class HVLineSeries : public QLineSeries
 {
     Q_OBJECT;
 public:
-    HLineSeries(QObject* parent = nullptr);
+    HVLineSeries(QObject* parent = nullptr) :QLineSeries(parent) {};
+    int color;
 
 public slots:
-    void onhovered(const QPointF& point, bool state);
+    void onhovered(QPointF, bool);
 
 signals:
-    void changecursor(const QCursor&);
+    void changecursor(QCursor);
 };
 
-class VLineSeries : public QLineSeries
-{
-    Q_OBJECT;
-public:
-    VLineSeries(QObject* parent = nullptr);
 
-public slots:
-    void onhovered(const QPointF& point, bool state);
-
-signals:
-    void changecursor(const QCursor&);
-};
 
 #endif //QTHVLINESERIES_H

@@ -1,69 +1,64 @@
+#pragma once
 #ifndef MANUAL_H
 #define MAUNAL_H
 
 #include <QtCore/qobject.h>
-#include <QtWidgets/QMdiSubWindow>
 #include <list>
 #include <utility>
 #include <vector>
-#include "manual peakfind.h"
+#include "manualui.h"
 #include "tools.h"
 #include "datio.h"
+#include "qtdataview.h"
 
+struct axisrange {
+	double xmin;
+	double xmax;
+	double ymin;
+	double ymax;
+};
 
-class ManualPeakFind :public QMdiSubWindow {
+class ManualPeakFind :public QWidget {
 	Q_OBJECT
 public:
 	ManualPeakFind(QWidget* p = nullptr);
-	~ManualPeakFind();
+
+	int method = 0;
+	void getbar(double&, double&, double&, double&);
+	void getaxis(double&, double&, double&, double&);
+	std::list<axisrange> history;
 
 
 public slots:
-	void opendat(QString fn, double fs);
-	void getdata(double xmin, double xmax, bool mainview);
-	void getdatadone();
-	void meansd(double xmin, double xmax);
+	//showing data interface, two float data and two event list
+	void setdata(QVector<QPointF>);
+	void setdata2(QVector<QPointF>);
+	void seteventlist(QVector<QPointF>);
+	void seteventlist2(QVector<QPointF>);
+	void seteventlist3(QVector<QPointF>);
+
+	//button in manual ui
+	void setscale(double, double, double, double);
+	void setx1(double);
+	void setx2(double);
+	void sety1(double);
+	void sety2(double);
 	void home();
 	void backward();
-	void forward();
-	void insertregion();
-	void removeregion();
-	void insertevent();
-	void removeevent();
-	void geteventlist();
-	void saveeventlist();
-	void backwardwindow();
 	void forwardwindow();
-	void seteventlist(std::list<Peak>);
-	void setdatadone(std::list<std::pair<double, double>>);
-	void filter(bool);
+	void methodboxchange(QString);
+	void zoomevent(int);
+
 
 signals:
-	void senddata1(QVector<QPointF>);
-	void senddata2(QVector<QPointF>);
-	void senddatadone(QVector<QPointF>);
-	void sendxscale1(double, double);
-	void sendyscale(double, double);
-	void sendxscale2(double, double);
-	void sendeventlist(QVector<QPointF>);
-	void sendsaveeventlist(QVector<QPointF>);
-	void sendmean(double);
-	void sendsd(double);
+	void askdata(double xmin, double xmax, double ymin, double ymax);
+	void send_number(int);
 
 private:
 	Ui::Form ui;
-	QWidget* widget;
-	std::string filename;
-	std::list<std::pair<double, double>> history;
-	std::list<std::pair<double, double>> datadone;
-	int windowsize = 500000;
-	double interval = 2;
-	std::list<Peak> eventlist;
-	DATIO dat;
-	int n;
-	std::list<std::pair<double, double>>::iterator pos;
-	std::list<Peak>::iterator findposs(double);
-	std::list<Peak>::iterator findpose(double);
+	QVector<QPointF> eventlist;
+	DataView* firstview = NULL;
+	QSpinBox* spinbox = NULL;
 };
 
 #endif //MAUNAL_H

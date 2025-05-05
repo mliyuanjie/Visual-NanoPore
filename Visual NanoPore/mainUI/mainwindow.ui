@@ -6,72 +6,170 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2216</width>
-    <height>962</height>
+    <width>1326</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1000</width>
-    <height>700</height>
+    <width>800</width>
+    <height>800</height>
    </size>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QMdiArea" name="mdiArea">
-    <property name="geometry">
-     <rect>
-      <x>-20</x>
-      <y>0</y>
-      <width>1861</width>
-      <height>1000</height>
-     </rect>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="spacing">
+     <number>0</number>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>1462</width>
-      <height>1000</height>
-     </size>
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-   </widget>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="widget_3" native="true">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>12</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QProgressBar {
+	background-color: rgb(0, 170, 0);
+	border-radius: 5px;
+}
+QProgressBar::chunk {
+	border-radius: 5px;
+	background-color: rgb(255, 0, 0);
+}</string>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+         <property name="format">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="ManualPeakFind" name="widget_2" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2216</width>
-     <height>21</height>
+     <width>1326</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionnew"/>
     <addaction name="actionopen"/>
+    <addaction name="actionload_csv"/>
+    <addaction name="actionload_dat"/>
+    <addaction name="actionsave_to_csv"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Edit</string>
+     <string>Tools</string>
     </property>
-    <addaction name="actionadd_signal"/>
-    <addaction name="actionremove_signal"/>
+    <addaction name="actionauto_run"/>
+    <addaction name="actionstop_auto"/>
     <addaction name="actionfilter"/>
-    <addaction name="actionedit"/>
-    <addaction name="separator"/>
+    <addaction name="actionestimation"/>
+    <addaction name="actionfind_peak"/>
+    <addaction name="actioninsert_event"/>
+    <addaction name="actionremove_event"/>
+    <addaction name="actionestimation2"/>
+    <addaction name="actionfilter_save"/>
    </widget>
    <widget class="QMenu" name="menuPython">
     <property name="title">
      <string>View</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuExtensions">
-    <property name="title">
-     <string>Extensions</string>
-    </property>
+    <addaction name="actioncommand"/>
+    <addaction name="actionfilebrowsers"/>
+    <addaction name="actionshow_plot"/>
+    <addaction name="actionshow_Imin_Imax"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -87,17 +185,15 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="actionautopeakfind"/>
+    <addaction name="actionparameter"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
    <addaction name="menuPython"/>
    <addaction name="menuSettings"/>
-   <addaction name="menuExtensions"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -108,27 +204,37 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionnew"/>
-   <addaction name="actionfilter"/>
-   <addaction name="actionfindpeak"/>
-   <addaction name="separator"/>
-   <addaction name="actionedit"/>
-   <addaction name="actionadd_signal"/>
-   <addaction name="actionremove_signal"/>
    <addaction name="actionopen"/>
+   <addaction name="actionload_dat"/>
+   <addaction name="actionload_csv"/>
+   <addaction name="actioncopy_data"/>
    <addaction name="separator"/>
-   <addaction name="actionsaveas"/>
+   <addaction name="actionfilter"/>
+   <addaction name="separator"/>
+   <addaction name="actionfind_peak"/>
+   <addaction name="actionestimation"/>
+   <addaction name="actioninsert_event"/>
+   <addaction name="actionremove_event"/>
+   <addaction name="actionsave_to_csv"/>
+   <addaction name="separator"/>
+   <addaction name="actionestimation2"/>
+   <addaction name="separator"/>
+   <addaction name="actionauto_run"/>
+   <addaction name="actionstop_auto"/>
+   <addaction name="separator"/>
+   <addaction name="actionparameter"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
     <size>
-     <width>348</width>
-     <height>258</height>
+     <width>134</width>
+     <height>166</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>348</width>
+     <width>524287</width>
      <height>524287</height>
     </size>
    </property>
@@ -139,6 +245,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="VNPTreeWidget" name="treeWidget">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <column>
         <property name="text">
          <string>Name</string>
@@ -149,81 +258,203 @@
     </layout>
    </widget>
   </widget>
-  <action name="actionnew">
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionopen">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/new.png</normaloff>../resources/new.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/new.png</iconset>
    </property>
    <property name="text">
-    <string>new</string>
+    <string>open folder</string>
    </property>
   </action>
-  <action name="actionremove_signal">
+  <action name="actionparameter">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/delete_database.png</normaloff>../resources/delete_database.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/gear.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/gear.png</iconset>
    </property>
    <property name="text">
-    <string>remove signal</string>
+    <string>parameter</string>
    </property>
   </action>
-  <action name="actionadd_signal">
+  <action name="actionstart_python">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/add_database.png</normaloff>../resources/add_database.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/python.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/python.png</iconset>
    </property>
    <property name="text">
-    <string>add signal</string>
+    <string>start python</string>
    </property>
   </action>
-  <action name="actionedit">
+  <action name="actionauto_run">
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/edit.png</normaloff>../resources/edit.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/autorun.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/autorun.png</iconset>
    </property>
    <property name="text">
-    <string>edit</string>
+    <string>auto run</string>
+   </property>
+  </action>
+  <action name="actionstop_auto">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/stop.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>stop auto</string>
    </property>
   </action>
   <action name="actionfilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/waveform.png</normaloff>../resources/waveform.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</normaloff>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform-off.png</normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/waveform.png</iconset>
    </property>
    <property name="text">
     <string>filter</string>
    </property>
   </action>
-  <action name="actionfindpeak">
+  <action name="actionfind_peak">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset>
-     <normaloff>../resources/findpeak.png</normaloff>../resources/findpeak.png</iconset>
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</normaloff>
+     <normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve-off.png</normalon>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/vector-curve.png</iconset>
    </property>
    <property name="text">
-    <string>findpeak</string>
+    <string>find peak</string>
    </property>
   </action>
-  <action name="actionopen">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/save.png</normaloff>../resources/save.png</iconset>
-   </property>
+  <action name="actioncommand">
    <property name="text">
-    <string>open</string>
+    <string>show python</string>
    </property>
   </action>
-  <action name="actionsaveas">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/save as.png</normaloff>../resources/save as.png</iconset>
+  <action name="actionfilebrowsers">
+   <property name="checkable">
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>saveas</string>
+    <string>filebrowsers</string>
    </property>
   </action>
-  <action name="actionautopeakfind">
+  <action name="actionload_csv">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/loadcsvfile.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/loadcsvfile.png</iconset>
+   </property>
    <property name="text">
-    <string>autopeakfind</string>
+    <string>load csv</string>
+   </property>
+   <property name="toolTip">
+    <string>load csv</string>
+   </property>
+  </action>
+  <action name="actionload_dat">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/loaddatfile.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/loaddatfile.png</iconset>
+   </property>
+   <property name="text">
+    <string>load dat</string>
+   </property>
+  </action>
+  <action name="actionsave_to_csv">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>save to csv</string>
+   </property>
+  </action>
+  <action name="actioninsert_event">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/add_database.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/add_database.png</iconset>
+   </property>
+   <property name="text">
+    <string>insert event</string>
+   </property>
+  </action>
+  <action name="actionremove_event">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/delete_database.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/delete_database.png</iconset>
+   </property>
+   <property name="text">
+    <string>remove event</string>
+   </property>
+  </action>
+  <action name="actionshow_plot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show plot</string>
+   </property>
+  </action>
+  <action name="actioncopy_data">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/duplicate.png</iconset>
+   </property>
+   <property name="text">
+    <string>copy data</string>
+   </property>
+  </action>
+  <action name="actionestimation">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/circuit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Estimation</string>
+   </property>
+   <property name="toolTip">
+    <string>Estimation Protein</string>
+   </property>
+  </action>
+  <action name="actionestimation2">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</normaloff>:/C:/Users/LiYu/source/repos/Visual NanoPore/Visual NanoPore/resources/eraser.png</iconset>
+   </property>
+   <property name="text">
+    <string>remove baseline</string>
+   </property>
+   <property name="toolTip">
+    <string>undefine</string>
+   </property>
+  </action>
+  <action name="actionfilter_save">
+   <property name="text">
+    <string>filter save</string>
+   </property>
+  </action>
+  <action name="actionshow_Imin_Imax">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show Imin Imax</string>
    </property>
   </action>
  </widget>
@@ -232,10 +463,36 @@
    <class>VNPTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>vnptreewidget.h</header>
+   <slots>
+    <signal>progress(int)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>ManualPeakFind</class>
+   <extends>QWidget</extends>
+   <header>manual.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionfilebrowsers</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>dockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>138</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
